@@ -4,9 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: #f5f5ff;
@@ -187,4 +185,11 @@
   html {
     @apply font-sans;
   }
+  /* Add cursor pointer to buttons by default */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 }
