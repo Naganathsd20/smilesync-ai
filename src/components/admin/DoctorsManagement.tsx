@@ -1,4 +1,4 @@
-import { useGetDoctors } from "@/;
+import { useGetDoctors } from "@/hooks/use-doctors";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { EditIcon, MailIcon, PhoneIcon, PlusIcon, StethoscopeIcon } from "lucide-react";
