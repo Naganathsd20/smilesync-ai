@@ -29,24 +29,24 @@ export default function RootLayout({
 }>) {
   return (
     <TanStackProvider>
-    <ClerkProvider
-      appearance={{
-      variables: {
-  colorPrimary: "#e78a53",
-  colorBackground: "#f3f4f6",
-  colorInputBackground: "#f3f4f6",
-},
-      }}
-    >
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}>
-          {/* this is done in the home page component */}
-           <UserSync />
-          <Toaster />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+      <ClerkProvider
+        appearance={{
+          variables: {
+            colorPrimary: "#e78a53",
+            colorBackground: "#f3f4f6",
+          },
+        }}
+      >
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+          >
+            <UserSync />
+            <Toaster />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
     </TanStackProvider>
   );
 }
