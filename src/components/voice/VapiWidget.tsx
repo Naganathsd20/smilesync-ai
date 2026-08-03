@@ -231,7 +231,7 @@ function VapiWidget() {
             {messages.map((msg, index) => (
               <div key={index} className="message-item animate-in fade-in duration-300">
                 <div className="font-semibold text-xs text-muted-foreground mb-1">
-                  {msg.role === "assistant" ? "DentWise AI" : "You"}:
+                  {msg.role === "assistant" ? "SmileSync AI" : "You"}:
                 </div>
                 <p className="text-foreground">{msg.content}</p>
               </div>
@@ -240,7 +240,7 @@ function VapiWidget() {
             {callEnded && (
               <div className="message-item animate-in fade-in duration-300">
                 <div className="font-semibold text-xs text-primary mb-1">System:</div>
-                <p className="text-foreground">Call ended. Thank you for using DentWise AI!</p>
+                <p className="text-foreground">Call ended. Thank you for using SmileSync AI!</p>
               </div>
             )}
           </div>

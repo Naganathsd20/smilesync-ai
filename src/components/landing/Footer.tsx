@@ -8,13 +8,13 @@ function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Image
-                src="/logo.png"
-                alt="DentWise Logo"
+                src="/logosmileai.png"
+                alt="SmileSync AI Logo"
                 width={32}
                 height={32}
                 className="w-8 h-8"
               />
-              <span className="font-semibold text-lg">DentWise</span>
+              <span className="font-semibold text-lg">SmileSync AI</span>
             </div>
             <p className="text-sm text-muted-foreground">
               AI-powered dental assistance that actually helps.
