@@ -14,8 +14,6 @@
     "jsx": "preserve",
     "incremental": true,
 
-    //"baseUrl": ".",
-
     "plugins": [
       {
         "name": "next"
@@ -34,5 +32,9 @@
     ".next/types/**/*.ts"
   ],
 
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "unused-ui",
+    "unused-ui/**/*"
+  ]
 }
