@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { getVapiVoiceToken } from "@/lib/actions/vapi-session";
+import { toast } from "sonner";
 
 function VapiWidget() {
   const [callActive, setCallActive] = useState(false);
@@ -92,7 +94,20 @@ function VapiWidget() {
         setMessages([]);
         setCallEnded(false);
 
-        await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID);
+        // Fetch cryptographically signed session token for verified voice booking
+        const sessionData = await getVapiVoiceToken();
+        if (!sessionData || !sessionData.token) {
+          toast.error("Failed to authenticate voice session. Please ensure you are logged in.");
+          setConnecting(false);
+          return;
+        }
+
+        await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID as string, {
+          variableValues: {
+            sessionToken: sessionData.token,
+            userName: sessionData.userName,
+          },
+        });
       } catch (error) {
         console.log("Failed to start call", error);
         setConnecting(false);
