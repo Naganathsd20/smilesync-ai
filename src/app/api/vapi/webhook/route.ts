@@ -240,10 +240,10 @@ async function handleToolExecution(
           },
         });
 
-        // Send confirmation email using existing Resend template
-        try {
-          const formattedDateStr = format(appointmentDate, "EEEE, MMMM d, yyyy");
-          await resend.emails.send({
+        // Send confirmation email asynchronously without blocking the Vapi webhook response
+        const formattedDateStr = format(appointmentDate, "EEEE, MMMM d, yyyy");
+        resend.emails
+          .send({
             from: "SmileSync AI <no-reply@resend.dev>",
             to: [user.email],
             subject: "Appointment Confirmation - SmileSync AI",
@@ -255,13 +255,11 @@ async function handleToolExecution(
               duration: "30 min",
               price: "$90",
             }),
+          })
+          .catch((emailErr) => {
+            console.error("Error sending voice booking confirmation email:", emailErr);
           });
-        } catch (emailErr) {
-          console.error("Error sending voice booking confirmation email:", emailErr);
-          // Do not fail appointment creation if email service fails
-        }
 
-        const formattedDateStr = format(appointmentDate, "EEEE, MMMM d, yyyy");
         return `SUCCESS: Your appointment has been successfully booked for ${formattedDateStr} at ${time} with ${doctor.name}. A confirmation email has been sent to ${user.email}.`;
       }
 
