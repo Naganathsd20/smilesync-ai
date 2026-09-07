@@ -26,6 +26,7 @@ model User {
 
   // relationships
   appointments Appointment[]
+  assessments  OralHealthAssessment[]
 
   @@map("users")
 }
@@ -72,6 +73,27 @@ model Appointment {
   @@map("appointments")
 }
 
+model OralHealthAssessment {
+  id              String     @id @default(cuid())
+  userId          String
+
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  answers         Json
+  riskLevel       RiskLevel
+  riskScore       Int
+  riskFactors     String[]
+  recommendations String[]
+  warningSigns    String[]
+  nextStep        String
+  disclaimer      String
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@map("oral_health_assessments")
+}
+
 
 enum Gender {
   MALE
@@ -81,4 +103,10 @@ enum Gender {
 enum AppointmentStatus {
  CONFIRMED
  COMPLETED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
 }

@@ -1,50 +1,56 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageSquareIcon, CalendarIcon } from "lucide-react";
+import { MessageSquareIcon, CalendarIcon, ActivityIcon, SparklesIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import LatestAssessmentCard from "./LatestAssessmentCard";
 
 export default function MainActions() {
   return (
-    <div className="grid md:grid-cols-2 gap-8 mb-12">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {/* AI Oral Health Risk Assessment */}
+      <LatestAssessmentCard />
+
       {/* AI Voice Assistant */}
       <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-        <CardContent className="relative p-8">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Image
-                src="/audio.png"
-                alt="Voice AI"
-                width={32}
-                height={32}
-                className="w-10"
-              />
+        <CardContent className="relative p-8 flex flex-col justify-between h-full">
+          <div>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Image
+                  src="/audio.png"
+                  alt="Voice AI"
+                  width={32}
+                  height={32}
+                  className="w-10"
+                />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-2">AI Voice Assistant</h3>
+                <p className="text-muted-foreground text-sm">
+                  Get instant dental advice through voice calls
+                </p>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-2xl font-bold mb-2">AI Voice Assistant</h3>
-              <p className="text-muted-foreground">
-                Get instant dental advice through voice calls
-              </p>
-            </div>
-          </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">24/7 availability</span>
+              </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">24/7 availability</span>
-            </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">Professional dental guidance</span>
+              </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">Professional dental guidance</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">Instant pain relief advice</span>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">Instant pain relief advice</span>
+              </div>
             </div>
           </div>
 
@@ -64,40 +70,42 @@ export default function MainActions() {
       <Card className="relative overflow-hidden group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-        <CardContent className="relative p-8">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Image
-                src="/calendar.png"
-                alt="Calendar"
-                width={32}
-                height={32}
-                className="w-10"
-              />
+        <CardContent className="relative p-8 flex flex-col justify-between h-full">
+          <div>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Image
+                  src="/calendar.png"
+                  alt="Calendar"
+                  width={32}
+                  height={32}
+                  className="w-10"
+                />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Book Appointment</h3>
+                <p className="text-muted-foreground text-sm">
+                  Schedule with verified dentists in your area
+                </p>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-2xl font-bold mb-2">Book Appointment</h3>
-              <p className="text-muted-foreground">
-                Schedule with verified dentists in your area
-              </p>
-            </div>
-          </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">Verified dental professionals</span>
+              </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">Verified dental professionals</span>
-            </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">Flexible scheduling</span>
+              </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">Flexible scheduling</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm">Instant confirmations</span>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-sm">Instant confirmations</span>
+              </div>
             </div>
           </div>
 
