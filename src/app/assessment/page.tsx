@@ -4,6 +4,8 @@ import AssessmentHistory from "@/components/assessment/AssessmentHistory";
 import { getUserOralHealthAssessments } from "@/lib/actions/assessment";
 import { ShieldAlertIcon, SparklesIcon } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "AI Oral Health Risk Assessment - SmileSync AI",
   description:
