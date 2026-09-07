@@ -30,11 +30,11 @@ export async function POST(request: Request) {
 
     // Extract Vapi session token from all potential call variable locations
     const sessionToken =
-      message.call?.assistantOverrides?.variableValues?.sessionToken ||
-      message.call?.artifact?.variableValues?.sessionToken ||
-      message.call?.variableValues?.sessionToken ||
-      message.call?.customer?.variableValues?.sessionToken ||
-      body.sessionToken;
+      sanitizeToken(message.call?.assistantOverrides?.variableValues?.sessionToken) ||
+      sanitizeToken(message.call?.artifact?.variableValues?.sessionToken) ||
+      sanitizeToken(message.call?.variableValues?.sessionToken) ||
+      sanitizeToken(message.call?.customer?.variableValues?.sessionToken) ||
+      sanitizeToken(body.sessionToken);
 
     // Handle tool-calls format vs function-call format
     const isToolCallsFormat = message.type === "tool-calls";
@@ -114,13 +114,34 @@ export async function POST(request: Request) {
   }
 }
 
+function sanitizeToken(token?: string): string | undefined {
+  if (!token || typeof token !== "string") return undefined;
+
+  const trimmed = token.trim();
+
+  // Reject obvious Vapi template/unresolved placeholders.
+  if (
+    trimmed.startsWith("{{") ||
+    trimmed.endsWith("}}") ||
+    trimmed.includes("undefined") ||
+    trimmed.includes("null")
+  ) {
+    return undefined;
+  }
+
+  return trimmed;
+}
+
 async function handleToolExecution(
   functionName: string,
   args: any,
   sessionToken?: string
 ): Promise<string> {
   try {
-    const effectiveSessionToken = args?.sessionToken || args?.session_token || sessionToken;
+    const effectiveSessionToken =
+      sanitizeToken(sessionToken) ||
+      sanitizeToken(args?.sessionToken) ||
+      sanitizeToken(args?.session_token);
 
     switch (functionName) {
       case "getAvailableDoctors": {
