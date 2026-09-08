@@ -13,11 +13,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        String @id @default(cuid())
-  clerkId   String @unique
-  email     String @unique
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
   firstName String?
   lastName  String?
   phone     String?
@@ -25,59 +24,59 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relationships
-  appointments Appointment[]
-  assessments  OralHealthAssessment[]
+  appointments      Appointment[]
+  assessments       OralHealthAssessment[]
+  novaConversations NovaConversation[]
 
   @@map("users")
 }
 
 model Doctor {
-  id          String   @id @default(cuid())
-  name        String
-  email       String   @unique
-  phone       String
-  speciality  String
-  bio         String?
-  imageUrl    String
-  gender      Gender
-  isActive    Boolean @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  phone      String
+  speciality String
+  bio        String?
+  imageUrl   String
+  gender     Gender
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   // relationships
   appointments Appointment[]
 
   @@map("doctors")
-
 }
 
 model Appointment {
-  id          String            @id @default(cuid())
-  date        DateTime
-  time        String // store time as string i.e. 14:30
-  duration    Int               @default(30) // duration in minutes
-  status      AppointmentStatus @default(CONFIRMED)
-  notes       String?
-  reason      String? // reason for appointment - teeth cleaning? emergency visit? etc.
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id        String            @id @default(cuid())
+  date      DateTime
+  time      String // store time as string i.e. 14:30
+  duration  Int               @default(30) // duration in minutes
+  status    AppointmentStatus @default(CONFIRMED)
+  notes     String?
+  reason    String? // reason for appointment - teeth cleaning? emergency visit? etc.
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 
   // foreign keys
-  userId String
+  userId   String
   doctorId String
 
   // relationships
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
 
   @@map("appointments")
 }
 
 model OralHealthAssessment {
-  id              String     @id @default(cuid())
-  userId          String
+  id     String @id @default(cuid())
+  userId String
 
-  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   answers         Json
   riskLevel       RiskLevel
@@ -88,12 +87,11 @@ model OralHealthAssessment {
   nextStep        String
   disclaimer      String
 
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("oral_health_assessments")
 }
-
 
 enum Gender {
   MALE
@@ -101,12 +99,37 @@ enum Gender {
 }
 
 enum AppointmentStatus {
- CONFIRMED
- COMPLETED
+  CONFIRMED
+  COMPLETED
 }
 
 enum RiskLevel {
   LOW
   MEDIUM
   HIGH
+}
+
+model NovaConversation {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  messages  NovaMessage[]
+
+  @@index([userId, updatedAt])
+  @@map("nova_conversations")
+}
+
+model NovaMessage {
+  id             String           @id @default(cuid())
+  conversationId String
+  conversation   NovaConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String
+  createdAt      DateTime         @default(now())
+
+  @@index([conversationId, createdAt])
+  @@map("nova_messages")
 }

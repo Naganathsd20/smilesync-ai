@@ -13,12 +13,18 @@ import {
   AlertCircleIcon,
   ShieldAlertIcon,
   RefreshCwIcon,
+  PlusIcon,
   InfoIcon,
+  ChevronRightIcon,
 } from "lucide-react";
-import { sendNovaChatMessage, getNovaPersonalizationStatus } from "@/lib/actions/nova";
+import {
+  sendNovaChatMessage,
+  getNovaPersonalizationStatus,
+  getRecentNovaConversation,
+  createNovaConversation,
+} from "@/lib/actions/nova";
 import { toast } from "sonner";
 import Link from "next/link";
-import { ChevronRightIcon } from "lucide-react";
 
 interface ChatMessage {
   id: string;
@@ -40,18 +46,46 @@ export default function NovaChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasAssessment, setHasAssessment] = useState<boolean | null>(null);
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Load personalization status and active conversation history on mount
   useEffect(() => {
-    async function checkPersonalization() {
-      const status = await getNovaPersonalizationStatus();
-      setHasAssessment(status.hasAssessment);
+    async function initNova() {
+      setIsInitialLoading(true);
+      try {
+        const [statusRes, historyRes] = await Promise.all([
+          getNovaPersonalizationStatus(),
+          getRecentNovaConversation(),
+        ]);
+
+        setHasAssessment(statusRes.hasAssessment);
+
+        if (historyRes.success && historyRes.messages && historyRes.messages.length > 0) {
+          setActiveConversationId(historyRes.conversationId);
+          const formattedMessages: ChatMessage[] = historyRes.messages.map((m: any) => ({
+            id: m.id,
+            role: m.role === "user" ? "user" : "model",
+            content: m.content,
+            timestamp: new Date(m.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          }));
+          setMessages(formattedMessages);
+        } else if (historyRes.conversationId) {
+          setActiveConversationId(historyRes.conversationId);
+        }
+      } catch (err) {
+        console.error("Failed to initialize Nova history:", err);
+      } finally {
+        setIsInitialLoading(false);
+      }
     }
-    checkPersonalization();
+
+    initNova();
   }, []);
 
   // Auto-scroll to bottom of messages
@@ -77,20 +111,13 @@ export default function NovaChat() {
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
-    const updatedMessages = [...messages, userMessageObj];
-    setMessages(updatedMessages);
+    setMessages((prev) => [...prev, userMessageObj]);
     setIsLoading(true);
 
     try {
-      // Prepare history payload for server action
-      const historyPayload = updatedMessages.slice(0, -1).map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      }));
-
       const response = await sendNovaChatMessage({
         message: query,
-        history: historyPayload,
+        conversationId: activeConversationId,
       });
 
       if (!response.success) {
@@ -99,6 +126,10 @@ export default function NovaChat() {
         toast.error(errorMsg);
         setIsLoading(false);
         return;
+      }
+
+      if (response.conversationId) {
+        setActiveConversationId(response.conversationId);
       }
 
       const novaReplyObj: ChatMessage = {
@@ -125,10 +156,24 @@ export default function NovaChat() {
     }
   };
 
-  const handleResetChat = () => {
-    setMessages([]);
-    setError(null);
-    setInputMessage("");
+  const handleNewConversation = async () => {
+    try {
+      const res = await createNovaConversation();
+      if (res.success && res.conversationId) {
+        setActiveConversationId(res.conversationId);
+        setMessages([]);
+        setError(null);
+        setInputMessage("");
+        toast.success("Started a new Nova conversation.");
+      } else {
+        setActiveConversationId(null);
+        setMessages([]);
+        toast.success("Cleared conversation.");
+      }
+    } catch {
+      setActiveConversationId(null);
+      setMessages([]);
+    }
   };
 
   return (
@@ -141,16 +186,14 @@ export default function NovaChat() {
             <strong>Educational Assistant Only:</strong> Nova provides oral health guidance and answers. Nova is not a dentist and does not provide clinical diagnoses or prescriptions.
           </span>
         </div>
-        {messages.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleResetChat}
-            className="text-xs h-7 px-2 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 rounded-lg shrink-0"
-          >
-            <RefreshCwIcon className="w-3 h-3 mr-1" /> New Chat
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleNewConversation}
+          className="text-xs h-7 px-2.5 bg-background hover:bg-amber-500/20 text-foreground border-amber-500/30 rounded-lg shrink-0 flex items-center gap-1 font-medium shadow-2xs"
+        >
+          <PlusIcon className="w-3.5 h-3.5 text-primary" /> New Conversation
+        </Button>
       </div>
 
       {/* CHAT CONTAINER CARD */}
@@ -188,14 +231,32 @@ export default function NovaChat() {
             </div>
           </div>
 
-          <Badge variant="outline" className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground border-border/60">
-            <SparklesIcon className="w-3 h-3 text-primary" /> Gemini 3.6 Flash
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleNewConversation}
+              className="text-xs h-8 px-2.5 text-muted-foreground hover:text-foreground border border-border/50 rounded-lg shrink-0 flex items-center gap-1"
+            >
+              <PlusIcon className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">New Chat</span>
+            </Button>
+            <Badge variant="outline" className="hidden md:flex items-center gap-1 text-xs text-muted-foreground border-border/60">
+              <SparklesIcon className="w-3 h-3 text-primary" /> Gemini 3.6 Flash
+            </Badge>
+          </div>
         </CardHeader>
 
         {/* CHAT MESSAGES AREA */}
         <CardContent className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scrollbar-thin scrollbar-thumb-muted">
-          {messages.length === 0 ? (
+          {isInitialLoading ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <span>Loading conversation history...</span>
+              </div>
+            </div>
+          ) : messages.length === 0 ? (
             /* WELCOME / EMPTY STATE */
             <div className="h-full flex flex-col items-center justify-center text-center space-y-6 max-w-lg mx-auto py-8">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/15 via-primary/5 to-cyan-500/10 border border-primary/20 text-primary shadow-inner">
@@ -352,7 +413,7 @@ export default function NovaChat() {
           </form>
           <div className="flex justify-between items-center mt-2 px-1 text-[11px] text-muted-foreground/80">
             <span>Press <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">Enter</kbd> to send, <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">Shift+Enter</kbd> for new line</span>
-            <span>🔒 Server-side AI API Key Secured</span>
+            <span>🔒 Encrypted PostgreSQL Persistence</span>
           </div>
         </div>
       </Card>

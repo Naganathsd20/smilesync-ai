@@ -7,15 +7,7 @@ import { z } from "zod";
 
 const NovaInputSchema = z.object({
   message: z.string().min(1, "Message cannot be empty").max(2000, "Message is too long"),
-  history: z
-    .array(
-      z.object({
-        role: z.enum(["user", "model"]),
-        content: z.string(),
-      })
-    )
-    .optional()
-    .default([]),
+  conversationId: z.string().optional().nullable(),
 });
 
 export type NovaInput = z.infer<typeof NovaInputSchema>;
@@ -35,6 +27,79 @@ export async function getNovaPersonalizationStatus() {
     return { hasAssessment: count > 0 };
   } catch {
     return { hasAssessment: false };
+  }
+}
+
+export async function getRecentNovaConversation() {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { success: false, error: "UNAUTHORIZED", conversationId: null, messages: [] };
+    }
+
+    const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
+    if (!dbUser) {
+      return { success: false, error: "UNAUTHORIZED", conversationId: null, messages: [] };
+    }
+
+    // Find the most recently updated conversation for this user
+    const conversation = await prisma.novaConversation.findFirst({
+      where: { userId: dbUser.id },
+      orderBy: { updatedAt: "desc" },
+      include: {
+        messages: {
+          orderBy: { createdAt: "asc" },
+          take: 50,
+        },
+      },
+    });
+
+    if (!conversation) {
+      return { success: true, conversationId: null, messages: [] };
+    }
+
+    return {
+      success: true,
+      conversationId: conversation.id,
+      messages: conversation.messages.map((m) => ({
+        id: m.id,
+        role: m.role as "user" | "assistant",
+        content: m.content,
+        createdAt: m.createdAt.toISOString(),
+      })),
+    };
+  } catch (error: any) {
+    console.error("[NOVA_LOAD_ERROR] Failed to load recent conversation:", error?.message || error);
+    return { success: false, error: "Failed to load conversation history.", conversationId: null, messages: [] };
+  }
+}
+
+export async function createNovaConversation() {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return { success: false, error: "UNAUTHORIZED" };
+    }
+
+    const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
+    if (!dbUser) {
+      return { success: false, error: "UNAUTHORIZED" };
+    }
+
+    const newConversation = await prisma.novaConversation.create({
+      data: {
+        userId: dbUser.id,
+        title: "New Conversation",
+      },
+    });
+
+    return {
+      success: true,
+      conversationId: newConversation.id,
+    };
+  } catch (error: any) {
+    console.error("[NOVA_CREATE_CONVERSATION_ERROR]:", error?.message || error);
+    return { success: false, error: "Failed to create new conversation." };
   }
 }
 
@@ -68,15 +133,38 @@ export async function sendNovaChatMessage(rawInput: unknown) {
       return { success: false, error: `Invalid input: ${issueMessage}` };
     }
 
-    const { message, history } = validation.data;
+    const { message, conversationId } = validation.data;
 
-    // 4. Retrieve user's LATEST stored OralHealthAssessment safely on server
+    // 4. Verify/Resolve Conversation ownership strictly server-side
+    let conversation = null;
+    if (conversationId) {
+      conversation = await prisma.novaConversation.findFirst({
+        where: { id: conversationId, userId: dbUser.id },
+      });
+    }
+
+    if (!conversation) {
+      conversation = await prisma.novaConversation.create({
+        data: {
+          userId: dbUser.id,
+          title: message.slice(0, 60),
+        },
+      });
+    }
+
+    // 5. Load recent message history for context (up to 20 recent messages)
+    const existingMessages = await prisma.novaMessage.findMany({
+      where: { conversationId: conversation.id },
+      orderBy: { createdAt: "asc" },
+      take: 20,
+    });
+
+    // 6. Retrieve user's LATEST stored OralHealthAssessment (Phase 2 personalization)
     const latestAssessment = await prisma.oralHealthAssessment.findFirst({
       where: { userId: dbUser.id },
       orderBy: { createdAt: "desc" },
     });
 
-    // 5. Build safe personalization context if assessment exists
     let assessmentContextString = "";
     if (latestAssessment) {
       assessmentContextString = `USER'S LATEST ORAL HEALTH ASSESSMENT (EDUCATIONAL CONTEXT):
@@ -87,7 +175,7 @@ export async function sendNovaChatMessage(rawInput: unknown) {
 - Recommended Next Step: ${latestAssessment.nextStep}`;
     }
 
-    // 6. Verify Gemini API Key
+    // 7. Verify Gemini API Key
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       console.error("[NOVA_CHAT_ERROR] GEMINI_API_KEY environment variable is not configured");
@@ -97,7 +185,7 @@ export async function sendNovaChatMessage(rawInput: unknown) {
       };
     }
 
-    // 7. Initialize Gemini Model (gemini-3.6-flash)
+    // 8. Initialize Gemini Model (gemini-3.6-flash)
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: "gemini-3.6-flash",
@@ -106,7 +194,7 @@ export async function sendNovaChatMessage(rawInput: unknown) {
       },
     });
 
-    // 8. Construct Nova System Prompt with Personalization & Safety Directives
+    // 9. Construct System Prompt
     const systemPrompt = `You are Nova, an AI Dental & Oral Health Educational Assistant for SmileSync AI.
 Your purpose is to provide friendly, clear, empathetic, and scientifically sound educational guidance on oral hygiene, dental care, symptoms, and habits.
 
@@ -116,7 +204,7 @@ ${
 
 PERSONALIZATION GUIDELINES:
 - The user has a stored educational oral-health assessment summary shown above.
-- Use this assessment context to personalize your response ONLY when it is relevant to the user's question or when they ask for recommendations/guidance on improving their oral health.
+- Use this assessment context to personalize your response ONLY when it is relevant to the user's question or when they ask for recommendations/guidance.
 - Use natural, conversational phrasing such as "Based on your recent oral-health assessment..."
 - Do NOT force or dump assessment details if the user is asking a simple, generic concept question (e.g., "What is a cavity?" or "How does fluoride work?").
 - Do NOT expose raw database fields, JSON strings, or internal IDs.
@@ -132,22 +220,21 @@ STRICT SAFETY & SCOPE DIRECTIVES:
 5. DENTAL CARE ADVOCACY: Always encourage regular dental checkups and consulting a qualified dental professional for personalized clinical evaluations.
 6. FORMATTING: Use clean, easy-to-read markdown formatting (bullet points, clear paragraphs, bold text for key terms). Keep responses helpful, concise, and conversational.`;
 
-    // 9. Build conversation prompt flow
+    // 10. Construct Gemini Prompt with Recent History
     let promptContext = `${systemPrompt}\n\n`;
 
-    if (history && history.length > 0) {
+    if (existingMessages.length > 0) {
       promptContext += "CONVERSATION HISTORY:\n";
-      const recentHistory = history.slice(-10);
-      for (const item of recentHistory) {
-        const speaker = item.role === "user" ? "User" : "Nova";
-        promptContext += `${speaker}: ${item.content}\n`;
+      for (const m of existingMessages) {
+        const speaker = m.role === "user" ? "User" : "Nova";
+        promptContext += `${speaker}: ${m.content}\n`;
       }
       promptContext += "\n";
     }
 
     promptContext += `User: ${message}\nNova:`;
 
-    // 10. Generate Content via Gemini API
+    // 11. Generate Content via Gemini API
     const result = await model.generateContent(promptContext);
     const replyText = result.response.text();
 
@@ -155,9 +242,34 @@ STRICT SAFETY & SCOPE DIRECTIVES:
       throw new Error("Empty response received from Nova AI model");
     }
 
+    const cleanReply = replyText.trim();
+
+    // 12. Save both user and assistant messages in a database transaction
+    await prisma.$transaction([
+      prisma.novaMessage.create({
+        data: {
+          conversationId: conversation.id,
+          role: "user",
+          content: message,
+        },
+      }),
+      prisma.novaMessage.create({
+        data: {
+          conversationId: conversation.id,
+          role: "assistant",
+          content: cleanReply,
+        },
+      }),
+      prisma.novaConversation.update({
+        where: { id: conversation.id },
+        data: { updatedAt: new Date() },
+      }),
+    ]);
+
     return {
       success: true,
-      reply: replyText.trim(),
+      reply: cleanReply,
+      conversationId: conversation.id,
     };
   } catch (error: any) {
     console.error("[NOVA_CHAT_ERROR] Server action failure:", error?.message || error);
