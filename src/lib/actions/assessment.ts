@@ -2,8 +2,16 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
+
+function extractJsonText(text: string): string {
+  let cleaned = text.trim();
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  }
+  return cleaned;
+}
 
 // Input Validation Schema for Questionnaire Answers
 const SYMPTOM_OPTIONS = [
@@ -96,17 +104,24 @@ export async function createOralHealthAssessment(rawAnswers: unknown) {
 
     const validatedAnswers = inputValidation.data;
 
-    // 4. Verify OpenAI API Key
-    const apiKey = process.env.OPENAI_API_KEY;
+    // 4. Verify Gemini API Key
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[ORAL_HEALTH_ASSESSMENT_ERROR] OPENAI_API_KEY environment variable is not configured");
+      console.error("[ORAL_HEALTH_ASSESSMENT_ERROR] GEMINI_API_KEY environment variable is not configured");
       return {
         success: false,
-        error: "AI Assessment Service is currently unavailable. Please ensure OPENAI_API_KEY is configured.",
+        error: "AI Assessment Service is currently unavailable. Please ensure GEMINI_API_KEY is configured.",
       };
     }
 
-    const openai = new OpenAI({ apiKey });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.6-flash",
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.2,
+      },
+    });
 
     // 5. Construct System & User Prompts with Safety Constraints
     const systemPrompt = `You are an educational AI oral health risk assessment engine for SmileSync AI.
@@ -148,25 +163,18 @@ ${validatedAnswers.notes ? `- Additional User Notes: ${validatedAnswers.notes}` 
 
 Generate the structured JSON oral health risk assessment.`;
 
-    // 6. Execute Structured OpenAI API Request
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-      temperature: 0.2,
-    });
-
-    const rawContent = completion.choices[0]?.message?.content;
+    // 6. Execute Structured Gemini API Request
+    const prompt = `${systemPrompt}\n\n${userPrompt}`;
+    const result = await model.generateContent(prompt);
+    const rawContent = result.response.text();
     if (!rawContent) {
       throw new Error("Empty response received from AI model");
     }
 
     let parsedJson: unknown;
     try {
-      parsedJson = JSON.parse(rawContent);
+      const cleanedContent = extractJsonText(rawContent);
+      parsedJson = JSON.parse(cleanedContent);
     } catch {
       throw new Error("Failed to parse JSON response from AI model");
     }

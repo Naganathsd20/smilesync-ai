@@ -13,6 +13,7 @@
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@clerk/nextjs": "^7.6.3",
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.19.3",
     "@react-email/components": "^0.5.5",
     "@react-email/render": "^2.1.0",
@@ -28,7 +29,6 @@
     "lucide-react": "^1.25.0",
     "next": "^16.3.0",
     "next-themes": "^0.4.6",
-    "openai": "^7.10.0",
     "react": "19.1.0",
     "react-day-picker": "^10.0.1",
     "react-dom": "19.1.0",
