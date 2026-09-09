@@ -27,8 +27,34 @@ model User {
   appointments      Appointment[]
   assessments       OralHealthAssessment[]
   novaConversations NovaConversation[]
+  reminders         SmartReminder[]
 
   @@map("users")
+}
+
+model SmartReminder {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  type        ReminderType @default(CHECKUP)
+  dueDate     DateTime
+  isCompleted Boolean      @default(false)
+  sentEmail   Boolean      @default(false)
+  sourceKey   String?      @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId, isCompleted, dueDate])
+  @@map("smart_reminders")
+}
+
+enum ReminderType {
+  APPOINTMENT
+  CHECKUP
+  ASSESSMENT_FOLLOWUP
+  HABIT
 }
 
 model Doctor {

@@ -1,7 +1,7 @@
 "use client";
 
 import { UserButton, useUser } from "@clerk/nextjs";
-import { CalendarIcon, CrownIcon, HomeIcon, MicIcon, ActivityIcon, BotIcon, HeartPulseIcon } from "lucide-react";
+import { CalendarIcon, CrownIcon, HomeIcon, MicIcon, ActivityIcon, BotIcon, HeartPulseIcon, BellIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -63,6 +63,16 @@ function Navbar() {
             </Link>
 
             <Link
+              href="/reminders"
+              className={`flex items-center gap-2 transition-colors hover:text-foreground ${
+                pathname === "/reminders" ? "text-foreground font-medium" : "text-muted-foreground"
+              }`}
+            >
+              <BellIcon className="w-4 h-4 text-amber-500" />
+              <span className="hidden md:inline">Reminders</span>
+            </Link>
+
+            <Link
               href="/appointments"
               className={`flex items-center gap-2 transition-colors hover:text-foreground ${
                 pathname === "/appointments" ? "text-foreground" : "text-muted-foreground"
@@ -92,6 +102,7 @@ function Navbar() {
             </Link>
           </div>
         </div>
+
 
         {/* RIGHT SECTION */}
         <div className="flex items-center gap-4">
