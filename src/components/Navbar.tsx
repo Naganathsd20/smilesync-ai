@@ -1,7 +1,7 @@
 "use client";
 
 import { UserButton, useUser } from "@clerk/nextjs";
-import { CalendarIcon, CrownIcon, HomeIcon, MicIcon, ActivityIcon, BotIcon, HeartPulseIcon, BellIcon } from "lucide-react";
+import { CalendarIcon, CrownIcon, HomeIcon, MicIcon, ActivityIcon, BotIcon, HeartPulseIcon, BellIcon, TrendingUpIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -30,6 +30,16 @@ function Navbar() {
             >
               <HomeIcon className="w-4 h-4" />
               <span className="hidden md:inline">Dashboard</span>
+            </Link>
+
+            <Link
+              href="/insights"
+              className={`flex items-center gap-2 transition-colors hover:text-foreground ${
+                pathname === "/insights" ? "text-foreground font-medium" : "text-muted-foreground"
+              }`}
+            >
+              <TrendingUpIcon className="w-4 h-4 text-cyan-500" />
+              <span className="hidden md:inline">Insights</span>
             </Link>
 
             <Link
