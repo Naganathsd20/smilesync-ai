@@ -37,11 +37,16 @@ export default function AppointmentActivityChart({
 }) {
   if (totalCount === 0) {
     return (
-      <div className="text-center py-6 border border-dashed rounded-xl bg-muted/10">
-        <CalendarIcon className="w-8 h-8 text-muted-foreground/50 mx-auto mb-2" />
-        <p className="text-sm font-semibold text-foreground">No Appointment Activity</p>
-        <p className="text-xs text-muted-foreground mt-1 mb-3">
-          Book an appointment to see activity here. Charts use your real booking counts only.
+      <div className="text-center py-10 border border-dashed border-border/50 rounded-2xl bg-muted/5">
+        <div className="w-12 h-12 rounded-full bg-muted/30 flex items-center justify-center mx-auto mb-3">
+          <CalendarIcon className="w-6 h-6 text-muted-foreground/40" />
+        </div>
+        <p className="text-sm font-semibold text-foreground">
+          No Appointment Activity
+        </p>
+        <p className="text-xs text-muted-foreground mt-1 mb-4">
+          Book an appointment to see activity here. Charts use your real booking
+          counts only.
         </p>
         <Link href="/appointments">
           <Button size="sm" className="gap-1.5">
@@ -54,28 +59,56 @@ export default function AppointmentActivityChart({
   }
 
   const chartData = [
-    { key: "upcoming", label: "Upcoming", count: upcomingCount, fill: "var(--color-upcoming)" },
-    { key: "completed", label: "Completed", count: completedCount, fill: "var(--color-completed)" },
-    { key: "total", label: "Total", count: totalCount, fill: "var(--color-total)" },
+    {
+      key: "upcoming",
+      label: "Upcoming",
+      count: upcomingCount,
+      fill: "var(--color-upcoming)",
+    },
+    {
+      key: "completed",
+      label: "Completed",
+      count: completedCount,
+      fill: "var(--color-completed)",
+    },
+    {
+      key: "total",
+      label: "Total",
+      count: totalCount,
+      fill: "var(--color-total)",
+    },
   ];
 
   return (
-    <ChartContainer config={chartConfig} className="aspect-[16/9] w-full min-h-[200px] min-w-0 max-w-full">
-      <BarChart data={chartData} margin={{ left: 8, right: 8, top: 8, bottom: 8 }}>
-        <CartesianGrid vertical={false} />
-        <XAxis dataKey="label" tickLine={false} axisLine={false} tickMargin={8} />
+    <ChartContainer
+      config={chartConfig}
+      className="aspect-[16/9] w-full min-h-[180px] max-h-[300px] min-w-0 max-w-full"
+    >
+      <BarChart
+        data={chartData}
+        margin={{ left: 4, right: 16, top: 12, bottom: 8 }}
+      >
+        <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border/40" />
+        <XAxis
+          dataKey="label"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={10}
+          className="text-[11px] fill-muted-foreground"
+        />
         <YAxis
           allowDecimals={false}
           tickLine={false}
           axisLine={false}
           width={28}
           domain={[0, "auto"]}
+          className="text-[11px] fill-muted-foreground"
         />
         <ChartTooltip
-          cursor={false}
+          cursor={{ fill: "hsl(var(--muted) / 0.3)", radius: 6 }}
           content={<ChartTooltipContent hideLabel nameKey="key" />}
         />
-        <Bar dataKey="count" radius={6} maxBarSize={56} name="Appointments">
+        <Bar dataKey="count" radius={8} maxBarSize={60} name="Appointments">
           {chartData.map((entry) => (
             <Cell key={entry.key} fill={entry.fill} />
           ))}
