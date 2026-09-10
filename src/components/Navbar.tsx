@@ -15,7 +15,6 @@ import {
   MenuIcon,
   XIcon,
   SparklesIcon,
-  StethoscopeIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,20 +25,6 @@ function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const userEmail = user?.emailAddresses[0]?.emailAddress?.toLowerCase() || "";
-  const role =
-    (user?.publicMetadata?.role as string) ||
-    (user?.unsafeMetadata?.role as string);
-
-  const isStaffOrAdmin =
-    role === "admin" ||
-    role === "staff" ||
-    role === "doctor" ||
-    userEmail.includes("admin") ||
-    userEmail.includes("staff") ||
-    userEmail.includes("doctor") ||
-    pathname.startsWith("/staff") ||
-    pathname.startsWith("/admin");
 
   const navItems = [
     {
@@ -138,21 +123,6 @@ function Navbar() {
                 );
               })}
 
-              {/* STAFF DENTIST MANAGEMENT LINK (FOR STAFF / ADMIN ONLY) */}
-              {isStaffOrAdmin && (
-                <Link
-                  href="/staff/doctors"
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 ${
-                    pathname === "/staff/doctors" || pathname === "/admin"
-                      ? "bg-emerald-500/15 text-emerald-600 border border-emerald-500/30 shadow-sm font-semibold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
-                  }`}
-                >
-                  <StethoscopeIcon className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Dentists</span>
-                </Link>
-              )}
-
               {/* PRO ITEM (VISUALLY SPECIAL) */}
               <Link
                 href="/pro"
@@ -229,23 +199,7 @@ function Navbar() {
               );
             })}
 
-            {/* STAFF DENTIST MANAGEMENT LINK IN MOBILE MENU */}
-            {isStaffOrAdmin && (
-              <Link
-                href="/staff/doctors"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                  pathname === "/staff/doctors" || pathname === "/admin"
-                    ? "bg-emerald-500/15 text-emerald-600 border border-emerald-500/25 font-semibold"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
-                }`}
-              >
-                <StethoscopeIcon className="w-4 h-4 text-emerald-500" />
-                <span>Dentists</span>
-              </Link>
-            )}
-
-            {/* PRO ITEM IN MOBILE MENU */}
+              {/* PRO ITEM IN MOBILE MENU */}
             <Link
               href="/pro"
               onClick={() => setMobileMenuOpen(false)}

@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import StaffNavbar from "@/components/StaffNavbar";
 import DoctorsManagement from "@/components/admin/DoctorsManagement";
 
 export default async function StaffDoctorsPage() {
@@ -34,7 +34,7 @@ export default async function StaffDoctorsPage() {
 
   return (
     <>
-      <Navbar />
+      <StaffNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 space-y-6">
         <div className="border-b border-border/40 pb-6">
