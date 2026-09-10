@@ -10,6 +10,14 @@ async function DentalHealthOverview() {
   const appointmentStats = await getUserAppointmentStats();
   const user = await currentUser();
 
+  let memberSince = "N/A";
+  if (user?.createdAt) {
+    const dateObj = new Date(user.createdAt);
+    if (!isNaN(dateObj.getTime())) {
+      memberSince = format(dateObj, "MMM yyyy");
+    }
+  }
+
   return (
     <Card className="lg:col-span-2">
       <CardHeader>
@@ -35,7 +43,7 @@ async function DentalHealthOverview() {
           </div>
           <div className="text-center p-4 bg-muted/30 rounded-xl">
             <div className="text-2xl font-bold text-primary mb-1">
-              {format(new Date(user?.createdAt!), "MMM yyyy")}
+              {memberSince}
             </div>
             <div className="text-sm text-muted-foreground">Member Since</div>
           </div>
@@ -71,4 +79,4 @@ async function DentalHealthOverview() {
   );
 }
 
-export default DentalHealthOverview; 
+export default DentalHealthOverview;

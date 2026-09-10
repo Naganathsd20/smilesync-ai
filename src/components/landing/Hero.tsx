@@ -1,148 +1,128 @@
-import { SignUpButton } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import { CalendarIcon, MicIcon, StarIcon } from "lucide-react";
+import { CalendarIcon, SparklesIcon, ShieldCheckIcon, ClockIcon, UserCheckIcon, ArrowRightIcon, StethoscopeIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 function Hero() {
   return (
-    <section className="relative h-screen flex items-center overflow-hidden pt-20">
-      {/* GRID BG  */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/5 to-primary/5">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)] opacity-20"></div>
-      </div>
+    <section className="relative overflow-hidden pt-24 pb-12 lg:pt-28 lg:pb-14">
+      {/* BACKGROUND GRID & GRADIENT ORBS */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/10 pointer-events-none" />
 
-      {/* GRADIENT ORBS */}
-      <div className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-gradient-to-r from-primary/15 to-primary/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[280px] h-[280px] bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="relative z-10 w-full px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* LEFT CONTENT */}
-            <div className="space-y-10">
-              <div className="space-y-6">
-                {/* BADGE */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 rounded-full border border-primary/20 backdrop-blur-sm">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium text-primary">
-                    AI-Powered Dental Assistant
-                  </span>
+      <div className="relative z-10 w-full px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* LEFT COLUMN: TEXT CONTENT */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              {/* STATUS & AUDIENCE BADGES */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-semibold backdrop-blur-md">
+                  <SparklesIcon className="w-3 h-3 animate-pulse" />
+                  <span>AI Healthcare Platform</span>
                 </div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-medium backdrop-blur-md">
+                  <StethoscopeIcon className="w-3 h-3" />
+                  <span>Patients & Clinic Staff</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[11px] font-medium backdrop-blur-md">
+                  <ShieldCheckIcon className="w-3 h-3" />
+                  <span>Secure RBAC</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[11px] font-medium backdrop-blur-md">
+                  <ClockIcon className="w-3 h-3" />
+                  <span>24/7 Available</span>
+                </div>
+              </div>
 
-                {/* MAIN HEADING */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                  <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-                    Your dental
-                  </span>
-                  <br />
-                  <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                    questions
-                  </span>
-                  <br />
-                  <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-                    answered instantly
+              {/* MAIN HEADING */}
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-foreground">
+                  AI-Powered Dental Care,{" "}
+                  <span className="bg-gradient-to-r from-primary via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    Made Simple.
                   </span>
                 </h1>
 
-                {/* SUBTITLE */}
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl font-medium">
-                  Chat with our AI dental assistant for instant advice, book smart appointments, and
-                  get personalized care recommendations. Available 24/7.
+                {/* SUPPORTING TEXT */}
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl font-normal">
+                  Get personalized oral-health guidance, understand your dental risk, create care routines, book appointments, and streamline clinic operations from one intelligent workspace.
                 </p>
               </div>
 
-              {/* CTA BUTTONS */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <SignUpButton mode="modal">
-                  <Button size={"lg"}>
-                    <MicIcon className="mr-2 size-5" />
-                    Try voice agent
+              {/* ACTION CTAS */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <a href="#ai-care">
+                  <Button size="sm" className="px-5 py-5 text-xs font-bold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 gap-1.5 group">
+                    Explore AI Care
+                    <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </Button>
-                </SignUpButton>
+                </a>
 
-                <SignUpButton mode="modal">
-                  <Button size={"lg"} variant={"outline"}>
-                    <CalendarIcon className="mr-2 size-5" />
-                    Book appointment
+                <Link href="/appointments">
+                  <Button size="sm" variant="outline" className="px-5 py-5 text-xs font-semibold rounded-xl border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5">
+                    <CalendarIcon className="w-3.5 h-3.5 text-primary" />
+                    Book an Appointment
                   </Button>
-                </SignUpButton>
+                </Link>
+
+                <Link href="/portal-select">
+                  <Button size="sm" variant="ghost" className="px-4 py-5 text-xs font-semibold rounded-xl text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 gap-1.5">
+                    <StethoscopeIcon className="w-3.5 h-3.5" />
+                    Clinic Portal
+                  </Button>
+                </Link>
               </div>
 
-              {/* USER TESTIMONIALS */}
-              <div className="pt-8">
-                <div className="flex items-center gap-6">
-                  {/* USER AVATARS */}
-                  <div className="flex -space-x-3">
-                    <Image
-                      src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face"
-                      alt="Jessica Davis"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover ring-4 ring-background"
-                    />
-                    <Image
-                      src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face"
-                      alt="Sam Miller"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover ring-4 ring-background"
-                    />
-                    <Image
-                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face"
-                      alt="Anna Lopez"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover ring-4 ring-background"
-                    />
-                    <Image
-                      src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=100&h=100&fit=crop&crop=face"
-                      alt="Mike Rodriguez"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover ring-4 ring-background"
-                    />
-                    <Image
-                      src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=100&h=100&fit=crop&crop=face"
-                      alt="Katie Lee"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover ring-4 ring-background"
-                    />
-                  </div>
-
-                  {/* RATING AND STATS */}
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <StarIcon key={star} className="h-4 w-4 fill-amber-400 text-amber-400" />
-                        ))}
-                      </div>
-                      <span className="text-sm font-bold text-foreground">4.9/5</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Trusted by{" "}
-                      <span className="font-semibold text-foreground">1,200+ patients</span>
-                    </p>
-                  </div>
+              {/* METRICS & DUAL PORTAL REASSURANCE */}
+              <div className="pt-4 border-t border-border/40 grid grid-cols-3 gap-3 max-w-md">
+                <div>
+                  <p className="text-xl font-bold text-foreground">24/7</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">AI Care Assistant</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-primary">Dual Portal</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Patient & Staff</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-foreground">Smart</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Booking & Reminders</p>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT CONTENT - HERO IMAGE */}
+            {/* RIGHT COLUMN: ROBOT AI COMPOSITION */}
+            <div className="lg:col-span-5 flex justify-center items-center">
+              <div className="relative w-full max-w-sm sm:max-w-md">
+                {/* BACKDROP GLOW CARDS */}
+                <div className="absolute -inset-3 bg-gradient-to-r from-primary/20 via-cyan-500/10 to-blue-600/15 rounded-2xl blur-xl opacity-70 pointer-events-none" />
 
-            <div className="relative lg:pl-8">
-              {/* GRADIENT ORBS */}
-              <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl rotate-45 blur-xl"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-primary/15 to-primary/5 rounded-full blur-2xl"></div>
+                {/* IMAGE CONTAINER */}
+                <div className="relative rounded-2xl border border-primary/20 bg-card/40 backdrop-blur-xl p-3 sm:p-4 shadow-xl overflow-hidden">
+                  <Image
+                    src="/hero.png"
+                    alt="SmileSync AI Dental Care Platform"
+                    width={450}
+                    height={450}
+                    priority
+                    className="w-full h-auto object-contain hover:scale-[1.01] transition-transform duration-500"
+                  />
 
-              <Image
-                src={"/hero.png"}
-                alt="SmileSync AI"
-                width={600}
-                height={600}
-                className="w-full h-auto"
-              />
+                  {/* OVERLAY BADGE: Integrated Platform */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-background/90 backdrop-blur-md border border-border/60 p-2.5 rounded-xl shadow-lg flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary shrink-0">
+                      <SparklesIcon className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0 text-left">
+                      <p className="text-xs font-bold text-foreground truncate">Complete Dental Platform</p>
+                      <p className="text-[10px] text-muted-foreground truncate">AI Care • Clinic Operations • Appointments</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

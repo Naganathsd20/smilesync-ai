@@ -1,95 +1,139 @@
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className="px-6 py-12 border-t bg-muted/30">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Image
-                src="/logosmileai.png"
-                alt="SmileSync AI Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
-              <span className="font-semibold text-lg">SmileSync AI</span>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              AI-powered dental assistance that actually helps.
+    <footer className="border-t border-border/50 bg-card/40 backdrop-blur-xl pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          {/* BRAND COLUMN */}
+          <div className="space-y-4 md:col-span-1">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-xl bg-primary/10 border border-primary/20">
+                <Image
+                  src="/logosmileai.png"
+                  alt="SmileSync AI Logo"
+                  width={32}
+                  height={32}
+                  className="w-7 h-7 object-contain"
+                />
+              </div>
+              <span className="font-extrabold text-lg text-foreground">
+                SmileSync<span className="text-primary ml-0.5">AI</span>
+              </span>
+            </Link>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              AI-powered dental care and clinic management platform. Guiding patients, powering clinic operations, and connecting care.
             </p>
           </div>
 
-          <div>
-            <h4 className="font-medium mb-3">Product</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          {/* PLATFORM LINKS */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">Platform</h4>
+            <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
-                <a href="#" className="hover:text-foreground">
-                  How it works
+                <a href="#ai-care" className="hover:text-primary transition-colors">
+                  AI Care
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Pricing
-                </a>
+                <Link href="/assessment" className="hover:text-primary transition-colors">
+                  Assessment
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-3">Support</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <a href="#" className="hover:text-foreground">
-                  Help center
-                </a>
+                <Link href="/care-plan" className="hover:text-primary transition-colors">
+                  Care Plans
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Contact us
-                </a>
+                <Link href="/appointments" className="hover:text-primary transition-colors">
+                  Appointments
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Status
-                </a>
+                <Link href="/reminders" className="hover:text-primary transition-colors">
+                  Reminders
+                </Link>
+              </li>
+              <li>
+                <Link href="/voice" className="hover:text-primary transition-colors">
+                  Voice Assistant
+                </Link>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-medium mb-3">Legal</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          {/* FOR PROFESSIONALS */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">For Professionals</h4>
+            <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Privacy
-                </a>
+                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                  Professional Portal
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Terms
-                </a>
+                <Link href="/appointments" className="hover:text-primary transition-colors">
+                  Appointments
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground">
-                  Security
-                </a>
+                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                  Patients
+                </Link>
+              </li>
+              <li>
+                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                  Dentists
+                </Link>
+              </li>
+              <li>
+                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                  Availability
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ACCOUNT & PORTALS */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">Account</h4>
+            <ul className="space-y-2 text-xs text-muted-foreground">
+              <li>
+                <SignInButton mode="modal" forceRedirectUrl="/portal-redirect">
+                  <button className="hover:text-primary transition-colors">
+                    Login
+                  </button>
+                </SignInButton>
+              </li>
+              <li>
+                <SignUpButton mode="modal" forceRedirectUrl="/portal-redirect">
+                  <button className="hover:text-primary transition-colors">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </li>
+              <li>
+                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                  Choose Portal
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2026 SmileSync. Built for real people with real dental questions.</p>
+        {/* COPYRIGHT BOTTOM BAR */}
+        <div className="border-t border-border/40 mt-12 pt-8 text-center text-xs text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>&copy; {new Date().getFullYear()} SmileSync AI — AI-Powered Dental Care & Clinic Management Platform.</p>
+          <p className="text-[11px] text-muted-foreground/70">
+            Educational & clinic management tool.
+          </p>
         </div>
       </div>
     </footer>
   );
 }
+
 export default Footer;

@@ -1,185 +1,123 @@
 import { Button } from "@/components/ui/button";
-import { SignUpButton } from "@clerk/nextjs";
-import { CheckCircleIcon } from "lucide-react";
+import { CheckCircleIcon, SparklesIcon, CrownIcon, ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 function PricingSection() {
   return (
-    <section className="relative py-32 px-6 overflow-hidden bg-gradient-to-b from-background via-muted/3 to-background">
-      {/* Grid Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/5 to-primary/5">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_75%_50%_at_50%_50%,#000_50%,transparent_85%)] opacity-20"></div>
+    <section id="pricing" className="relative py-12 lg:py-16 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+      {/* BACKGROUND DECORATION */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+
+      {/* HEADER */}
+      <div className="text-center mb-10 space-y-2 relative z-10">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 text-primary text-[11px] font-semibold backdrop-blur-sm">
+          <SparklesIcon className="w-3.5 h-3.5" />
+          <span>Flexible Plans</span>
         </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.06),transparent_70%)]"></div>
+
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
+          Unlock the full{" "}
+          <span className="bg-gradient-to-r from-primary via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            SmileSync experience
+          </span>
+        </h2>
+
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          Book appointments for free and upgrade to Pro for unlimited AI consultations and conversational voice assistance.
+        </p>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/5 to-primary/10 rounded-full border border-primary/10 backdrop-blur-sm mb-6">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-            <span className="text-sm font-medium text-primary">Simple Pricing</span>
+      {/* PRICING TIERS GRID */}
+      <div className="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto relative z-10">
+        {/* FREE PLAN */}
+        <div className="p-6 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/60 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between">
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted/40 px-2.5 py-0.5 rounded-full border border-border/40">
+              Free Access
+            </span>
+            <h3 className="text-xl font-black text-foreground pt-1">Standard Plan</h3>
+            <p className="text-[11px] text-muted-foreground">Essential dental appointment booking and basic features.</p>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-            <span className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Choose your
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              AI dental plan
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Book appointments for free and upgrade for unlimited AI consultations. Perfect for
-            ongoing dental care.
-          </p>
+
+          <div className="space-y-3 pt-4 border-t border-border/40 text-xs">
+            <div className="flex items-start gap-3">
+              <CheckCircleIcon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span className="text-muted-foreground">Unlimited dentist appointment booking</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircleIcon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span className="text-muted-foreground">Access verified dentist profiles</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircleIcon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span className="text-muted-foreground">Oral health risk assessment</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircleIcon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span className="text-muted-foreground">Smart appointment reminders</span>
+            </div>
+          </div>
+
+          <div className="pt-5">
+            <Link href="/pro">
+              <Button size="sm" variant="outline" className="w-full py-4 rounded-xl font-bold text-xs border-border/60 hover:bg-card">
+                Explore Free Features
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Free Plan */}
-          <div className="relative group">
-            <div className="relative bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold">Free</h3>
-                  <div className="flex items-end gap-1">
-                    <span className="text-4xl font-bold">$0</span>
-                    <span className="text-muted-foreground mb-1">/month</span>
-                  </div>
-                  <p className="text-muted-foreground">Essential dental appointment booking</p>
-                </div>
-                <SignUpButton mode="modal">
-                  <Button className="w-full py-3 bg-gradient-to-r from-muted to-muted/80 text-foreground rounded-xl font-semibold">
-                    Get Started Free
-                  </Button>
-                </SignUpButton>
-
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Unlimited appointment booking</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Find dentists in your area</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Basic text chat support</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Appointment reminders</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* PRO PLAN */}
+        <div className="relative group">
+          {/* FEATURED BADGE */}
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
+            <span className="bg-gradient-to-r from-primary to-cyan-500 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+              <CrownIcon className="w-3.5 h-3.5" />
+              RECOMMENDED PRO
+            </span>
           </div>
 
-          {/* Pro Plan - Featured */}
-          <div className="relative group">
-            {/* Popular Badge */}
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                Most Popular
+          <div className="p-6 rounded-2xl bg-card/90 backdrop-blur-xl border-2 border-primary/40 shadow-xl shadow-primary/10 flex flex-col justify-between h-full">
+            <div className="space-y-4">
+              <div className="space-y-1.5 pt-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/20">
+                  SmileSync Pro Tier
+                </span>
+                <h3 className="text-xl font-black text-foreground pt-1">Pro Plan</h3>
+                <p className="text-[11px] text-muted-foreground">Complete AI dental companion & voice assistance suite.</p>
+              </div>
+
+              <div className="space-y-3 pt-4 border-t border-border/40 text-xs">
+                <div className="flex items-start gap-3">
+                  <CheckCircleIcon className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
+                  <span className="text-foreground font-semibold">Everything in Standard Plan</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircleIcon className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
+                  <span className="text-foreground font-semibold">AI Voice Assistant (Vapi conversational audio)</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircleIcon className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
+                  <span className="text-foreground">Unlimited Nova AI chat consultations</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircleIcon className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
+                  <span className="text-foreground">Personalized long-term care plans</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircleIcon className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
+                  <span className="text-foreground">Priority AI response & call recordings</span>
+                </div>
               </div>
             </div>
 
-            <div className="relative bg-gradient-to-br from-card/95 to-card/70 backdrop-blur-xl rounded-3xl p-8 border-2 border-primary/30 hover:border-primary/50 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/20 scale-105">
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold">AI Basic</h3>
-                  <div className="flex items-end gap-1">
-                    <span className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                      $9
-                    </span>
-                    <span className="text-muted-foreground mb-1">/month</span>
-                  </div>
-                  <p className="text-muted-foreground">AI consultations + appointment booking</p>
-                </div>
-
-                <Button className="w-full py-3 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-primary-foreground rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                  Start AI Basic
+            <div className="pt-5">
+              <Link href="/pro">
+                <Button size="sm" className="w-full py-4 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 gap-1.5">
+                  View Plans & Upgrade
+                  <ArrowRightIcon className="w-3.5 h-3.5" />
                 </Button>
-
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Everything in Free</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">10 AI voice calls per month</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">AI dental guidance & advice</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Symptom assessment</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Priority support</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Call history & recordings</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Enterprise Plan */}
-          <div className="relative group">
-            <div className="relative bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold">AI Pro</h3>
-                  <div className="flex items-end gap-1">
-                    <span className="text-4xl font-bold">$19</span>
-                    <span className="text-muted-foreground mb-1">/month</span>
-                  </div>
-                  <p className="text-muted-foreground">Unlimited AI consultations</p>
-                </div>
-
-                <Button
-                  variant="outline"
-                  className="w-full py-3 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 rounded-xl font-semibold transition-all duration-300"
-                >
-                  Upgrade to AI Pro
-                </Button>
-
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Everything in AI Basic</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Unlimited AI voice calls</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Advanced AI dental analysis</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Personalized care plans</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">24/7 priority AI support</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Detailed health reports</span>
-                  </div>
-                </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

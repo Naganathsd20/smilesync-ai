@@ -18,7 +18,7 @@ export default async function WelcomeSection() {
         </div>
         <div>
           <h1 className="text-4xl font-bold mb-2">
-            {greeting}, {user?.firstName}! 👋
+            {greeting}, {user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split("@")[0] || "Valued Patient"}! 👋
           </h1>
           <p className="text-muted-foreground">
             Your personal AI dental assistant is ready to help you maintain perfect oral health.

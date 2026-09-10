@@ -1,66 +1,68 @@
 import { SignUpButton } from "@clerk/nextjs";
-import { ArrowRightIcon, ZapIcon } from "lucide-react";
+import { ArrowRightIcon, SparklesIcon, FileTextIcon, CalendarCheckIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
 function HowItWorks() {
   return (
-    <section className="relative py-32 px-6 outline-hidden z-10 max-w-7xl mx-auto">
-      {/* HEADER */}
-      <div className="text-center mb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/5 to-primary/10 rounded-full border border-primary/10 backdrop-blur-sm mb-6">
-          <ZapIcon className="size-4 text-primary" />
-          <span className="text-sm font-medium text-primary">Simple Process</span>
+    <section id="how-it-works" className="relative py-12 lg:py-16 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+      {/* SECTION HEADER */}
+      <div className="text-center mb-10 space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
+          <SparklesIcon className="w-3.5 h-3.5 text-primary" />
+          <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">Streamlined Process</span>
         </div>
 
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-          <span className="bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Three steps to
-          </span>
-          <br />
-          <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            better dental health
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
+          Your complete dental journey in{" "}
+          <span className="bg-gradient-to-r from-primary via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            3 simple steps
           </span>
         </h2>
 
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Our streamlined process makes dental care accessible, convenient, and stress-free for
-          everyone
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          From early risk assessment to active treatment and long-term care management, SmileSync AI guides every step.
         </p>
       </div>
 
-      {/* STEPS */}
+      {/* STEPS GRID */}
       <div className="relative">
-        {/* CONNECTION LINE */}
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transform -translate-y-1/2 hidden lg:block"></div>
+        {/* DESKTOP CONNECTING LINE */}
+        <div className="absolute top-1/2 left-10 right-10 h-0.5 bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 transform -translate-y-1/2 hidden lg:block pointer-events-none" />
 
-        <div className="grid lg:grid-cols-3 gap-12 lg:gap-8">
+        <div className="grid lg:grid-cols-3 gap-5 relative z-10">
           {/* STEP 1 */}
           <div className="relative group">
-            <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
-              {/* Step Number */}
-              <div className="absolute -top-4 left-8 w-8 h-8 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold shadow-lg">
-                1
+            <div className="h-full bg-card/60 backdrop-blur-xl rounded-2xl p-5 border border-border/60 hover:border-primary/40 transition-all duration-300 hover:shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-7 h-7 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center text-primary font-bold text-xs">
+                    01
+                  </div>
+                  <span className="text-[10px] font-semibold text-primary px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">
+                    Assessment & AI
+                  </span>
+                </div>
+
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-cyan-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <Image src="/brain.png" alt="Oral Health AI" width={28} height={28} className="w-7 h-7 object-contain" />
+                </div>
+
+                <h3 className="text-base font-bold mb-2 text-foreground">
+                  Understand Your Oral Health
+                </h3>
+
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                  Use the AI Oral Health Assessment and Nova AI to understand your habits, symptoms, risk factors, and next steps.
+                </p>
               </div>
 
-              {/* Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 mb-6">
-                <Image src="/audio.png" alt="Voice Chat" width={40} height={40} className="w-14" />
-              </div>
-
-              <h3 className="text-2xl font-bold mb-4 text-center">Ask Questions</h3>
-              <p className="text-muted-foreground text-center leading-relaxed mb-6">
-                Chat with our AI assistant about any dental concerns. Get instant answers about
-                symptoms, treatments, and oral health tips.
-              </p>
-
-              {/* Feature Pills */}
-              <div className="flex flex-wrap gap-2 justify-center">
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  24/7 Available
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-border/40">
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  Symptom Analysis
                 </span>
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  Instant Response
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  24/7 Nova Assistant
                 </span>
               </div>
             </div>
@@ -68,61 +70,73 @@ function HowItWorks() {
 
           {/* STEP 2 */}
           <div className="relative group">
-            <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
-              {/* Step Number */}
-              <div className="absolute -top-4 left-8 w-8 h-8 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold shadow-lg">
-                2
+            <div className="h-full bg-card/60 backdrop-blur-xl rounded-2xl p-5 border border-border/60 hover:border-cyan-500/40 transition-all duration-300 hover:shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-7 h-7 bg-cyan-500/10 border border-cyan-500/20 rounded-lg flex items-center justify-center text-cyan-400 font-bold text-xs">
+                    02
+                  </div>
+                  <span className="text-[10px] font-semibold text-cyan-400 px-2.5 py-0.5 bg-cyan-500/10 rounded-full border border-cyan-500/20">
+                    Personalization
+                  </span>
+                </div>
+
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <FileTextIcon className="w-6 h-6 text-cyan-400" />
+                </div>
+
+                <h3 className="text-base font-bold mb-2 text-foreground">
+                  Get Personalized Care
+                </h3>
+
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                  Receive personalized recommendations, care plans, and intelligent follow-up guidance.
+                </p>
               </div>
 
-              {/* Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 mb-6">
-                <Image src="/brain.png" alt="AI Brain" width={40} height={40} className="w-14" />
-              </div>
-
-              <h3 className="text-2xl font-bold mb-4 text-center">Get Expert Advice</h3>
-              <p className="text-muted-foreground text-center leading-relaxed mb-6">
-                Receive personalized recommendations based on thousands of dental cases. Our AI
-                provides professional-grade insights.
-              </p>
-
-              {/* Feature Pills */}
-              <div className="flex flex-wrap gap-2 justify-center">
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  AI-Powered
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-border/40">
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  Custom Routines
                 </span>
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  Personalized
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  Actionable Steps
                 </span>
               </div>
             </div>
           </div>
 
-          {/* STEP 3  */}
+          {/* STEP 3 */}
           <div className="relative group">
-            <div className="relative bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
-              {/* Step Number */}
-              <div className="absolute -top-4 left-8 w-8 h-8 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold shadow-lg">
-                3
+            <div className="h-full bg-card/60 backdrop-blur-xl rounded-2xl p-5 border border-border/60 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-lg flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-7 h-7 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-bold text-xs">
+                    03
+                  </div>
+                  <span className="text-[10px] font-semibold text-emerald-400 px-2.5 py-0.5 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                    Booking & Reminders
+                  </span>
+                </div>
+
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <CalendarCheckIcon className="w-6 h-6 text-emerald-400" />
+                </div>
+
+                <h3 className="text-base font-bold mb-2 text-foreground">
+                  Book & Stay on Track
+                </h3>
+
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                  Choose a dentist, select a service and available time, confirm your appointment, and receive automated reminders.
+                </p>
               </div>
 
-              {/* Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 mb-6">
-                <Image src="/calendar.png" alt="Calendar" width={40} height={40} className="w-14" />
-              </div>
-
-              <h3 className="text-2xl font-bold mb-4 text-center">Book & Get Care</h3>
-              <p className="text-muted-foreground text-center leading-relaxed mb-6">
-                Schedule with verified dentists and receive comprehensive follow-up care. Track your
-                progress seamlessly.
-              </p>
-
-              {/* Feature Pills */}
-              <div className="flex flex-wrap gap-2 justify-center">
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  Verified Doctors
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-border/40">
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  Instant Confirmation
                 </span>
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                  Follow-up Care
+                <span className="px-2 py-0.5 bg-muted/40 text-muted-foreground text-[10px] rounded-md font-medium">
+                  Automated Alerts
                 </span>
               </div>
             </div>
@@ -130,12 +144,12 @@ function HowItWorks() {
         </div>
       </div>
 
-      {/* BOTTOM CTA */}
-      <div className="text-center mt-16">
+      {/* FOOTER CTA */}
+      <div className="text-center mt-8">
         <SignUpButton mode="modal">
-          <Button size="lg">
-            <ArrowRightIcon className="mr-2 size-5" />
+          <Button size="sm" className="px-6 py-4 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 gap-1.5">
             Get started now
+            <ArrowRightIcon className="w-3.5 h-3.5" />
           </Button>
         </SignUpButton>
       </div>

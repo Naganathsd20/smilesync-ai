@@ -5,12 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { CalendarIcon, ClockIcon, UserIcon } from "lucide-react";
 
 async function NextAppointment() {
-  const appointments = await getUserAppointments();
+  let appointments: any[] = [];
+  try {
+    appointments = await getUserAppointments();
+  } catch {
+    appointments = [];
+  }
 
   // filter for upcoming CONFIRMED appointments only (today or future)
   const upcomingAppointments =
     appointments?.filter((appointment) => {
+      if (!appointment?.date) return false;
       const appointmentDate = parseISO(appointment.date);
+      if (isNaN(appointmentDate.getTime())) return false;
       const today = new Date();
       const isUpcoming = isSameDay(appointmentDate, today) || isAfter(appointmentDate, today);
       return isUpcoming && appointment.status === "CONFIRMED";
@@ -22,6 +29,8 @@ async function NextAppointment() {
   if (!nextAppointment) return <NoNextAppointments />; // no appointments, return nothing
 
   const appointmentDate = parseISO(nextAppointment.date);
+  if (isNaN(appointmentDate.getTime())) return <NoNextAppointments />;
+
   const formattedDate = format(appointmentDate, "EEEE, MMMM d, yyyy");
   const isToday = isSameDay(appointmentDate, new Date());
 
