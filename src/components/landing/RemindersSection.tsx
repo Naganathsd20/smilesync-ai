@@ -42,15 +42,15 @@ const REMINDER_EXAMPLES = [
 
 export default function RemindersSection() {
   return (
-    <section className="relative py-12 lg:py-16 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
       {/* HEADER */}
-      <div className="text-center mb-10 space-y-2 relative z-10">
+      <div className="text-center mb-5 space-y-1.5 relative z-10">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 text-primary text-[11px] font-semibold backdrop-blur-sm">
           <BellRingIcon className="w-3.5 h-3.5" />
           <span>Intelligent Follow-Ups</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
+        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
           Stay on track with{" "}
           <span className="bg-gradient-to-r from-primary via-cyan-400 to-blue-500 bg-clip-text text-transparent">
             smarter follow-ups
@@ -63,29 +63,29 @@ export default function RemindersSection() {
       </div>
 
       {/* 4 EXAMPLES GRID */}
-      <div className="grid md:grid-cols-2 gap-4 relative z-10 mb-8">
+      <div className="grid md:grid-cols-2 gap-3.5 relative z-10 mb-6">
         {REMINDER_EXAMPLES.map((item, idx) => {
           const Icon = item.icon;
           return (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/60 hover:border-primary/40 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group"
+              className="p-4 sm:p-4.5 rounded-xl bg-card/60 backdrop-blur-xl border border-border/60 hover:border-primary/40 transition-all duration-300 hover:shadow-md flex flex-col justify-between group"
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
+                  <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={`text-[11px] font-semibold px-3 py-1 rounded-full border ${item.color}`}>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${item.color}`}>
                     {item.tag}
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
                   {item.title}
                 </h3>
 
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
                   {item.desc}
                 </p>
               </div>
@@ -97,13 +97,14 @@ export default function RemindersSection() {
       {/* CTA */}
       <div className="text-center relative z-10">
         <Link href="/reminders">
-          <Button size="sm" variant="outline" className="px-6 py-4 rounded-xl font-bold text-xs border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5">
-            <BellRingIcon className="w-4 h-4 text-primary" />
+          <Button size="sm" variant="outline" className="px-4 py-2 rounded-xl font-bold text-xs border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5">
+            <BellRingIcon className="w-3.5 h-3.5 text-primary" />
             View Smart Reminders
-            <ArrowRightIcon className="w-4 h-4" />
+            <ArrowRightIcon className="w-3.5 h-3.5" />
           </Button>
         </Link>
       </div>
     </section>
   );
 }
+

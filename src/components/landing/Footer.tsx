@@ -4,9 +4,9 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className="border-t border-border/50 bg-card/40 backdrop-blur-xl pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <footer className="border-t border-border/50 bg-card/40 backdrop-blur-xl pt-10 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* BRAND COLUMN */}
           <div className="space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
@@ -19,7 +19,7 @@ function Footer() {
                   className="w-7 h-7 object-contain"
                 />
               </div>
-              <span className="font-extrabold text-lg text-foreground">
+              <span className="font-extrabold text-base text-foreground">
                 SmileSync<span className="text-primary ml-0.5">AI</span>
               </span>
             </Link>
@@ -125,7 +125,7 @@ function Footer() {
         </div>
 
         {/* COPYRIGHT BOTTOM BAR */}
-        <div className="border-t border-border/40 mt-12 pt-8 text-center text-xs text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="border-t border-border/40 mt-8 pt-5 text-center text-xs text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>&copy; {new Date().getFullYear()} SmileSync AI — AI-Powered Dental Care & Clinic Management Platform.</p>
           <p className="text-[11px] text-muted-foreground/70">
             Educational & clinic management tool.

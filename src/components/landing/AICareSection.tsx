@@ -57,15 +57,15 @@ const CARDS = [
 
 export default function AICareSection() {
   return (
-    <section id="ai-care" className="relative py-12 lg:py-16 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section id="ai-care" className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
       {/* HEADER */}
-      <div className="text-center mb-10 space-y-2 relative z-10">
+      <div className="text-center mb-6 space-y-1.5 relative z-10">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
           <SparklesIcon className="w-3.5 h-3.5 text-primary" />
           <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">AI Healthcare Suite</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
+        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
           Your AI Dental Care{" "}
           <span className="bg-gradient-to-r from-primary via-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Companion
@@ -78,37 +78,37 @@ export default function AICareSection() {
       </div>
 
       {/* 2x2 CARDS GRID */}
-      <div className="grid md:grid-cols-2 gap-4 sm:gap-5 relative z-10">
+      <div className="grid md:grid-cols-2 gap-3.5 relative z-10">
         {CARDS.map((card) => {
           const Icon = card.icon;
           return (
             <Link key={card.id} href={card.link} className="group">
-              <div className={`h-full p-5 sm:p-6 rounded-2xl bg-card/60 backdrop-blur-xl border border-border/60 ${card.borderColor} transition-all duration-300 hover:shadow-lg flex flex-col justify-between relative overflow-hidden`}>
+              <div className={`h-full p-4 sm:p-4.5 rounded-xl bg-card/60 backdrop-blur-xl border border-border/60 ${card.borderColor} transition-all duration-300 hover:shadow-md flex flex-col justify-between relative overflow-hidden`}>
                 {/* AMBIENT CORNER GLOW */}
-                <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${card.gradient} rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none`} />
+                <div className={`absolute -top-10 -right-10 w-28 h-28 bg-gradient-to-br ${card.gradient} rounded-full blur-lg opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none`} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
+                      <Icon className="w-4 h-4" />
                     </div>
 
-                    <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${card.badgeColor}`}>
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${card.badgeColor}`}>
                       {card.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors flex items-center gap-1">
                     {card.title}
-                    <ArrowUpRightIcon className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                    <ArrowUpRightIcon className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                   </h3>
 
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                  <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed mb-2.5">
                     {card.desc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-border/40 flex items-center justify-between text-xs font-semibold text-primary">
+                <div className="pt-2.5 border-t border-border/40 flex items-center justify-between text-[11px] font-semibold text-primary">
                   <span>Explore Feature</span>
                   <span className="group-hover:translate-x-0.5 transition-transform">→</span>
                 </div>
@@ -120,3 +120,4 @@ export default function AICareSection() {
     </section>
   );
 }
+
