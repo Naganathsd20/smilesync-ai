@@ -64,6 +64,7 @@ interface CreateDoctorInput {
   gender: Gender;
   isActive: boolean;
   bio?: string;
+  imageUrl?: string;
 }
 
 export async function createDoctor(input: CreateDoctorInput) {
@@ -83,7 +84,7 @@ export async function createDoctor(input: CreateDoctorInput) {
         gender: input.gender || "MALE",
         isActive: input.isActive ?? true,
         bio: input.bio || null,
-        imageUrl: generateAvatar(input.name, input.gender || "MALE"),
+        imageUrl: input.imageUrl || generateAvatar(input.name, input.gender || "MALE"),
       },
     });
 
@@ -105,6 +106,7 @@ export async function createDoctor(input: CreateDoctorInput) {
 
 interface UpdateDoctorInput extends Partial<CreateDoctorInput> {
   id: string;
+  imageUrl?: string;
 }
 
 export async function updateDoctor(input: UpdateDoctorInput) {
@@ -142,6 +144,7 @@ export async function updateDoctor(input: UpdateDoctorInput) {
         gender: input.gender,
         isActive: input.isActive,
         bio: input.bio,
+        ...(input.imageUrl !== undefined && { imageUrl: input.imageUrl }),
       },
     });
 

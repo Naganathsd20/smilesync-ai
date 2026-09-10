@@ -1,6 +1,6 @@
 import { useCreateDoctor } from "@/hooks/use-doctors";
 import { Gender } from "@prisma/client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,10 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
-import { formatPhoneNumber } from "@/lib/utils";
+import { formatPhoneNumber, generateAvatar } from "@/lib/utils";
 import { toast } from "sonner";
+import Image from "next/image";
+import { CameraIcon, UploadIcon, XIcon, Loader2Icon } from "lucide-react";
 
 interface AddDoctorDialogProps {
   isOpen: boolean;
@@ -32,6 +34,11 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
     bio: "",
   });
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const createDoctorMutation = useCreateDoctor();
 
   const handlePhoneChange = (value: string) => {
@@ -39,9 +46,65 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
     setNewDoctor({ ...newDoctor, phone: formattedPhoneNumber });
   };
 
-  const handleSave = () => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file (JPG, PNG, or WebP).");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image file size must be less than 5 MB.");
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSave = async () => {
+    let uploadedImageUrl: string | undefined = undefined;
+
+    if (selectedFile) {
+      setIsUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const res = await fetch("/api/upload/doctor-image", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to upload dentist profile image.");
+        }
+
+        uploadedImageUrl = data.imageUrl;
+      } catch (err: any) {
+        toast.error(err.message || "Image upload failed.");
+        setIsUploading(false);
+        return;
+      }
+      setIsUploading(false);
+    }
+
     createDoctorMutation.mutate(
-      { ...newDoctor },
+      {
+        ...newDoctor,
+        imageUrl: uploadedImageUrl,
+      },
       {
         onSuccess: () => {
           toast.success(`Dr. ${newDoctor.name} added successfully!`);
@@ -65,7 +128,16 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
       isActive: true,
       bio: "",
     });
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setIsUploading(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
+
+  const currentAvatarPreview =
+    previewUrl || generateAvatar(newDoctor.name || "Dentist", newDoctor.gender || "MALE");
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -77,7 +149,71 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-3">
+          {/* PROFILE IMAGE UPLOAD SECTION */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 p-3 rounded-2xl bg-muted/20 border border-border/50">
+            <div className="relative group shrink-0">
+              <Image
+                src={currentAvatarPreview}
+                alt="Profile Preview"
+                width={72}
+                height={72}
+                className="w-18 h-18 rounded-full object-cover ring-2 ring-primary/30 shadow-md bg-muted"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                title="Change profile photo"
+              >
+                <CameraIcon className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            <div className="space-y-1.5 text-center sm:text-left flex-1">
+              <Label className="text-xs font-semibold text-foreground">Profile Image</Label>
+              <p className="text-[11px] text-muted-foreground">
+                Upload a professional photo (JPG, PNG, WebP up to 5MB).
+              </p>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
+
+              <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="h-7 text-xs px-2.5 gap-1.5"
+                  disabled={isUploading}
+                >
+                  <UploadIcon className="w-3 h-3 text-primary" />
+                  {selectedFile ? "Change Image" : "Upload Image"}
+                </Button>
+
+                {selectedFile && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleRemoveImage}
+                    className="h-7 text-xs px-2 text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 gap-1"
+                    disabled={isUploading}
+                  >
+                    <XIcon className="w-3 h-3" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="new-name">Name *</Label>
@@ -167,7 +303,7 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} disabled={isUploading || createDoctorMutation.isPending}>
             Cancel
           </Button>
 
@@ -178,10 +314,20 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               !newDoctor.name ||
               !newDoctor.email ||
               !newDoctor.speciality ||
+              isUploading ||
               createDoctorMutation.isPending
             }
           >
-            {createDoctorMutation.isPending ? "Adding..." : "Add Dentist"}
+            {isUploading ? (
+              <span className="flex items-center gap-1.5">
+                <Loader2Icon className="w-3.5 h-3.5 animate-spin" />
+                Uploading Image...
+              </span>
+            ) : createDoctorMutation.isPending ? (
+              "Adding..."
+            ) : (
+              "Add Dentist"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
