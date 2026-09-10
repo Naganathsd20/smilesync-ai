@@ -14,6 +14,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 interface EditDoctorDialogProps {
   isOpen: boolean;
@@ -35,7 +36,18 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
 
   const handleSave = () => {
     if (editingDoctor) {
-      updateDoctorMutation.mutate({ ...editingDoctor }, { onSuccess: handleClose });
+      updateDoctorMutation.mutate(
+        { ...editingDoctor, bio: editingDoctor.bio || undefined },
+        {
+          onSuccess: () => {
+            toast.success(`Dr. ${editingDoctor.name} updated successfully!`);
+            handleClose();
+          },
+          onError: (err: any) => {
+            toast.error(err?.message || "Failed to update doctor.");
+          },
+        }
+      );
     }
   };
 
@@ -48,8 +60,8 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit Doctor</DialogTitle>
-          <DialogDescription>Update doctor information and status.</DialogDescription>
+          <DialogTitle>Edit Dentist</DialogTitle>
+          <DialogDescription>Update dentist profile information and status.</DialogDescription>
         </DialogHeader>
 
         {editingDoctor && (
@@ -91,7 +103,17 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                 id="phone"
                 value={editingDoctor.phone}
                 onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="(555) 123-4567"
+                placeholder="+91 98765 43210"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bio">Bio / Notes</Label>
+              <Input
+                id="bio"
+                value={editingDoctor.bio || ""}
+                onChange={(e) => setEditingDoctor({ ...editingDoctor, bio: e.target.value })}
+                placeholder="Experienced dental surgeon providing care."
               />
             </div>
 

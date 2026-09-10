@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
 import { formatPhoneNumber } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface AddDoctorDialogProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
     speciality: "",
     gender: "MALE" as Gender,
     isActive: true,
+    bio: "",
   });
 
   const createDoctorMutation = useCreateDoctor();
@@ -38,7 +40,18 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
   };
 
   const handleSave = () => {
-    createDoctorMutation.mutate({ ...newDoctor }, { onSuccess: handleClose });
+    createDoctorMutation.mutate(
+      { ...newDoctor },
+      {
+        onSuccess: () => {
+          toast.success(`Dr. ${newDoctor.name} added successfully!`);
+          handleClose();
+        },
+        onError: (err: any) => {
+          toast.error(err?.message || "Failed to add doctor.");
+        },
+      }
+    );
   };
 
   const handleClose = () => {
@@ -50,6 +63,7 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
       speciality: "",
       gender: "MALE",
       isActive: true,
+      bio: "",
     });
   };
 
@@ -57,8 +71,10 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Doctor</DialogTitle>
-          <DialogDescription>Add a new doctor to your practice.</DialogDescription>
+          <DialogTitle>Add New Dentist</DialogTitle>
+          <DialogDescription>
+            Add a new dental professional to your hospital or clinic staff.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">
@@ -100,6 +116,16 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               value={newDoctor.phone}
               onChange={(e) => handlePhoneChange(e.target.value)}
               placeholder="+91 98765 43210"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="new-bio">Bio / Notes</Label>
+            <Input
+              id="new-bio"
+              value={newDoctor.bio}
+              onChange={(e) => setNewDoctor({ ...newDoctor, bio: e.target.value })}
+              placeholder="Experienced dental surgeon providing care."
             />
           </div>
 
@@ -155,7 +181,7 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               createDoctorMutation.isPending
             }
           >
-            {createDoctorMutation.isPending ? "Adding..." : "Add Doctor"}
+            {createDoctorMutation.isPending ? "Adding..." : "Add Dentist"}
           </Button>
         </DialogFooter>
       </DialogContent>
