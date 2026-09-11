@@ -64,7 +64,7 @@ function CTA() {
 
               <div className="relative rounded-3xl border border-primary/20 bg-card/40 p-4 shadow-xl overflow-hidden">
                 <Image
-                  src="/cta.png"
+                  src="/cta2.png"
                   alt="SmileSync AI Dental Care Platform"
                   width={320}
                   height={320}
