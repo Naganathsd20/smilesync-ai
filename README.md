@@ -130,6 +130,8 @@ Vercel
               │
              Neon
 
+```text
+
 📊 Project Highlights
 Full-stack Next.js application
 Two role-based portals
