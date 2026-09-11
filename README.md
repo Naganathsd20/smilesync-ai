@@ -130,7 +130,7 @@ Vercel
               │
              Neon
 
-```text
+```
 
 📊 Project Highlights
 Full-stack Next.js application
