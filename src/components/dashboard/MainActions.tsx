@@ -20,7 +20,7 @@ export default function MainActions() {
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Image
-                  src="/audio.png"
+                  src="/audio2.png"
                   alt="Voice AI"
                   width={32}
                   height={32}
@@ -75,7 +75,7 @@ export default function MainActions() {
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Image
-                  src="/calendar.png"
+                  src="/calendar2.png"
                   alt="Calendar"
                   width={32}
                   height={32}

@@ -45,7 +45,7 @@ function HowItWorks() {
                 </div>
 
                 <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-cyan-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                  <Image src="/brain.png" alt="Oral Health AI" width={22} height={22} className="w-5 h-5 object-contain" />
+                  <Image src="/brain2.png" alt="Oral Health AI" width={22} height={22} className="w-5 h-5 object-contain" />
                 </div>
 
                 <h3 className="text-sm font-bold mb-1.5 text-foreground">
@@ -157,4 +157,4 @@ function HowItWorks() {
   );
 }
 
-export default HowItWorks;
+export default HowItWorks;
