@@ -61,6 +61,7 @@ export default function NovaChat() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const isSubmittingRef = useRef<boolean>(false);
 
   // Load personalization status and active conversation history on mount
   useEffect(() => {
@@ -116,8 +117,9 @@ export default function NovaChat() {
 
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputMessage).trim();
-    if (!query || isLoading) return;
+    if (!query || isLoading || isSubmittingRef.current) return;
 
+    isSubmittingRef.current = true;
     setError(null);
     setInputMessage("");
 
@@ -145,7 +147,7 @@ export default function NovaChat() {
           response.error || "Failed to receive response from Nova.";
         setError(errorMsg);
         toast.error(errorMsg);
-        setIsLoading(false);
+        setInputMessage(query);
         return;
       }
 
@@ -168,14 +170,17 @@ export default function NovaChat() {
       const msg = err?.message || "An unexpected error occurred.";
       setError(msg);
       toast.error(msg);
+      setInputMessage(query);
     } finally {
       setIsLoading(false);
+      isSubmittingRef.current = false;
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      if (isLoading || isSubmittingRef.current) return;
       handleSendMessage();
     }
   };
@@ -425,6 +430,7 @@ export default function NovaChat() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              if (isLoading || isSubmittingRef.current) return;
               handleSendMessage();
             }}
             className="flex items-end gap-2"

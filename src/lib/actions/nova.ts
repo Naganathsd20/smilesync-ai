@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "../prisma";
 import { z } from "zod";
+import {
+  generateContentWithRetry,
+  getCleanGeminiErrorMessage,
+} from "../gemini-retry";
 
 const NovaInputSchema = z.object({
   message: z
@@ -260,8 +264,13 @@ STRICT SAFETY & SCOPE DIRECTIVES:
 
     promptContext += `User: ${message}\nNova:`;
 
-    // 11. Generate Content via Gemini API
-    const result = await model.generateContent(promptContext);
+    // 11. Generate Content via Gemini API with retry mechanism for transient 503 errors
+    const result = await generateContentWithRetry(
+      model,
+      promptContext,
+      2,
+      1000,
+    );
     const replyText = result.response.text();
 
     if (!replyText || replyText.trim() === "") {
@@ -302,11 +311,15 @@ STRICT SAFETY & SCOPE DIRECTIVES:
       "[NOVA_CHAT_ERROR] Server action failure:",
       error?.message || error,
     );
+
+    const userFacingError = getCleanGeminiErrorMessage(
+      error,
+      "An unexpected error occurred while communicating with Nova.",
+    );
+
     return {
       success: false,
-      error:
-        error?.message ||
-        "An unexpected error occurred while communicating with Nova.",
+      error: userFacingError,
     };
   }
 }

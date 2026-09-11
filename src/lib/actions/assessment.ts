@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
+import {
+  generateContentWithRetry,
+  getCleanGeminiErrorMessage,
+} from "../gemini-retry";
 
 function extractJsonText(text: string): string {
   let cleaned = text.trim();
@@ -183,9 +187,9 @@ ${validatedAnswers.notes ? `- Additional User Notes: ${validatedAnswers.notes}` 
 
 Generate the structured JSON oral health risk assessment.`;
 
-    // 6. Execute Structured Gemini API Request
+    // 6. Execute Structured Gemini API Request with retry for transient 503 errors
     const prompt = `${systemPrompt}\n\n${userPrompt}`;
-    const result = await model.generateContent(prompt);
+    const result = await generateContentWithRetry(model, prompt, 2, 1000);
     const rawContent = result.response.text();
     if (!rawContent) {
       throw new Error("Empty response received from AI model");

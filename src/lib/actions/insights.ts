@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "../prisma";
 import { z } from "zod";
+import {
+  generateContentWithRetry,
+  getCleanGeminiErrorMessage,
+} from "../gemini-retry";
 
 export async function getDentalHealthInsights() {
   try {
@@ -310,7 +314,7 @@ REQUIREMENTS:
 - End with this exact disclaimer on its own final line:
 ${INSIGHTS_EDUCATIONAL_DISCLAIMER}`;
 
-    const result = await model.generateContent(prompt);
+    const result = await generateContentWithRetry(model, prompt, 2, 1000);
     const replyText = result.response.text();
 
     if (!replyText || replyText.trim() === "") {
@@ -330,10 +334,13 @@ ${INSIGHTS_EDUCATIONAL_DISCLAIMER}`;
     };
   } catch (error) {
     console.error("[INSIGHTS_AI_SUMMARY_ERROR]", error);
+    const userFacingError = getCleanGeminiErrorMessage(
+      error,
+      "Failed to generate AI Health Summary. Your dashboard metrics are still available.",
+    );
     return {
       success: false,
-      error:
-        "Failed to generate AI Health Summary. Your dashboard metrics are still available.",
+      error: userFacingError,
       summary: null,
       disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
     };
@@ -403,7 +410,7 @@ RULES:
 - headline max 160 characters.`;
 
     const result = await withTimeout(
-      model.generateContent(prompt),
+      generateContentWithRetry(model, prompt, 2, 1000),
       GEMINI_TIMEOUT_MS,
     );
     const replyText = result.response.text();
@@ -454,11 +461,15 @@ RULES:
     const timedOut =
       error instanceof Error && error.message === "GEMINI_TIMEOUT";
     console.error("[PERSONALIZED_INSIGHTS_ERROR]", error);
+    const userFacingError = timedOut
+      ? "Personalized AI insights timed out. Your dashboard metrics are still available."
+      : getCleanGeminiErrorMessage(
+          error,
+          "Failed to generate personalized AI insights. Your dashboard metrics are still available.",
+        );
     return {
       success: false,
-      error: timedOut
-        ? "Personalized AI insights timed out. Your dashboard metrics are still available."
-        : "Failed to generate personalized AI insights. Your dashboard metrics are still available.",
+      error: userFacingError,
       data: null,
       disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
     };

@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "../prisma";
 import { z } from "zod";
+import {
+  generateContentWithRetry,
+  getCleanGeminiErrorMessage,
+} from "../gemini-retry";
 
 function extractJsonText(text: string): string {
   let cleaned = text.trim();
@@ -141,9 +145,9 @@ You MUST return a JSON object strictly matching this schema:
 
 Generate a practical, tailored, multi-part daily routine, priority goals, targeted risk factor mitigations, warning signs to watch, and professional dental visit timeline.`;
 
-    // 7. Execute Structured Gemini Request
+    // 7. Execute Structured Gemini Request with retry for transient 503 errors
     const prompt = `${systemPrompt}\n\n${userPrompt}`;
-    const result = await model.generateContent(prompt);
+    const result = await generateContentWithRetry(model, prompt, 2, 1000);
     const rawContent = result.response.text();
 
     if (!rawContent) {
@@ -174,11 +178,13 @@ Generate a practical, tailored, multi-part daily routine, priority goals, target
       "[CARE_PLAN_ERROR] Server action failure:",
       error?.message || error,
     );
+    const userFacingError = getCleanGeminiErrorMessage(
+      error,
+      "An unexpected error occurred while generating your care plan.",
+    );
     return {
       success: false,
-      error:
-        error?.message ||
-        "An unexpected error occurred while generating your care plan.",
+      error: userFacingError,
       hasAssessment: true,
       carePlan: null,
     };

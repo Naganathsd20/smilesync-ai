@@ -8,6 +8,7 @@ import { z } from "zod";
 import resend from "../resend";
 import SmartReminderEmail from "@/components/emails/SmartReminderEmail";
 import { render } from "@react-email/render";
+import { generateContentWithRetry } from "../gemini-retry";
 
 // Zod Schema for validating Gemini response
 const GeminiReminderSchema = z.array(
@@ -277,10 +278,15 @@ Output ONLY a JSON array with updated warm titles and descriptions:
           baseDescription: c.description,
         }));
 
-        const result = await model.generateContent([
-          systemPrompt,
-          `Candidates to personalize: ${JSON.stringify(payload)}`,
-        ]);
+        const result = await generateContentWithRetry(
+          model,
+          [
+            systemPrompt,
+            `Candidates to personalize: ${JSON.stringify(payload)}`,
+          ],
+          2,
+          1000,
+        );
 
         const responseText = result.response.text();
         const parsedJson = JSON.parse(responseText);
