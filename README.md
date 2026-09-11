@@ -132,19 +132,22 @@ Vercel
 
 ```
 
-📊 Project Highlights
-Full-stack Next.js application
-Two role-based portals
-Multiple AI-powered workflows
-Persistent AI conversations
-Personalized healthcare workflows
-Appointment conflict detection
-Secure authentication and authorization
-Voice AI integration
-Automated email notifications
-Production database with PostgreSQL/Neon
-Production deployment on Vercel
-Responsive modern UI
+## 📊 Project Highlights
+
+- 🚀 Full-stack Next.js application
+- 👥 Separate Patient & Professional/Staff portals
+- 🤖 Multiple AI-powered dental-care workflows
+- 💬 Persistent and personalized AI conversations
+- 📋 Personalized healthcare workflows
+- 📅 Appointment scheduling with conflict detection
+- 🔐 Secure authentication and role-based authorization
+- 🎙️ Voice AI integration
+- 🔔 Automated email notifications and smart reminders
+- 🗄️ Production database using PostgreSQL & Neon
+- ☁️ Production deployment on Vercel
+- 📱 Responsive modern user interface
+
+
 🌐 Live Demo
 
 SmileSync AI:
@@ -152,7 +155,7 @@ https://smilesync-ai.vercel.app
 
 👨‍💻 Developer
 
-Naganath Dharwadkar
+Naganath S Dharwadkar
 
 GitHub:
 https://github.com/Naganathsd20/smilesync-ai
