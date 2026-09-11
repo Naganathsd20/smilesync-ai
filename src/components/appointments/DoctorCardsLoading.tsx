@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function DoctorCardSkeleton() {  //from source code shadcn skelton 
+function DoctorCardSkeleton() {
+  //from source code shadcn skelton
   return (
     <Card className="cursor-pointer transition-all hover:shadow-lg">
       <CardHeader className="pb-4">

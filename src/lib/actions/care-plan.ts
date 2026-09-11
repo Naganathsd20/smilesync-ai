@@ -80,10 +80,13 @@ export async function getPersonalizedCarePlan() {
     // 4. Verify Gemini API Key
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[CARE_PLAN_ERROR] GEMINI_API_KEY environment variable is not configured");
+      console.error(
+        "[CARE_PLAN_ERROR] GEMINI_API_KEY environment variable is not configured",
+      );
       return {
         success: false,
-        error: "Care Plan service is currently unavailable. Please check system configuration.",
+        error:
+          "Care Plan service is currently unavailable. Please check system configuration.",
         hasAssessment: true,
         carePlan: null,
       };
@@ -153,7 +156,10 @@ Generate a practical, tailored, multi-part daily routine, priority goals, target
     // 8. Validate AI Output against Zod Schema
     const validation = CarePlanOutputSchema.safeParse(parsedJson);
     if (!validation.success) {
-      console.error("[CARE_PLAN_ERROR] Malformed AI Care Plan Output:", validation.error);
+      console.error(
+        "[CARE_PLAN_ERROR] Malformed AI Care Plan Output:",
+        validation.error,
+      );
       throw new Error("AI generated an invalid care plan output structure.");
     }
 
@@ -164,10 +170,15 @@ Generate a practical, tailored, multi-part daily routine, priority goals, target
       assessmentDate: latestAssessment.createdAt.toISOString(),
     };
   } catch (error: any) {
-    console.error("[CARE_PLAN_ERROR] Server action failure:", error?.message || error);
+    console.error(
+      "[CARE_PLAN_ERROR] Server action failure:",
+      error?.message || error,
+    );
     return {
       success: false,
-      error: error?.message || "An unexpected error occurred while generating your care plan.",
+      error:
+        error?.message ||
+        "An unexpected error occurred while generating your care plan.",
       hasAssessment: true,
       carePlan: null,
     };

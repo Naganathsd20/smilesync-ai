@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import {
   CalendarCheckIcon,
   HomeIcon,
@@ -17,7 +17,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function StaffNavbar() {
-  const { user } = useUser();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -76,7 +75,8 @@ function StaffNavbar() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm sm:text-base tracking-tight text-foreground hidden sm:inline-block">
-                  SmileSync<span className="text-emerald-500 ml-0.5">Staff</span>
+                  SmileSync
+                  <span className="text-emerald-500 ml-0.5">Staff</span>
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                   Clinic Portal
@@ -124,17 +124,14 @@ function StaffNavbar() {
 
             {/* USER PROFILE */}
             <div className="flex items-center gap-2.5">
-              <div className="hidden md:flex flex-col items-end text-right">
-                <span className="text-xs font-semibold text-foreground leading-tight">
-                  {user?.firstName} {user?.lastName}
-                </span>
-                <span className="text-[10px] text-emerald-500 font-medium leading-tight">
-                  Staff / Clinic Admin
-                </span>
-              </div>
-
               <div className="p-0.5 rounded-full ring-1 ring-emerald-500/30 hover:ring-emerald-500/60 transition-all">
-                <UserButton />
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userPreview: "hidden",
+                    },
+                  }}
+                />
               </div>
             </div>
 

@@ -52,7 +52,7 @@ export async function getDoctors() {
     }));
   } catch (error) {
     console.error("Error fetching doctors:", error);
-    throw new Error("Failed to fetch doctors");
+    return [];
   }
 }
 
@@ -84,7 +84,8 @@ export async function createDoctor(input: CreateDoctorInput) {
         gender: input.gender || "MALE",
         isActive: input.isActive ?? true,
         bio: input.bio || null,
-        imageUrl: input.imageUrl || generateAvatar(input.name, input.gender || "MALE"),
+        imageUrl:
+          input.imageUrl || generateAvatar(input.name, input.gender || "MALE"),
       },
     });
 
@@ -206,7 +207,8 @@ export async function deleteDoctor(doctorId: string) {
       return {
         success: true,
         deactivated: true,
-        message: "Doctor has existing appointments; safely deactivated to preserve historical records.",
+        message:
+          "Doctor has existing appointments; safely deactivated to preserve historical records.",
         doctor: updated,
       };
     }
@@ -249,6 +251,6 @@ export async function getAvailableDoctors() {
     }));
   } catch (error) {
     console.error("Error fetching available doctors:", error);
-    throw new Error("Failed to fetch available doctors");
+    return [];
   }
 }

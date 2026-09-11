@@ -12,7 +12,13 @@ import {
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -87,7 +93,9 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.error || "Failed to upload dentist profile image.");
+          throw new Error(
+            data.error || "Failed to upload dentist profile image.",
+          );
         }
 
         finalImageUrl = data.imageUrl;
@@ -115,7 +123,7 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
         onError: (err: any) => {
           toast.error(err?.message || "Failed to update doctor.");
         },
-      }
+      },
     );
   };
 
@@ -134,16 +142,24 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
   const currentAvatarPreview =
     previewUrl ||
     (isImageRemoved
-      ? generateAvatar(editingDoctor?.name || "Dentist", editingDoctor?.gender || "MALE")
+      ? generateAvatar(
+          editingDoctor?.name || "Dentist",
+          editingDoctor?.gender || "MALE",
+        )
       : editingDoctor?.imageUrl ||
-        generateAvatar(editingDoctor?.name || "Dentist", editingDoctor?.gender || "MALE"));
+        generateAvatar(
+          editingDoctor?.name || "Dentist",
+          editingDoctor?.gender || "MALE",
+        ));
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Edit Dentist</DialogTitle>
-          <DialogDescription>Update dentist profile information and status.</DialogDescription>
+          <DialogDescription>
+            Update dentist profile information and status.
+          </DialogDescription>
         </DialogHeader>
 
         {editingDoctor && (
@@ -169,7 +185,9 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
               </div>
 
               <div className="space-y-1.5 text-center sm:text-left flex-1">
-                <Label className="text-xs font-semibold text-foreground">Profile Image</Label>
+                <Label className="text-xs font-semibold text-foreground">
+                  Profile Image
+                </Label>
                 <p className="text-[11px] text-muted-foreground">
                   Replace photo or reset to default avatar.
                 </p>
@@ -218,7 +236,9 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                 <Input
                   id="name"
                   value={editingDoctor.name}
-                  onChange={(e) => setEditingDoctor({ ...editingDoctor, name: e.target.value })}
+                  onChange={(e) =>
+                    setEditingDoctor({ ...editingDoctor, name: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -227,7 +247,10 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                   id="speciality"
                   value={editingDoctor.speciality}
                   onChange={(e) =>
-                    setEditingDoctor({ ...editingDoctor, speciality: e.target.value })
+                    setEditingDoctor({
+                      ...editingDoctor,
+                      speciality: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -239,7 +262,9 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                 id="email"
                 type="email"
                 value={editingDoctor.email}
-                onChange={(e) => setEditingDoctor({ ...editingDoctor, email: e.target.value })}
+                onChange={(e) =>
+                  setEditingDoctor({ ...editingDoctor, email: e.target.value })
+                }
               />
             </div>
 
@@ -258,7 +283,9 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
               <Input
                 id="bio"
                 value={editingDoctor.bio || ""}
-                onChange={(e) => setEditingDoctor({ ...editingDoctor, bio: e.target.value })}
+                onChange={(e) =>
+                  setEditingDoctor({ ...editingDoctor, bio: e.target.value })
+                }
                 placeholder="Experienced dental surgeon providing care."
               />
             </div>
@@ -269,7 +296,10 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                 <Select
                   value={editingDoctor.gender || ""}
                   onValueChange={(value) =>
-                    setEditingDoctor({ ...editingDoctor, gender: value as Gender })
+                    setEditingDoctor({
+                      ...editingDoctor,
+                      gender: value as Gender,
+                    })
                   }
                 >
                   <SelectTrigger>
@@ -286,7 +316,10 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
                 <Select
                   value={editingDoctor.isActive ? "active" : "inactive"}
                   onValueChange={(value) =>
-                    setEditingDoctor({ ...editingDoctor, isActive: value === "active" })
+                    setEditingDoctor({
+                      ...editingDoctor,
+                      isActive: value === "active",
+                    })
                   }
                 >
                   <SelectTrigger>
@@ -303,7 +336,11 @@ function EditDoctorDialog({ doctor, isOpen, onClose }: EditDoctorDialogProps) {
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose} disabled={isUploading || updateDoctorMutation.isPending}>
+          <Button
+            variant="outline"
+            onClick={handleClose}
+            disabled={isUploading || updateDoctorMutation.isPending}
+          >
             Cancel
           </Button>
           <Button

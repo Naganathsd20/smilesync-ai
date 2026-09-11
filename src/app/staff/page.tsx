@@ -1,7 +1,10 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import StaffNavbar from "@/components/StaffNavbar";
-import { getStaffDashboardMetrics, updateAppointmentStatus } from "@/lib/actions/appointments";
+import {
+  getStaffDashboardMetrics,
+  updateAppointmentStatus,
+} from "@/lib/actions/appointments";
 import {
   CalendarCheckIcon,
   CalendarIcon,
@@ -12,7 +15,13 @@ import {
   CheckCircle2Icon,
 } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -86,7 +95,6 @@ export default async function StaffDashboardPage() {
 
         {/* OVERVIEW METRICS CARDS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          
           {/* TODAY'S APPOINTMENTS */}
           <Card className="border-border/50 bg-card hover:shadow-md transition-shadow">
             <CardHeader className="pb-2 pt-5 px-5">
@@ -175,7 +183,10 @@ export default async function StaffDashboardPage() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Link href="/staff/appointments">
-              <Button variant="outline" className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-emerald-500/40">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-emerald-500/40"
+              >
                 <span className="flex items-center gap-2">
                   <CalendarCheckIcon className="w-4 h-4 text-emerald-500" />
                   View Appointments
@@ -185,7 +196,10 @@ export default async function StaffDashboardPage() {
             </Link>
 
             <Link href="/staff/patients">
-              <Button variant="outline" className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-cyan-500/40">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-cyan-500/40"
+              >
                 <span className="flex items-center gap-2">
                   <UsersIcon className="w-4 h-4 text-cyan-500" />
                   Manage Patients
@@ -195,7 +209,10 @@ export default async function StaffDashboardPage() {
             </Link>
 
             <Link href="/staff/doctors">
-              <Button variant="outline" className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-indigo-500/40">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-indigo-500/40"
+              >
                 <span className="flex items-center gap-2">
                   <StethoscopeIcon className="w-4 h-4 text-indigo-500" />
                   Manage Dentists
@@ -205,7 +222,10 @@ export default async function StaffDashboardPage() {
             </Link>
 
             <Link href="/staff/availability">
-              <Button variant="outline" className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-amber-500/40">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-11 text-xs font-semibold gap-2 border-border/60 hover:border-amber-500/40"
+              >
                 <span className="flex items-center gap-2">
                   <ClockIcon className="w-4 h-4 text-amber-500" />
                   Manage Availability
@@ -229,7 +249,11 @@ export default async function StaffDashboardPage() {
               </CardDescription>
             </div>
             <Link href="/staff/appointments">
-              <Button variant="outline" size="sm" className="text-xs gap-1.5 h-8">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs gap-1.5 h-8"
+              >
                 View All Appointments
                 <ArrowRightIcon className="w-3.5 h-3.5" />
               </Button>
@@ -240,7 +264,9 @@ export default async function StaffDashboardPage() {
             {metrics.todaysAppointments.length === 0 ? (
               <div className="text-center py-10 border border-dashed border-border/50 rounded-2xl bg-muted/5">
                 <CalendarIcon className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-                <p className="text-sm font-semibold text-foreground">No Appointments Today</p>
+                <p className="text-sm font-semibold text-foreground">
+                  No Appointments Today
+                </p>
                 <p className="text-xs text-muted-foreground max-w-sm mx-auto mt-1">
                   There are no patient appointments scheduled for today.
                 </p>
@@ -264,7 +290,11 @@ export default async function StaffDashboardPage() {
                           {apt.patientName}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Dentist: <span className="text-foreground font-medium">{apt.doctorName}</span> ({apt.doctorSpeciality})
+                          Dentist:{" "}
+                          <span className="text-foreground font-medium">
+                            {apt.doctorName}
+                          </span>{" "}
+                          ({apt.doctorSpeciality})
                         </p>
                         {apt.reason && (
                           <p className="text-[11px] text-muted-foreground/80 mt-0.5">

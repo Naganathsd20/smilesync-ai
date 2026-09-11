@@ -8,7 +8,10 @@ import {
   getPersonalizedInsights,
   type PersonalizedInsightsOutput,
 } from "@/lib/actions/insights";
-import { buildPatternInsights, type PatternInsight } from "@/lib/insights/pattern-insights";
+import {
+  buildPatternInsights,
+  type PatternInsight,
+} from "@/lib/insights/pattern-insights";
 import RiskScoreTrendChart from "@/components/insights/RiskScoreTrendChart";
 import AppointmentActivityChart from "@/components/insights/AppointmentActivityChart";
 import ReminderProgressChart from "@/components/insights/ReminderProgressChart";
@@ -173,7 +176,9 @@ export default function InsightsPage() {
   const [personalizedInsights, setPersonalizedInsights] =
     useState<PersonalizedInsightsOutput | null>(null);
   const [personalizedLoading, setPersonalizedLoading] = useState(true);
-  const [personalizedError, setPersonalizedError] = useState<string | null>(null);
+  const [personalizedError, setPersonalizedError] = useState<string | null>(
+    null,
+  );
   const [patternInsights, setPatternInsights] = useState<PatternInsight[]>([]);
 
   useEffect(() => {
@@ -203,7 +208,9 @@ export default function InsightsPage() {
         if (res.success && res.data) {
           setPersonalizedInsights(res.data);
         } else {
-          setPersonalizedError(res.error || "Personalized insights unavailable.");
+          setPersonalizedError(
+            res.error || "Personalized insights unavailable.",
+          );
         }
       } catch (err) {
         console.error(err);
@@ -221,12 +228,14 @@ export default function InsightsPage() {
         if (res.success && res.summary) {
           setAiSummary(res.summary);
         } else {
-          setAiError(res.error || "AI Health Summary is currently unavailable.");
+          setAiError(
+            res.error || "AI Health Summary is currently unavailable.",
+          );
         }
       } catch (err) {
         console.error(err);
         setAiError(
-          "Failed to generate AI Health Summary. Your dashboard metrics are still available."
+          "Failed to generate AI Health Summary. Your dashboard metrics are still available.",
         );
       } finally {
         setAiLoading(false);
@@ -310,7 +319,7 @@ export default function InsightsPage() {
       ? Math.round(
           (insights.reminderStats.completedCount /
             insights.reminderStats.totalCount) *
-            100
+            100,
         )
       : null;
 
@@ -326,7 +335,10 @@ export default function InsightsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-32 bg-muted/30 animate-pulse rounded-2xl" />
+              <div
+                key={i}
+                className="h-32 bg-muted/30 animate-pulse rounded-2xl"
+              />
             ))}
           </div>
           <div className="h-52 bg-muted/30 animate-pulse rounded-2xl" />
@@ -359,8 +371,8 @@ export default function InsightsPage() {
                 No Insights Available
               </p>
               <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-                We could not aggregate your health insights. Please try refreshing
-                the page.
+                We could not aggregate your health insights. Please try
+                refreshing the page.
               </p>
               <Button onClick={() => window.location.reload()} className="mt-2">
                 Reload Page
@@ -377,7 +389,6 @@ export default function InsightsPage() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 space-y-10 overflow-x-hidden">
-
         {/* ═══════════════════════════════════════════════
             PAGE HEADER
         ═══════════════════════════════════════════════ */}
@@ -412,7 +423,6 @@ export default function InsightsPage() {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
             {/* ── Risk Score Hero ── */}
             <Card
               className={`border-primary/20 bg-gradient-to-br ${
@@ -433,7 +443,7 @@ export default function InsightsPage() {
                     <div className="flex items-end gap-1.5">
                       <span
                         className={`text-4xl font-black tabular-nums ${getRiskScoreColor(
-                          insights.assessmentStats.latest.riskScore
+                          insights.assessmentStats.latest.riskScore,
                         )}`}
                       >
                         {insights.assessmentStats.latest.riskScore}
@@ -450,8 +460,8 @@ export default function InsightsPage() {
                             insights.assessmentStats.riskScoreChange > 0
                               ? "bg-rose-500/10 text-rose-600"
                               : insights.assessmentStats.riskScoreChange < 0
-                              ? "bg-emerald-500/10 text-emerald-600"
-                              : "bg-muted/40 text-muted-foreground"
+                                ? "bg-emerald-500/10 text-emerald-600"
+                                : "bg-muted/40 text-muted-foreground"
                           }`}
                         >
                           {insights.assessmentStats.riskScoreChange > 0 ? (
@@ -461,22 +471,33 @@ export default function InsightsPage() {
                           ) : (
                             <MinusIcon className="w-3 h-3" />
                           )}
-                          {insights.assessmentStats.riskScoreChange > 0 ? "+" : ""}
+                          {insights.assessmentStats.riskScoreChange > 0
+                            ? "+"
+                            : ""}
                           {insights.assessmentStats.riskScoreChange}
                         </span>
                       ) : (
-                        <span className="text-xs text-muted-foreground">First assessment</span>
+                        <span className="text-xs text-muted-foreground">
+                          First assessment
+                        </span>
                       )}
                     </div>
                     <p className="text-[11px] text-muted-foreground pt-0.5">
-                      As of {formatDate(insights.assessmentStats.latest.createdAt)}
+                      As of{" "}
+                      {formatDate(insights.assessmentStats.latest.createdAt)}
                     </p>
                   </>
                 ) : (
                   <div className="space-y-2 pt-1">
-                    <p className="text-sm font-medium text-muted-foreground">No assessment yet</p>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      No assessment yet
+                    </p>
                     <Link href="/assessment">
-                      <Button variant="outline" size="sm" className="gap-1.5 text-xs h-7 px-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-1.5 text-xs h-7 px-3"
+                      >
                         Take Assessment
                         <ArrowRightIcon className="w-3 h-3" />
                       </Button>
@@ -573,7 +594,8 @@ export default function InsightsPage() {
               </p>
             ) : (
               <p className="text-base text-muted-foreground italic">
-                {personalizedError || "Your personalized dental health patterns."}
+                {personalizedError ||
+                  "Your personalized dental health patterns."}
               </p>
             )}
           </div>
@@ -581,7 +603,10 @@ export default function InsightsPage() {
           {personalizedLoading && patternInsights.length === 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-44 bg-muted/30 animate-pulse rounded-2xl" />
+                <div
+                  key={i}
+                  className="h-44 bg-muted/30 animate-pulse rounded-2xl"
+                />
               ))}
             </div>
           ) : (
@@ -685,8 +710,8 @@ export default function InsightsPage() {
                         More Activity Needed
                       </p>
                       <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-                        Continue using SmileSync to generate personalized insights and
-                        recommended actions.
+                        Continue using SmileSync to generate personalized
+                        insights and recommended actions.
                       </p>
                     </CardContent>
                   </Card>
@@ -705,11 +730,13 @@ export default function InsightsPage() {
                 <div className="p-1.5 rounded-md bg-primary/10 text-primary">
                   <TrendingUpIcon className="w-4 h-4" />
                 </div>
-                <CardTitle className="text-lg font-bold">Risk Score Trend</CardTitle>
+                <CardTitle className="text-lg font-bold">
+                  Risk Score Trend
+                </CardTitle>
               </div>
               <CardDescription className="mt-1">
-                Educational risk score by assessment date, oldest to newest. Scores
-                are shown as recorded — this is not a clinical diagnosis.
+                Educational risk score by assessment date, oldest to newest.
+                Scores are shown as recorded — this is not a clinical diagnosis.
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4 sm:px-6 pb-6 min-w-0">
@@ -734,7 +761,9 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-blue-500/10">
                     <CalendarCheckIcon className="w-4 h-4 text-blue-500" />
                   </div>
-                  <CardTitle className="text-base font-bold">Appointment Metrics</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Appointment Metrics
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
                   Overview of your dental appointments.
@@ -746,7 +775,9 @@ export default function InsightsPage() {
                     <div className="w-12 h-12 rounded-full bg-muted/30 flex items-center justify-center mx-auto mb-3">
                       <CalendarIcon className="w-6 h-6 text-muted-foreground/40" />
                     </div>
-                    <p className="text-sm font-semibold text-foreground">No Appointments</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      No Appointments
+                    </p>
                     <p className="text-xs text-muted-foreground mt-1 mb-4">
                       You haven&apos;t booked any appointments yet.
                     </p>
@@ -766,13 +797,17 @@ export default function InsightsPage() {
                       value={insights.appointmentStats.upcomingCount}
                     />
                     <MetricRow
-                      icon={<CheckCircle2Icon className="w-4 h-4 text-emerald-500" />}
+                      icon={
+                        <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
+                      }
                       iconBg="bg-emerald-500/10"
                       label="Completed"
                       value={insights.appointmentStats.completedCount}
                     />
                     <MetricRow
-                      icon={<ClipboardListIcon className="w-4 h-4 text-primary" />}
+                      icon={
+                        <ClipboardListIcon className="w-4 h-4 text-primary" />
+                      }
                       iconBg="bg-primary/10"
                       label="Total Appointments"
                       value={insights.appointmentStats.totalCount}
@@ -789,7 +824,9 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-amber-500/10">
                     <BellIcon className="w-4 h-4 text-amber-500" />
                   </div>
-                  <CardTitle className="text-base font-bold">Smart Reminder Metrics</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Smart Reminder Metrics
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
                   Your reminder tracking and completion rates.
@@ -801,7 +838,9 @@ export default function InsightsPage() {
                     <div className="w-12 h-12 rounded-full bg-muted/30 flex items-center justify-center mx-auto mb-3">
                       <BellIcon className="w-6 h-6 text-muted-foreground/40" />
                     </div>
-                    <p className="text-sm font-semibold text-foreground">No Reminders</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      No Reminders
+                    </p>
                     <p className="text-xs text-muted-foreground mt-1 mb-4">
                       You don&apos;t have any reminders set up yet.
                     </p>
@@ -821,13 +860,17 @@ export default function InsightsPage() {
                       value={insights.reminderStats.pendingCount}
                     />
                     <MetricRow
-                      icon={<CheckCircle2Icon className="w-4 h-4 text-emerald-500" />}
+                      icon={
+                        <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
+                      }
                       iconBg="bg-emerald-500/10"
                       label="Completed"
                       value={insights.reminderStats.completedCount}
                     />
                     <MetricRow
-                      icon={<ClipboardListIcon className="w-4 h-4 text-primary" />}
+                      icon={
+                        <ClipboardListIcon className="w-4 h-4 text-primary" />
+                      }
                       iconBg="bg-primary/10"
                       label="Total Reminders"
                       value={insights.reminderStats.totalCount}
@@ -861,7 +904,9 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-blue-500/10">
                     <CalendarCheckIcon className="w-4 h-4 text-blue-500" />
                   </div>
-                  <CardTitle className="text-base font-bold">Appointment Activity</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Appointment Activity
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
                   Upcoming, completed, and total appointments from your account.
@@ -882,10 +927,13 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-amber-500/10">
                     <BellIcon className="w-4 h-4 text-amber-500" />
                   </div>
-                  <CardTitle className="text-base font-bold">Reminder Progress</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Reminder Progress
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
-                  Completed versus pending reminders from your real reminder list.
+                  Completed versus pending reminders from your real reminder
+                  list.
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-4 sm:px-6 pb-6 min-w-0">
@@ -909,7 +957,9 @@ export default function InsightsPage() {
                 <div className="p-1.5 rounded-md bg-primary/10 text-primary">
                   <TrendingUpIcon className="w-4 h-4" />
                 </div>
-                <CardTitle className="text-lg font-bold">Assessment History</CardTitle>
+                <CardTitle className="text-lg font-bold">
+                  Assessment History
+                </CardTitle>
               </div>
               <CardDescription className="mt-1">
                 Historical risk evaluations from your completed oral health
@@ -926,8 +976,8 @@ export default function InsightsPage() {
                     No Assessment History
                   </p>
                   <p className="text-xs text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
-                    Complete your first AI Oral Health Assessment to start tracking
-                    your health trends over time.
+                    Complete your first AI Oral Health Assessment to start
+                    tracking your health trends over time.
                   </p>
                   <Link href="/assessment">
                     <Button size="sm" className="gap-1.5">
@@ -980,7 +1030,9 @@ export default function InsightsPage() {
                           </p>
                         </div>
                       </div>
-                      <div className="shrink-0">{getRiskBadge(item.riskLevel)}</div>
+                      <div className="shrink-0">
+                        {getRiskBadge(item.riskLevel)}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1005,7 +1057,9 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-emerald-500/10">
                     <HeartPulseIcon className="w-4 h-4 text-emerald-500" />
                   </div>
-                  <CardTitle className="text-base font-bold">Care Recommendations</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Care Recommendations
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
                   Key focus areas from your latest oral health assessment.
@@ -1017,9 +1071,12 @@ export default function InsightsPage() {
                     <div className="w-12 h-12 rounded-full bg-muted/30 flex items-center justify-center mx-auto mb-3">
                       <HeartPulseIcon className="w-6 h-6 text-muted-foreground/40" />
                     </div>
-                    <p className="text-sm font-semibold text-foreground">No Assessment Data</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      No Assessment Data
+                    </p>
                     <p className="text-xs text-muted-foreground mt-1 mb-4">
-                      Take an assessment to generate personalized care recommendations.
+                      Take an assessment to generate personalized care
+                      recommendations.
                     </p>
                     <Link href="/assessment">
                       <Button size="sm" className="gap-1.5">
@@ -1046,13 +1103,14 @@ export default function InsightsPage() {
                                 <ShieldAlertIcon className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
                                 {factor}
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       </div>
                     )}
 
-                    {insights.assessmentStats.latest.recommendations.length > 0 && (
+                    {insights.assessmentStats.latest.recommendations.length >
+                      0 && (
                       <div>
                         <h3 className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
                           <CheckCircle2Icon className="w-3 h-3" />
@@ -1068,13 +1126,14 @@ export default function InsightsPage() {
                                 <CheckCircle2Icon className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                                 {rec}
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       </div>
                     )}
 
-                    {insights.assessmentStats.latest.warningSigns.length > 0 && (
+                    {insights.assessmentStats.latest.warningSigns.length >
+                      0 && (
                       <div>
                         <h3 className="text-[11px] font-bold text-rose-600 uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
                           <AlertTriangleIcon className="w-3 h-3" />
@@ -1090,7 +1149,7 @@ export default function InsightsPage() {
                                 <AlertTriangleIcon className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
                                 {sign}
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       </div>
@@ -1109,8 +1168,10 @@ export default function InsightsPage() {
                     )}
 
                     {insights.assessmentStats.latest.riskFactors.length === 0 &&
-                      insights.assessmentStats.latest.recommendations.length === 0 &&
-                      insights.assessmentStats.latest.warningSigns.length === 0 && (
+                      insights.assessmentStats.latest.recommendations.length ===
+                        0 &&
+                      insights.assessmentStats.latest.warningSigns.length ===
+                        0 && (
                         <p className="text-xs text-muted-foreground">
                           No specific risk factors or recommendations noted.
                         </p>
@@ -1127,10 +1188,13 @@ export default function InsightsPage() {
                   <div className="p-1.5 rounded-md bg-primary/10">
                     <BotIcon className="w-4 h-4 text-primary" />
                   </div>
-                  <CardTitle className="text-base font-bold">Nova Activity</CardTitle>
+                  <CardTitle className="text-base font-bold">
+                    Nova Activity
+                  </CardTitle>
                 </div>
                 <CardDescription className="mt-1">
-                  Your interactions with Nova, the SmileSync AI dental assistant.
+                  Your interactions with Nova, the SmileSync AI dental
+                  assistant.
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-6 pb-6">
@@ -1143,8 +1207,8 @@ export default function InsightsPage() {
                       No Conversations Yet
                     </p>
                     <p className="text-xs text-muted-foreground mt-1 mb-4">
-                      Start a conversation with Nova to get AI-powered dental health
-                      guidance.
+                      Start a conversation with Nova to get AI-powered dental
+                      health guidance.
                     </p>
                     <Link href="/nova">
                       <Button size="sm" className="gap-1.5">
@@ -1162,7 +1226,9 @@ export default function InsightsPage() {
                       value={insights.novaStats.conversationCount}
                     />
                     <MetricRow
-                      icon={<MessageSquareIcon className="w-4 h-4 text-primary" />}
+                      icon={
+                        <MessageSquareIcon className="w-4 h-4 text-primary" />
+                      }
                       iconBg="bg-primary/10"
                       label="Messages"
                       value={insights.novaStats.messageCount}
@@ -1196,14 +1262,17 @@ export default function InsightsPage() {
                 <div className="p-1.5 rounded-md bg-primary/15 ring-1 ring-primary/20">
                   <SparklesIcon className="w-4 h-4 text-primary" />
                 </div>
-                <CardTitle className="text-lg font-bold">AI Health Summary</CardTitle>
+                <CardTitle className="text-lg font-bold">
+                  AI Health Summary
+                </CardTitle>
                 <Badge className="ml-auto bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold">
                   Gemini AI
                 </Badge>
               </div>
               <CardDescription className="mt-1">
-                Educational narrative based on your SmileSync activity. Generated
-                separately so this dashboard remains usable if AI is unavailable.
+                Educational narrative based on your SmileSync activity.
+                Generated separately so this dashboard remains usable if AI is
+                unavailable.
               </CardDescription>
             </CardHeader>
             <CardContent className="px-6 pb-6 space-y-3">
@@ -1252,10 +1321,11 @@ export default function InsightsPage() {
                 Educational Disclaimer
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                The information displayed on this dashboard is for educational and
-                informational purposes only. It is not intended as medical advice,
-                diagnosis, or treatment. Always consult a qualified dental
-                professional for clinical decisions about your oral health.
+                The information displayed on this dashboard is for educational
+                and informational purposes only. It is not intended as medical
+                advice, diagnosis, or treatment. Always consult a qualified
+                dental professional for clinical decisions about your oral
+                health.
               </p>
             </div>
           </div>

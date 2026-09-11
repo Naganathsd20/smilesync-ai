@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -49,7 +55,9 @@ export default function NovaChat() {
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasAssessment, setHasAssessment] = useState<boolean | null>(null);
-  const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  const [activeConversationId, setActiveConversationId] = useState<
+    string | null
+  >(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -66,14 +74,23 @@ export default function NovaChat() {
 
         setHasAssessment(statusRes.hasAssessment);
 
-        if (historyRes.success && historyRes.messages && historyRes.messages.length > 0) {
+        if (
+          historyRes.success &&
+          historyRes.messages &&
+          historyRes.messages.length > 0
+        ) {
           setActiveConversationId(historyRes.conversationId);
-          const formattedMessages: ChatMessage[] = historyRes.messages.map((m: any) => ({
-            id: m.id,
-            role: m.role === "user" ? "user" : "model",
-            content: m.content,
-            timestamp: new Date(m.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          }));
+          const formattedMessages: ChatMessage[] = historyRes.messages.map(
+            (m: any) => ({
+              id: m.id,
+              role: m.role === "user" ? "user" : "model",
+              content: m.content,
+              timestamp: new Date(m.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            }),
+          );
           setMessages(formattedMessages);
         } else if (historyRes.conversationId) {
           setActiveConversationId(historyRes.conversationId);
@@ -108,7 +125,10 @@ export default function NovaChat() {
       id: Date.now().toString(),
       role: "user",
       content: query,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
 
     setMessages((prev) => [...prev, userMessageObj]);
@@ -121,7 +141,8 @@ export default function NovaChat() {
       });
 
       if (!response.success) {
-        const errorMsg = response.error || "Failed to receive response from Nova.";
+        const errorMsg =
+          response.error || "Failed to receive response from Nova.";
         setError(errorMsg);
         toast.error(errorMsg);
         setIsLoading(false);
@@ -136,7 +157,10 @@ export default function NovaChat() {
         id: (Date.now() + 1).toString(),
         role: "model",
         content: response.reply!,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
 
       setMessages((prev) => [...prev, novaReplyObj]);
@@ -183,7 +207,9 @@ export default function NovaChat() {
         <div className="flex items-center gap-2.5">
           <ShieldAlertIcon className="w-4 h-4 text-amber-500 shrink-0" />
           <span>
-            <strong>Educational Assistant Only:</strong> Nova provides oral health guidance and answers. Nova is not a dentist and does not provide clinical diagnoses or prescriptions.
+            <strong>Educational Assistant Only:</strong> Nova provides oral
+            health guidance and answers. Nova is not a dentist and does not
+            provide clinical diagnoses or prescriptions.
           </span>
         </div>
         <Button
@@ -209,8 +235,13 @@ export default function NovaChat() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <CardTitle className="text-lg font-bold text-foreground">Nova</CardTitle>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold px-2">
+                <CardTitle className="text-lg font-bold text-foreground">
+                  Nova
+                </CardTitle>
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold px-2"
+                >
                   AI Dental Assistant
                 </Badge>
               </div>
@@ -218,11 +249,15 @@ export default function NovaChat() {
                 <span>Powered by SmileSync AI</span>
                 {hasAssessment === true && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                    <SparklesIcon className="w-3 h-3 text-emerald-500" /> Personalized using your assessment
+                    <SparklesIcon className="w-3 h-3 text-emerald-500" />{" "}
+                    Personalized using your assessment
                   </span>
                 )}
                 {hasAssessment === false && (
-                  <Link href="/assessment" className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20 transition-colors">
+                  <Link
+                    href="/assessment"
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20 transition-colors"
+                  >
                     <span>Complete assessment to personalize Nova</span>
                     <ChevronRightIcon className="w-3 h-3" />
                   </Link>
@@ -241,7 +276,10 @@ export default function NovaChat() {
               <PlusIcon className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">New Chat</span>
             </Button>
-            <Badge variant="outline" className="hidden md:flex items-center gap-1 text-xs text-muted-foreground border-border/60">
+            <Badge
+              variant="outline"
+              className="hidden md:flex items-center gap-1 text-xs text-muted-foreground border-border/60"
+            >
               <SparklesIcon className="w-3 h-3 text-primary" /> Gemini 3.6 Flash
             </Badge>
           </div>
@@ -264,16 +302,21 @@ export default function NovaChat() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold text-foreground">Hi! I&apos;m Nova 👋</h3>
+                <h3 className="text-xl font-bold text-foreground">
+                  Hi! I&apos;m Nova 👋
+                </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Your dedicated AI dental assistant. Ask me anything about tooth sensitivity, gum care, daily oral hygiene, or general dental health questions!
+                  Your dedicated AI dental assistant. Ask me anything about
+                  tooth sensitivity, gum care, daily oral hygiene, or general
+                  dental health questions!
                 </p>
               </div>
 
               {/* SUGGESTED QUESTION CHIPS */}
               <div className="w-full space-y-2 pt-2">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider text-left pl-1 flex items-center gap-1.5">
-                  <InfoIcon className="w-3.5 h-3.5 text-primary" /> Suggested Questions
+                  <InfoIcon className="w-3.5 h-3.5 text-primary" /> Suggested
+                  Questions
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
                   {SUGGESTED_QUESTIONS.map((q, idx) => (
@@ -347,7 +390,9 @@ export default function NovaChat() {
                       <span className="size-2 rounded-full bg-primary animate-bounce [animation-delay:-0.15s]" />
                       <span className="size-2 rounded-full bg-primary animate-bounce" />
                     </div>
-                    <span className="text-xs text-muted-foreground ml-2 font-medium">Nova is thinking...</span>
+                    <span className="text-xs text-muted-foreground ml-2 font-medium">
+                      Nova is thinking...
+                    </span>
                   </div>
                 </div>
               )}
@@ -412,7 +457,17 @@ export default function NovaChat() {
             </Button>
           </form>
           <div className="flex justify-between items-center mt-2 px-1 text-[11px] text-muted-foreground/80">
-            <span>Press <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">Enter</kbd> to send, <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">Shift+Enter</kbd> for new line</span>
+            <span>
+              Press{" "}
+              <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">
+                Enter
+              </kbd>{" "}
+              to send,{" "}
+              <kbd className="px-1 py-0.5 rounded bg-muted border border-border text-[10px]">
+                Shift+Enter
+              </kbd>{" "}
+              for new line
+            </span>
             <span>🔒 Encrypted PostgreSQL Persistence</span>
           </div>
         </div>

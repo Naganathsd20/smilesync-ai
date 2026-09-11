@@ -10,7 +10,13 @@ import {
   UserCheckIcon,
   UsersIcon,
 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
@@ -45,7 +51,7 @@ export default function StaffPatientsClient({
     (p) =>
       p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.phone.toLowerCase().includes(searchTerm.toLowerCase())
+      p.phone.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const formatDate = (date: string | Date) =>
@@ -64,7 +70,8 @@ export default function StaffPatientsClient({
             Registered Clinic Patients ({patients.length})
           </CardTitle>
           <CardDescription className="mt-1">
-            Clinic operational patient directory. Privacy protected: no private AI chat histories are exposed.
+            Clinic operational patient directory. Privacy protected: no private
+            AI chat histories are exposed.
           </CardDescription>
         </div>
       </CardHeader>
@@ -85,7 +92,9 @@ export default function StaffPatientsClient({
         {filteredPatients.length === 0 ? (
           <div className="text-center py-12 border border-dashed border-border/50 rounded-2xl bg-muted/5">
             <UsersIcon className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-foreground">No Patients Found</p>
+            <p className="text-sm font-semibold text-foreground">
+              No Patients Found
+            </p>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
               {searchTerm
                 ? "No patient records match your current search query."
@@ -110,7 +119,8 @@ export default function StaffPatientsClient({
                         {patient.name}
                       </span>
                       <Badge variant="secondary" className="text-[11px]">
-                        {patient.appointmentCount} appointment{patient.appointmentCount === 1 ? "" : "s"}
+                        {patient.appointmentCount} appointment
+                        {patient.appointmentCount === 1 ? "" : "s"}
                       </Badge>
                     </div>
 
@@ -139,15 +149,19 @@ export default function StaffPatientsClient({
                     {patient.upcomingAppointment ? (
                       <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-500 mt-0.5">
                         <CalendarIcon className="w-3.5 h-3.5" />
-                        Upcoming: {patient.upcomingAppointment.date} ({patient.upcomingAppointment.time})
+                        Upcoming: {patient.upcomingAppointment.date} (
+                        {patient.upcomingAppointment.time})
                       </div>
                     ) : patient.lastAppointment ? (
                       <div className="flex items-center gap-1.5 text-xs font-medium text-foreground mt-0.5">
                         <ClockIcon className="w-3.5 h-3.5 text-muted-foreground" />
-                        Last Visit: {patient.lastAppointment.date} (Dr. {patient.lastAppointment.doctorName})
+                        Last Visit: {patient.lastAppointment.date} (Dr.{" "}
+                        {patient.lastAppointment.doctorName})
                       </div>
                     ) : (
-                      <span className="text-xs text-muted-foreground italic">No visits recorded</span>
+                      <span className="text-xs text-muted-foreground italic">
+                        No visits recorded
+                      </span>
                     )}
                   </div>
 

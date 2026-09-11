@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     if (!file) {
       return NextResponse.json(
         { error: "No image file provided." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
           error:
             "Invalid file format. Please upload a JPG, JPEG, PNG, or WebP image.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { error: "Image file size exceeds the 5 MB limit." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -69,7 +69,13 @@ export async function POST(req: Request) {
     console.error("Doctor image upload error:", error);
     return NextResponse.json(
       { error: error?.message || "Failed to upload dentist image." },
-      { status: error?.message?.includes("Unauthorized") || error?.message?.includes("Forbidden") ? 403 : 500 }
+      {
+        status:
+          error?.message?.includes("Unauthorized") ||
+          error?.message?.includes("Forbidden")
+            ? 403
+            : 500,
+      },
     );
   }
 }

@@ -93,7 +93,8 @@ export function buildPatternInsights(data: PatternInput): PatternInsight[] {
         id: "score-increased",
         title: "Educational risk score increased",
         description: `Your latest educational risk score is ${change} point${change === 1 ? "" : "s"} higher than the previous assessment (${latest.riskScore}/100, ${latest.riskLevel}). Score changes are questionnaire results only, not a medical diagnosis.`,
-        priority: latest.riskLevel === "HIGH" || change >= 10 ? "HIGH" : "MEDIUM",
+        priority:
+          latest.riskLevel === "HIGH" || change >= 10 ? "HIGH" : "MEDIUM",
         action: { label: "View Care Plan", href: "/care-plan" },
       });
     } else if (change !== null && change < 0) {

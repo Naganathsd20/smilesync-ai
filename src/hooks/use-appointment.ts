@@ -58,4 +58,4 @@ export function useUpdateAppointmentStatus() {
     },
     onError: (error) => console.error("Failed to update appointment:", error),
   });
-} 
+}

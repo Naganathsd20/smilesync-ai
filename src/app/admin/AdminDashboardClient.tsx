@@ -12,15 +12,10 @@ import { SettingsIcon } from "lucide-react";
 function AdminDashboardClient() {
   const { user } = useUser();
 
-  const {
-    data: doctors = [],
-    isLoading: doctorsLoading,
-  } = useGetDoctors();
+  const { data: doctors = [], isLoading: doctorsLoading } = useGetDoctors();
 
-  const {
-    data: appointments = [],
-    isLoading: appointmentsLoading,
-  } = useGetAppointments();
+  const { data: appointments = [], isLoading: appointmentsLoading } =
+    useGetAppointments();
 
   // Calculate stats from real data
   const stats = {
@@ -28,7 +23,7 @@ function AdminDashboardClient() {
     activeDoctors: doctors.filter((doc: any) => doc.isActive).length,
     totalAppointments: appointments.length,
     completedAppointments: appointments.filter(
-      (app: any) => app.status === "COMPLETED"
+      (app: any) => app.status === "COMPLETED",
     ).length,
   };
 
@@ -96,9 +91,7 @@ function LoadingUI() {
         <div className="flex h-96 items-center justify-center">
           <div className="text-center">
             <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            <p className="text-muted-foreground">
-              Loading dashboard...
-            </p>
+            <p className="text-muted-foreground">Loading dashboard...</p>
           </div>
         </div>
       </div>

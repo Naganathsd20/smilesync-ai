@@ -13,7 +13,13 @@ import {
   StethoscopeIcon,
   UserIcon,
 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,15 +46,23 @@ export default function StaffAppointmentsClient({
 }: {
   initialAppointments: AppointmentItem[];
 }) {
-  const [appointments, setAppointments] = useState<AppointmentItem[]>(initialAppointments);
+  const [appointments, setAppointments] =
+    useState<AppointmentItem[]>(initialAppointments);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"ALL" | "CONFIRMED" | "COMPLETED">("ALL");
+  const [statusFilter, setStatusFilter] = useState<
+    "ALL" | "CONFIRMED" | "COMPLETED"
+  >("ALL");
 
-  const handleUpdateStatus = async (id: string, newStatus: "CONFIRMED" | "COMPLETED") => {
+  const handleUpdateStatus = async (
+    id: string,
+    newStatus: "CONFIRMED" | "COMPLETED",
+  ) => {
     try {
       await updateAppointmentStatus({ id, status: newStatus });
       setAppointments((prev) =>
-        prev.map((apt) => (apt.id === id ? { ...apt, status: newStatus } : apt))
+        prev.map((apt) =>
+          apt.id === id ? { ...apt, status: newStatus } : apt,
+        ),
       );
       toast.success(`Appointment status updated to ${newStatus}.`);
     } catch (err: any) {
@@ -62,8 +76,10 @@ export default function StaffAppointmentsClient({
       apt.patientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
       apt.doctorName.toLowerCase().includes(searchTerm.toLowerCase());
 
-    if (statusFilter === "CONFIRMED") return matchesSearch && apt.status === "CONFIRMED";
-    if (statusFilter === "COMPLETED") return matchesSearch && apt.status === "COMPLETED";
+    if (statusFilter === "CONFIRMED")
+      return matchesSearch && apt.status === "CONFIRMED";
+    if (statusFilter === "COMPLETED")
+      return matchesSearch && apt.status === "COMPLETED";
     return matchesSearch;
   });
 
@@ -109,7 +125,8 @@ export default function StaffAppointmentsClient({
               className="h-8 text-xs px-3"
               onClick={() => setStatusFilter("CONFIRMED")}
             >
-              Confirmed ({appointments.filter((a) => a.status === "CONFIRMED").length})
+              Confirmed (
+              {appointments.filter((a) => a.status === "CONFIRMED").length})
             </Button>
             <Button
               variant={statusFilter === "COMPLETED" ? "default" : "outline"}
@@ -117,7 +134,8 @@ export default function StaffAppointmentsClient({
               className="h-8 text-xs px-3"
               onClick={() => setStatusFilter("COMPLETED")}
             >
-              Completed ({appointments.filter((a) => a.status === "COMPLETED").length})
+              Completed (
+              {appointments.filter((a) => a.status === "COMPLETED").length})
             </Button>
           </div>
         </div>
@@ -126,7 +144,9 @@ export default function StaffAppointmentsClient({
         {filteredAppointments.length === 0 ? (
           <div className="text-center py-12 border border-dashed border-border/50 rounded-2xl bg-muted/5">
             <CalendarIcon className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-foreground">No Appointments Found</p>
+            <p className="text-sm font-semibold text-foreground">
+              No Appointments Found
+            </p>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
               {searchTerm || statusFilter !== "ALL"
                 ? "No appointment records match your search or filter."
@@ -161,7 +181,10 @@ export default function StaffAppointmentsClient({
                         <UserIcon className="w-4 h-4 text-blue-500 inline" />
                         {apt.patientName}
                       </span>
-                      <Badge variant="outline" className="text-[11px] font-medium border-border/60">
+                      <Badge
+                        variant="outline"
+                        className="text-[11px] font-medium border-border/60"
+                      >
                         {apt.reason || "General Consultation"}
                       </Badge>
                     </div>
@@ -180,7 +203,11 @@ export default function StaffAppointmentsClient({
                     </div>
 
                     <p className="text-xs text-muted-foreground pt-0.5">
-                      Dentist: <span className="text-foreground font-semibold">{apt.doctorName}</span> ({apt.doctorSpeciality})
+                      Dentist:{" "}
+                      <span className="text-foreground font-semibold">
+                        {apt.doctorName}
+                      </span>{" "}
+                      ({apt.doctorSpeciality})
                     </p>
                   </div>
                 </div>

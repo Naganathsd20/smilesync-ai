@@ -24,41 +24,62 @@ function Footer() {
               </span>
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              AI-powered dental care and clinic management platform. Guiding patients, powering clinic operations, and connecting care.
+              AI-powered dental care and clinic management platform. Guiding
+              patients, powering clinic operations, and connecting care.
             </p>
           </div>
 
           {/* PLATFORM LINKS */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">Platform</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+              Platform
+            </h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
-                <a href="#ai-care" className="hover:text-primary transition-colors">
+                <a
+                  href="#ai-care"
+                  className="hover:text-primary transition-colors"
+                >
                   AI Care
                 </a>
               </li>
               <li>
-                <Link href="/assessment" className="hover:text-primary transition-colors">
+                <Link
+                  href="/assessment"
+                  className="hover:text-primary transition-colors"
+                >
                   Assessment
                 </Link>
               </li>
               <li>
-                <Link href="/care-plan" className="hover:text-primary transition-colors">
+                <Link
+                  href="/care-plan"
+                  className="hover:text-primary transition-colors"
+                >
                   Care Plans
                 </Link>
               </li>
               <li>
-                <Link href="/appointments" className="hover:text-primary transition-colors">
+                <Link
+                  href="/appointments"
+                  className="hover:text-primary transition-colors"
+                >
                   Appointments
                 </Link>
               </li>
               <li>
-                <Link href="/reminders" className="hover:text-primary transition-colors">
+                <Link
+                  href="/reminders"
+                  className="hover:text-primary transition-colors"
+                >
                   Reminders
                 </Link>
               </li>
               <li>
-                <Link href="/voice" className="hover:text-primary transition-colors">
+                <Link
+                  href="/voice"
+                  className="hover:text-primary transition-colors"
+                >
                   Voice Assistant
                 </Link>
               </li>
@@ -67,30 +88,47 @@ function Footer() {
 
           {/* FOR PROFESSIONALS */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">For Professionals</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+              For Professionals
+            </h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
-                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                <Link
+                  href="/portal-select"
+                  className="hover:text-primary transition-colors"
+                >
                   Professional Portal
                 </Link>
               </li>
               <li>
-                <Link href="/appointments" className="hover:text-primary transition-colors">
+                <Link
+                  href="/appointments"
+                  className="hover:text-primary transition-colors"
+                >
                   Appointments
                 </Link>
               </li>
               <li>
-                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                <Link
+                  href="/portal-select"
+                  className="hover:text-primary transition-colors"
+                >
                   Patients
                 </Link>
               </li>
               <li>
-                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                <Link
+                  href="/portal-select"
+                  className="hover:text-primary transition-colors"
+                >
                   Dentists
                 </Link>
               </li>
               <li>
-                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                <Link
+                  href="/portal-select"
+                  className="hover:text-primary transition-colors"
+                >
                   Availability
                 </Link>
               </li>
@@ -99,7 +137,9 @@ function Footer() {
 
           {/* ACCOUNT & PORTALS */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">Account</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+              Account
+            </h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
                 <SignInButton mode="modal" forceRedirectUrl="/portal-redirect">
@@ -116,7 +156,10 @@ function Footer() {
                 </SignUpButton>
               </li>
               <li>
-                <Link href="/portal-select" className="hover:text-primary transition-colors">
+                <Link
+                  href="/portal-select"
+                  className="hover:text-primary transition-colors"
+                >
                   Choose Portal
                 </Link>
               </li>
@@ -126,7 +169,10 @@ function Footer() {
 
         {/* COPYRIGHT BOTTOM BAR */}
         <div className="border-t border-border/40 mt-8 pt-5 text-center text-xs text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>&copy; {new Date().getFullYear()} SmileSync AI — AI-Powered Dental Care & Clinic Management Platform.</p>
+          <p>
+            &copy; {new Date().getFullYear()} SmileSync AI — AI-Powered Dental
+            Care & Clinic Management Platform.
+          </p>
           <p className="text-[11px] text-muted-foreground/70">
             Educational & clinic management tool.
           </p>

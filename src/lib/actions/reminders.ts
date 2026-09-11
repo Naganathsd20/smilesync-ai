@@ -15,7 +15,7 @@ const GeminiReminderSchema = z.array(
     tempId: z.string(),
     title: z.string(),
     description: z.string(),
-  })
+  }),
 );
 
 export async function getUserSmartReminders() {
@@ -41,7 +41,11 @@ export async function getUserSmartReminders() {
     return { success: true, reminders };
   } catch (error) {
     console.error("[GET_SMART_REMINDERS_ERROR]", error);
-    return { success: false, error: "Failed to load smart reminders", reminders: [] };
+    return {
+      success: false,
+      error: "Failed to load smart reminders",
+      reminders: [],
+    };
   }
 }
 
@@ -61,24 +65,27 @@ export async function generateSmartRemindersForUser() {
     }
 
     // Fetch existing user data for rule evaluation
-    const [appointments, latestAssessment, existingReminders] = await Promise.all([
-      prisma.appointment.findMany({
-        where: { userId: dbUser.id },
-        include: { doctor: true },
-        orderBy: { date: "asc" },
-      }),
-      prisma.oralHealthAssessment.findFirst({
-        where: { userId: dbUser.id },
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.smartReminder.findMany({
-        where: { userId: dbUser.id },
-        select: { sourceKey: true },
-      }),
-    ]);
+    const [appointments, latestAssessment, existingReminders] =
+      await Promise.all([
+        prisma.appointment.findMany({
+          where: { userId: dbUser.id },
+          include: { doctor: true },
+          orderBy: { date: "asc" },
+        }),
+        prisma.oralHealthAssessment.findFirst({
+          where: { userId: dbUser.id },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.smartReminder.findMany({
+          where: { userId: dbUser.id },
+          select: { sourceKey: true },
+        }),
+      ]);
 
     const existingKeys = new Set(
-      existingReminders.map((r) => r.sourceKey).filter((k): k is string => Boolean(k))
+      existingReminders
+        .map((r) => r.sourceKey)
+        .filter((k): k is string => Boolean(k)),
     );
 
     const now = new Date();
@@ -92,7 +99,9 @@ export async function generateSmartRemindersForUser() {
 
     // --- RULE A: UPCOMING APPOINTMENTS ---
     const upcomingAppointments = appointments.filter(
-      (a) => a.status === "CONFIRMED" && new Date(a.date) >= new Date(now.setHours(0, 0, 0, 0))
+      (a) =>
+        a.status === "CONFIRMED" &&
+        new Date(a.date) >= new Date(now.setHours(0, 0, 0, 0)),
     );
 
     for (const appt of upcomingAppointments) {
@@ -109,11 +118,14 @@ export async function generateSmartRemindersForUser() {
         candidates.push({
           sourceKey,
           title: `Upcoming Appointment with Dr. ${appt.doctor.name}`,
-          description: `Your appointment is scheduled for ${apptDate.toLocaleDateString("en-US", {
-            weekday: "long",
-            month: "short",
-            day: "numeric",
-          })} at ${appt.time}. ${appt.reason ? `Reason: ${appt.reason}.` : ""}`,
+          description: `Your appointment is scheduled for ${apptDate.toLocaleDateString(
+            "en-US",
+            {
+              weekday: "long",
+              month: "short",
+              day: "numeric",
+            },
+          )} at ${appt.time}. ${appt.reason ? `Reason: ${appt.reason}.` : ""}`,
           type: ReminderType.APPOINTMENT,
           dueDate: reminderDueDate,
         });
@@ -123,7 +135,9 @@ export async function generateSmartRemindersForUser() {
     // --- RULE B: DENTAL CHECKUP FOLLOW-UP ---
     // Only treat appointments as checkups if existing appointment information clearly indicates it
     const checkupRegex = /checkup|check-up|cleaning|exam|routine|annual/i;
-    const pastCheckups = appointments.filter((a) => a.reason && checkupRegex.test(a.reason));
+    const pastCheckups = appointments.filter(
+      (a) => a.reason && checkupRegex.test(a.reason),
+    );
 
     for (const appt of pastCheckups) {
       const sourceKey = `checkup_followup_${appt.id}`;
@@ -136,7 +150,7 @@ export async function generateSmartRemindersForUser() {
           sourceKey,
           title: "6-Month Routine Dental Checkup Due",
           description: `It has been 6 months since your last routine checkup on ${checkupDate.toLocaleDateString(
-            "en-US"
+            "en-US",
           )}. Regular cleanings maintain optimal oral health.`,
           type: ReminderType.CHECKUP,
           dueDate: nextCheckupDate,
@@ -151,7 +165,8 @@ export async function generateSmartRemindersForUser() {
         const assessmentDate = new Date(latestAssessment.createdAt);
         let followUpDays = 30;
         let defaultTitle = "Oral Health Assessment Follow-Up";
-        let defaultDesc = "Review your risk factors and recommendations to track oral care progress.";
+        let defaultDesc =
+          "Review your risk factors and recommendations to track oral care progress.";
 
         if (latestAssessment.riskLevel === "HIGH") {
           followUpDays = 14;
@@ -272,7 +287,9 @@ Output ONLY a JSON array with updated warm titles and descriptions:
         const validated = GeminiReminderSchema.safeParse(parsedJson);
 
         if (validated.success) {
-          const map = new Map(validated.data.map((item) => [item.tempId, item]));
+          const map = new Map(
+            validated.data.map((item) => [item.tempId, item]),
+          );
           for (const cand of candidates) {
             const geminiVersion = map.get(cand.sourceKey);
             if (geminiVersion) {
@@ -282,7 +299,10 @@ Output ONLY a JSON array with updated warm titles and descriptions:
           }
         }
       } catch (geminiErr) {
-        console.warn("[GEMINI_REMINDER_PERSONALIZATION_FALLBACK] Using deterministic copy", geminiErr);
+        console.warn(
+          "[GEMINI_REMINDER_PERSONALIZATION_FALLBACK] Using deterministic copy",
+          geminiErr,
+        );
       }
     }
 
@@ -306,7 +326,11 @@ Output ONLY a JSON array with updated warm titles and descriptions:
     };
   } catch (error) {
     console.error("[GENERATE_SMART_REMINDERS_ERROR]", error);
-    return { success: false, error: "Failed to generate smart reminders", count: 0 };
+    return {
+      success: false,
+      error: "Failed to generate smart reminders",
+      count: 0,
+    };
   }
 }
 
@@ -369,16 +393,23 @@ export async function sendReminderEmail(reminderId: string) {
     }
 
     if (!process.env.RESEND_API_KEY) {
-      return { success: false, error: "Email delivery service is currently unconfigured." };
+      return {
+        success: false,
+        error: "Email delivery service is currently unconfigured.",
+      };
     }
 
-    const userName = `${dbUser.firstName || "Valued"} ${dbUser.lastName || "Patient"}`.trim();
-    const formattedDueDate = new Date(reminder.dueDate).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    const userName =
+      `${dbUser.firstName || "Valued"} ${dbUser.lastName || "Patient"}`.trim();
+    const formattedDueDate = new Date(reminder.dueDate).toLocaleDateString(
+      "en-US",
+      {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      },
+    );
 
     const emailHtml = await render(
       SmartReminderEmail({
@@ -387,7 +418,7 @@ export async function sendReminderEmail(reminderId: string) {
         description: reminder.description,
         type: reminder.type,
         dueDate: formattedDueDate,
-      })
+      }),
     );
 
     const { data, error } = await resend.emails.send({
@@ -399,7 +430,10 @@ export async function sendReminderEmail(reminderId: string) {
 
     if (error) {
       console.error("[RESEND_SEND_ERROR]", error);
-      return { success: false, error: error.message || "Failed to send email notification" };
+      return {
+        success: false,
+        error: error.message || "Failed to send email notification",
+      };
     }
 
     await prisma.smartReminder.update({

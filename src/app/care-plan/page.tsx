@@ -22,10 +22,12 @@ export default function CarePlanPage() {
             <SparklesIcon className="w-3.5 h-3.5" /> AI Oral Care Intelligence
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold font-mono tracking-tight text-foreground flex items-center justify-center gap-3">
-            <HeartPulseIcon className="w-8 h-8 text-primary" /> AI Dental Care Plan
+            <HeartPulseIcon className="w-8 h-8 text-primary" /> AI Dental Care
+            Plan
           </h1>
           <p className="text-muted-foreground text-sm md:text-base">
-            Your customized daily oral hygiene routine, risk mitigation steps, and professional checkup schedule tailored to your health profile.
+            Your customized daily oral hygiene routine, risk mitigation steps,
+            and professional checkup schedule tailored to your health profile.
           </p>
         </div>
 

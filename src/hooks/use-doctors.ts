@@ -51,8 +51,13 @@ export function useToggleDoctorStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ doctorId, isActive }: { doctorId: string; isActive: boolean }) =>
-      toggleDoctorStatus(doctorId, isActive),
+    mutationFn: ({
+      doctorId,
+      isActive,
+    }: {
+      doctorId: string;
+      isActive: boolean;
+    }) => toggleDoctorStatus(doctorId, isActive),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getDoctors"] });
       queryClient.invalidateQueries({ queryKey: ["getAvailableDoctors"] });

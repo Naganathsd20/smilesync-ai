@@ -66,20 +66,31 @@ function Header() {
         {/* RIGHT ACTIONS */}
         <div className="hidden md:flex items-center gap-3">
           <Link href="/portal-select">
-            <Button variant="outline" size="sm" className="gap-1.5 text-xs font-semibold rounded-xl border-primary/20 hover:border-primary/40 hover:bg-primary/5">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs font-semibold rounded-xl border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+            >
               <LayoutGridIcon className="w-3.5 h-3.5 text-primary" />
               Choose Portal
             </Button>
           </Link>
 
           <SignInButton mode="modal" forceRedirectUrl="/portal-redirect">
-            <Button variant="ghost" size="sm" className="text-xs font-semibold rounded-xl">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs font-semibold rounded-xl"
+            >
               Login
             </Button>
           </SignInButton>
 
           <SignUpButton mode="modal" forceRedirectUrl="/portal-redirect">
-            <Button size="sm" className="text-xs font-semibold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20">
+            <Button
+              size="sm"
+              className="text-xs font-semibold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20"
+            >
               Sign Up
             </Button>
           </SignUpButton>
@@ -88,7 +99,11 @@ function Header() {
         {/* MOBILE MENU TOGGLE */}
         <div className="flex md:hidden items-center gap-2">
           <Link href="/portal-select">
-            <Button variant="outline" size="sm" className="gap-1 text-xs px-2.5 py-1 rounded-lg">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1 text-xs px-2.5 py-1 rounded-lg"
+            >
               <LayoutGridIcon className="w-3 h-3 text-primary" />
               Portal
             </Button>
@@ -99,7 +114,11 @@ function Header() {
             className="p-2 rounded-xl border border-border/60 bg-muted/20 text-muted-foreground hover:text-foreground"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <XIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
+            {isMobileMenuOpen ? (
+              <XIcon className="w-5 h-5" />
+            ) : (
+              <MenuIcon className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
@@ -147,7 +166,10 @@ function Header() {
 
           <div className="pt-2 flex flex-col gap-2.5">
             <SignInButton mode="modal" forceRedirectUrl="/portal-redirect">
-              <Button variant="outline" className="w-full text-xs font-semibold rounded-xl">
+              <Button
+                variant="outline"
+                className="w-full text-xs font-semibold rounded-xl"
+              >
                 Login
               </Button>
             </SignInButton>

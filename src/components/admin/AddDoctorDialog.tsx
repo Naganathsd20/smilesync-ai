@@ -11,7 +11,13 @@ import {
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Button } from "../ui/button";
 import { formatPhoneNumber, generateAvatar } from "@/lib/utils";
 import { toast } from "sonner";
@@ -88,7 +94,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.error || "Failed to upload dentist profile image.");
+          throw new Error(
+            data.error || "Failed to upload dentist profile image.",
+          );
         }
 
         uploadedImageUrl = data.imageUrl;
@@ -113,7 +121,7 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
         onError: (err: any) => {
           toast.error(err?.message || "Failed to add doctor.");
         },
-      }
+      },
     );
   };
 
@@ -137,7 +145,8 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
   };
 
   const currentAvatarPreview =
-    previewUrl || generateAvatar(newDoctor.name || "Dentist", newDoctor.gender || "MALE");
+    previewUrl ||
+    generateAvatar(newDoctor.name || "Dentist", newDoctor.gender || "MALE");
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -171,7 +180,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
             </div>
 
             <div className="space-y-1.5 text-center sm:text-left flex-1">
-              <Label className="text-xs font-semibold text-foreground">Profile Image</Label>
+              <Label className="text-xs font-semibold text-foreground">
+                Profile Image
+              </Label>
               <p className="text-[11px] text-muted-foreground">
                 Upload a professional photo (JPG, PNG, WebP up to 5MB).
               </p>
@@ -220,7 +231,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               <Input
                 id="new-name"
                 value={newDoctor.name}
-                onChange={(e) => setNewDoctor({ ...newDoctor, name: e.target.value })}
+                onChange={(e) =>
+                  setNewDoctor({ ...newDoctor, name: e.target.value })
+                }
                 placeholder="Dr. Rajesh Kumar"
               />
             </div>
@@ -229,7 +242,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               <Input
                 id="new-speciality"
                 value={newDoctor.speciality}
-                onChange={(e) => setNewDoctor({ ...newDoctor, speciality: e.target.value })}
+                onChange={(e) =>
+                  setNewDoctor({ ...newDoctor, speciality: e.target.value })
+                }
                 placeholder="Orthodontist"
               />
             </div>
@@ -241,7 +256,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               id="new-email"
               type="email"
               value={newDoctor.email}
-              onChange={(e) => setNewDoctor({ ...newDoctor, email: e.target.value })}
+              onChange={(e) =>
+                setNewDoctor({ ...newDoctor, email: e.target.value })
+              }
               placeholder="rajesh@example.com"
             />
           </div>
@@ -260,7 +277,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
             <Input
               id="new-bio"
               value={newDoctor.bio}
-              onChange={(e) => setNewDoctor({ ...newDoctor, bio: e.target.value })}
+              onChange={(e) =>
+                setNewDoctor({ ...newDoctor, bio: e.target.value })
+              }
               placeholder="Experienced dental surgeon providing care."
             />
           </div>
@@ -270,7 +289,9 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
               <Label htmlFor="new-gender">Gender</Label>
               <Select
                 value={newDoctor.gender || ""}
-                onValueChange={(value) => setNewDoctor({ ...newDoctor, gender: value as Gender })}
+                onValueChange={(value) =>
+                  setNewDoctor({ ...newDoctor, gender: value as Gender })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select gender" />
@@ -303,7 +324,11 @@ function AddDoctorDialog({ isOpen, onClose }: AddDoctorDialogProps) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose} disabled={isUploading || createDoctorMutation.isPending}>
+          <Button
+            variant="outline"
+            onClick={handleClose}
+            disabled={isUploading || createDoctorMutation.isPending}
+          >
             Cancel
           </Button>
 

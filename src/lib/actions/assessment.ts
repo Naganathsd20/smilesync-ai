@@ -55,11 +55,17 @@ const MEDICAL_OPTIONS = [
 ] as const;
 
 const AssessmentInputSchema = z.object({
-  symptoms: z.array(z.enum(SYMPTOM_OPTIONS)).min(1, "Please select at least one symptom option"),
+  symptoms: z
+    .array(z.enum(SYMPTOM_OPTIONS))
+    .min(1, "Please select at least one symptom option"),
   hygiene: z.enum(HYGIENE_OPTIONS),
   lastCheckup: z.enum(CHECKUP_OPTIONS),
-  lifestyle: z.array(z.enum(LIFESTYLE_OPTIONS)).min(1, "Please select at least one lifestyle option"),
-  medical: z.array(z.enum(MEDICAL_OPTIONS)).min(1, "Please select at least one health option"),
+  lifestyle: z
+    .array(z.enum(LIFESTYLE_OPTIONS))
+    .min(1, "Please select at least one lifestyle option"),
+  medical: z
+    .array(z.enum(MEDICAL_OPTIONS))
+    .min(1, "Please select at least one health option"),
   notes: z.string().max(500, "Notes cannot exceed 500 characters").optional(),
 });
 
@@ -83,7 +89,10 @@ export async function createOralHealthAssessment(rawAnswers: unknown) {
     // 1. Verify Clerk Server Session
     const { userId } = await auth();
     if (!userId) {
-      return { success: false, error: "UNAUTHORIZED: You must be logged in to complete an assessment." };
+      return {
+        success: false,
+        error: "UNAUTHORIZED: You must be logged in to complete an assessment.",
+      };
     }
 
     // 2. Resolve Authenticated Database User
@@ -92,14 +101,22 @@ export async function createOralHealthAssessment(rawAnswers: unknown) {
     });
 
     if (!dbUser) {
-      return { success: false, error: "UNAUTHORIZED: User account profile not found in database." };
+      return {
+        success: false,
+        error: "UNAUTHORIZED: User account profile not found in database.",
+      };
     }
 
     // 3. Validate Questionnaire Answers Input
     const inputValidation = AssessmentInputSchema.safeParse(rawAnswers);
     if (!inputValidation.success) {
-      const issueMessage = inputValidation.error.issues.map((i) => i.message).join(", ");
-      return { success: false, error: `Invalid assessment input: ${issueMessage}` };
+      const issueMessage = inputValidation.error.issues
+        .map((i) => i.message)
+        .join(", ");
+      return {
+        success: false,
+        error: `Invalid assessment input: ${issueMessage}`,
+      };
     }
 
     const validatedAnswers = inputValidation.data;
@@ -107,10 +124,13 @@ export async function createOralHealthAssessment(rawAnswers: unknown) {
     // 4. Verify Gemini API Key
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[ORAL_HEALTH_ASSESSMENT_ERROR] GEMINI_API_KEY environment variable is not configured");
+      console.error(
+        "[ORAL_HEALTH_ASSESSMENT_ERROR] GEMINI_API_KEY environment variable is not configured",
+      );
       return {
         success: false,
-        error: "AI Assessment Service is currently unavailable. Please ensure GEMINI_API_KEY is configured.",
+        error:
+          "AI Assessment Service is currently unavailable. Please ensure GEMINI_API_KEY is configured.",
       };
     }
 
@@ -182,7 +202,10 @@ Generate the structured JSON oral health risk assessment.`;
     // 7. Validate AI Output against Zod Schema
     const aiValidation = AIOutputSchema.safeParse(parsedJson);
     if (!aiValidation.success) {
-      console.error("[ORAL_HEALTH_ASSESSMENT_ERROR] Malformed AI Output:", aiValidation.error);
+      console.error(
+        "[ORAL_HEALTH_ASSESSMENT_ERROR] Malformed AI Output:",
+        aiValidation.error,
+      );
       throw new Error("AI generated an invalid assessment output structure");
     }
 
@@ -218,10 +241,15 @@ Generate the structured JSON oral health risk assessment.`;
       },
     };
   } catch (error: any) {
-    console.error("[ORAL_HEALTH_ASSESSMENT_ERROR] Server action failure:", error?.message);
+    console.error(
+      "[ORAL_HEALTH_ASSESSMENT_ERROR] Server action failure:",
+      error?.message,
+    );
     return {
       success: false,
-      error: error?.message || "An unexpected error occurred while processing your assessment.",
+      error:
+        error?.message ||
+        "An unexpected error occurred while processing your assessment.",
     };
   }
 }

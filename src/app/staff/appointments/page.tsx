@@ -48,7 +48,8 @@ export default async function StaffAppointmentsPage() {
             Clinic Appointments
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-            View, search, and update appointment statuses across all clinic patient bookings.
+            View, search, and update appointment statuses across all clinic
+            patient bookings.
           </p>
         </div>
 

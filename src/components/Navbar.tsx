@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import {
   CalendarIcon,
   CrownIcon,
@@ -15,16 +15,15 @@ import {
   MenuIcon,
   XIcon,
   SparklesIcon,
+  UserCircleIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function Navbar() {
-  const { user } = useUser();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
 
   const navItems = [
     {
@@ -123,6 +122,19 @@ function Navbar() {
                 );
               })}
 
+              {/* MY PROFILE LINK */}
+              <Link
+                href="/profile"
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                  pathname === "/profile"
+                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm font-semibold"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
+                }`}
+              >
+                <UserCircleIcon className="w-3.5 h-3.5 text-violet-400" />
+                <span>Profile</span>
+              </Link>
+
               {/* PRO ITEM (VISUALLY SPECIAL) */}
               <Link
                 href="/pro"
@@ -146,17 +158,14 @@ function Navbar() {
 
             {/* USER PROFILE */}
             <div className="flex items-center gap-2.5">
-              <div className="hidden md:flex flex-col items-end text-right">
-                <span className="text-xs font-semibold text-foreground leading-tight">
-                  {user?.firstName} {user?.lastName}
-                </span>
-                <span className="text-[10px] text-muted-foreground leading-tight max-w-[140px] truncate">
-                  {user?.emailAddresses?.[0]?.emailAddress}
-                </span>
-              </div>
-
               <div className="p-0.5 rounded-full ring-1 ring-border/50 hover:ring-primary/40 transition-all">
-                <UserButton />
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userPreview: "hidden",
+                    },
+                  }}
+                />
               </div>
             </div>
 
@@ -199,7 +208,21 @@ function Navbar() {
               );
             })}
 
-              {/* PRO ITEM IN MOBILE MENU */}
+            {/* MY PROFILE IN MOBILE MENU */}
+            <Link
+              href="/profile"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                pathname === "/profile"
+                  ? "bg-primary/15 text-primary border border-primary/25 font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/40 border border-transparent"
+              }`}
+            >
+              <UserCircleIcon className="w-4 h-4 text-violet-400" />
+              <span>My Profile</span>
+            </Link>
+
+            {/* PRO ITEM IN MOBILE MENU */}
             <Link
               href="/pro"
               onClick={() => setMobileMenuOpen(false)}

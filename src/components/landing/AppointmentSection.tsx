@@ -40,7 +40,10 @@ const FEATURES = [
 
 export default function AppointmentSection() {
   return (
-    <section id="appointments" className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section
+      id="appointments"
+      className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden"
+    >
       <div className="bg-card/40 backdrop-blur-2xl border border-border/60 rounded-xl p-4 sm:p-5 lg:p-6 relative overflow-hidden shadow-md">
         {/* AMBIENT GLOW */}
         <div className="absolute top-0 right-0 w-[240px] h-[240px] bg-primary/8 rounded-full blur-[70px] pointer-events-none" />
@@ -62,14 +65,19 @@ export default function AppointmentSection() {
               </h2>
 
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Connect with qualified dental professionals. SmileSync AI simplifies scheduling with conflict-free availability and automated notifications.
+                Connect with qualified dental professionals. SmileSync AI
+                simplifies scheduling with conflict-free availability and
+                automated notifications.
               </p>
             </div>
 
             {/* FEATURE BULLETS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
               {FEATURES.map((feat, idx) => (
-                <div key={idx} className="flex items-center gap-1.5 text-[11px] font-medium text-foreground">
+                <div
+                  key={idx}
+                  className="flex items-center gap-1.5 text-[11px] font-medium text-foreground"
+                >
                   <CheckCircle2Icon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   <span>{feat}</span>
                 </div>
@@ -77,7 +85,10 @@ export default function AppointmentSection() {
             </div>
 
             <Link href="/appointments">
-              <Button size="sm" className="px-4 py-2 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5">
+              <Button
+                size="sm"
+                className="px-4 py-2 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5"
+              >
                 Book an Appointment
                 <ArrowRightIcon className="w-3.5 h-3.5" />
               </Button>
@@ -98,10 +109,16 @@ export default function AppointmentSection() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
-                      <h3 className="text-xs font-bold text-foreground">{item.title}</h3>
-                      <span className="text-[9px] font-bold text-primary/50">STEP {item.step}</span>
+                      <h3 className="text-xs font-bold text-foreground">
+                        {item.title}
+                      </h3>
+                      <span className="text-[9px] font-bold text-primary/50">
+                        STEP {item.step}
+                      </span>
                     </div>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">{item.desc}</p>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               );
@@ -112,4 +129,3 @@ export default function AppointmentSection() {
     </section>
   );
 }
-

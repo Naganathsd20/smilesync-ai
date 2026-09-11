@@ -27,7 +27,8 @@ function CTA() {
             </h2>
 
             <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-lg font-normal">
-              Explore personalized AI dental care, connect with dental professionals, and manage your appointments from one platform.
+              Explore personalized AI dental care, connect with dental
+              professionals, and manage your appointments from one platform.
             </p>
 
             <div className="flex flex-wrap gap-2 pt-1">

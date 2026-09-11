@@ -21,37 +21,38 @@ export async function getDentalHealthInsights() {
     }
 
     // Concurrent database query scoped strictly to dbUser.id
-    const [assessments, appointments, reminders, novaConversations] = await Promise.all([
-      prisma.oralHealthAssessment.findMany({
-        where: { userId: dbUser.id },
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.appointment.findMany({
-        where: { userId: dbUser.id },
-        include: {
-          doctor: {
-            select: {
-              name: true,
-              speciality: true,
+    const [assessments, appointments, reminders, novaConversations] =
+      await Promise.all([
+        prisma.oralHealthAssessment.findMany({
+          where: { userId: dbUser.id },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.appointment.findMany({
+          where: { userId: dbUser.id },
+          include: {
+            doctor: {
+              select: {
+                name: true,
+                speciality: true,
+              },
             },
           },
-        },
-        orderBy: { date: "desc" },
-      }),
-      prisma.smartReminder.findMany({
-        where: { userId: dbUser.id },
-        orderBy: { dueDate: "asc" },
-      }),
-      prisma.novaConversation.findMany({
-        where: { userId: dbUser.id },
-        include: {
-          _count: {
-            select: { messages: true },
+          orderBy: { date: "desc" },
+        }),
+        prisma.smartReminder.findMany({
+          where: { userId: dbUser.id },
+          orderBy: { dueDate: "asc" },
+        }),
+        prisma.novaConversation.findMany({
+          where: { userId: dbUser.id },
+          include: {
+            _count: {
+              select: { messages: true },
+            },
           },
-        },
-        orderBy: { updatedAt: "desc" },
-      }),
-    ]);
+          orderBy: { updatedAt: "desc" },
+        }),
+      ]);
 
     const latestAssessment = assessments[0] || null;
     const previousAssessment = assessments[1] || null;
@@ -63,22 +64,32 @@ export async function getDentalHealthInsights() {
         ? latestAssessment.riskScore - previousAssessment.riskScore
         : null;
 
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
     const upcomingAppointmentsCount = appointments.filter(
-      (a) => a.status === "CONFIRMED" && new Date(a.date) >= todayStart
+      (a) => a.status === "CONFIRMED" && new Date(a.date) >= todayStart,
     ).length;
 
     const completedAppointmentsCount = appointments.filter(
-      (a) => a.status === "COMPLETED"
+      (a) => a.status === "COMPLETED",
     ).length;
 
-    const pendingRemindersCount = reminders.filter((r) => !r.isCompleted).length;
-    const completedRemindersCount = reminders.filter((r) => r.isCompleted).length;
-    const habitRemindersCount = reminders.filter((r) => r.type === "HABIT").length;
+    const pendingRemindersCount = reminders.filter(
+      (r) => !r.isCompleted,
+    ).length;
+    const completedRemindersCount = reminders.filter(
+      (r) => r.isCompleted,
+    ).length;
+    const habitRemindersCount = reminders.filter(
+      (r) => r.type === "HABIT",
+    ).length;
 
     const totalNovaMessages = novaConversations.reduce(
       (sum, conv) => sum + conv._count.messages,
-      0
+      0,
     );
 
     return {
@@ -146,7 +157,9 @@ const INSIGHTS_EDUCATIONAL_DISCLAIMER =
 
 const GEMINI_TIMEOUT_MS = 20_000;
 
-type InsightsPayload = NonNullable<Awaited<ReturnType<typeof getDentalHealthInsights>>["data"]>;
+type InsightsPayload = NonNullable<
+  Awaited<ReturnType<typeof getDentalHealthInsights>>["data"]
+>;
 
 function extractJsonText(text: string): string {
   let cleaned = text.trim();
@@ -167,7 +180,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
       (error) => {
         clearTimeout(timer);
         reject(error);
-      }
+      },
     );
   });
 }
@@ -176,7 +189,7 @@ function buildInsightsAiSnapshot(data: InsightsPayload) {
   const latest = data.assessmentStats.latest;
   const change = data.assessmentStats.riskScoreChange;
   const historyOldestFirst = [...data.assessmentStats.history].sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
   );
   const historySummary = historyOldestFirst
     .map((item) => `${item.riskScore} (${item.riskLevel})`)
@@ -218,7 +231,13 @@ const PersonalizedInsightItemSchema = z.object({
 const PersonalizedActionSchema = z.object({
   title: z.string().min(1).max(80),
   description: z.string().min(1).max(240),
-  href: z.enum(["/assessment", "/appointments", "/reminders", "/nova", "/care-plan"]),
+  href: z.enum([
+    "/assessment",
+    "/appointments",
+    "/reminders",
+    "/nova",
+    "/care-plan",
+  ]),
 });
 
 const PersonalizedInsightsOutputSchema = z.object({
@@ -227,7 +246,9 @@ const PersonalizedInsightsOutputSchema = z.object({
   actions: z.array(PersonalizedActionSchema).min(1).max(4),
 });
 
-export type PersonalizedInsightsOutput = z.infer<typeof PersonalizedInsightsOutputSchema>;
+export type PersonalizedInsightsOutput = z.infer<
+  typeof PersonalizedInsightsOutputSchema
+>;
 
 export async function getInsightsAiHealthSummary() {
   try {
@@ -236,7 +257,8 @@ export async function getInsightsAiHealthSummary() {
     if (!insightsResult.success || !insightsResult.data) {
       return {
         success: false,
-        error: insightsResult.error || "Unable to load insights data for summary.",
+        error:
+          insightsResult.error || "Unable to load insights data for summary.",
         summary: null,
         disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
       };
@@ -244,7 +266,9 @@ export async function getInsightsAiHealthSummary() {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[INSIGHTS_AI_SUMMARY_ERROR] GEMINI_API_KEY environment variable is not configured");
+      console.error(
+        "[INSIGHTS_AI_SUMMARY_ERROR] GEMINI_API_KEY environment variable is not configured",
+      );
       return {
         success: false,
         error: "AI Health Summary is currently unavailable.",
@@ -308,7 +332,8 @@ ${INSIGHTS_EDUCATIONAL_DISCLAIMER}`;
     console.error("[INSIGHTS_AI_SUMMARY_ERROR]", error);
     return {
       success: false,
-      error: "Failed to generate AI Health Summary. Your dashboard metrics are still available.",
+      error:
+        "Failed to generate AI Health Summary. Your dashboard metrics are still available.",
       summary: null,
       disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
     };
@@ -330,7 +355,9 @@ export async function getPersonalizedInsights() {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[PERSONALIZED_INSIGHTS_ERROR] GEMINI_API_KEY environment variable is not configured");
+      console.error(
+        "[PERSONALIZED_INSIGHTS_ERROR] GEMINI_API_KEY environment variable is not configured",
+      );
       return {
         success: false,
         error: "Personalized AI insights are currently unavailable.",
@@ -375,7 +402,10 @@ RULES:
 - Use educational language. Do not mention JSON, APIs, Gemini, or database fields.
 - headline max 160 characters.`;
 
-    const result = await withTimeout(model.generateContent(prompt), GEMINI_TIMEOUT_MS);
+    const result = await withTimeout(
+      model.generateContent(prompt),
+      GEMINI_TIMEOUT_MS,
+    );
     const replyText = result.response.text();
 
     if (!replyText || replyText.trim() === "") {
@@ -386,10 +416,14 @@ RULES:
     try {
       parsed = JSON.parse(extractJsonText(replyText));
     } catch {
-      console.error("[PERSONALIZED_INSIGHTS_INVALID_JSON]", replyText.slice(0, 400));
+      console.error(
+        "[PERSONALIZED_INSIGHTS_INVALID_JSON]",
+        replyText.slice(0, 400),
+      );
       return {
         success: false,
-        error: "Personalized AI insights could not be read. Your dashboard is still available.",
+        error:
+          "Personalized AI insights could not be read. Your dashboard is still available.",
         data: null,
         disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
       };
@@ -397,10 +431,14 @@ RULES:
 
     const validated = PersonalizedInsightsOutputSchema.safeParse(parsed);
     if (!validated.success) {
-      console.error("[PERSONALIZED_INSIGHTS_VALIDATION_ERROR]", validated.error.flatten());
+      console.error(
+        "[PERSONALIZED_INSIGHTS_VALIDATION_ERROR]",
+        validated.error.flatten(),
+      );
       return {
         success: false,
-        error: "Personalized AI insights did not match the expected format. Your dashboard is still available.",
+        error:
+          "Personalized AI insights did not match the expected format. Your dashboard is still available.",
         data: null,
         disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
       };
@@ -413,7 +451,8 @@ RULES:
       disclaimer: INSIGHTS_EDUCATIONAL_DISCLAIMER,
     };
   } catch (error) {
-    const timedOut = error instanceof Error && error.message === "GEMINI_TIMEOUT";
+    const timedOut =
+      error instanceof Error && error.message === "GEMINI_TIMEOUT";
     console.error("[PERSONALIZED_INSIGHTS_ERROR]", error);
     return {
       success: false,

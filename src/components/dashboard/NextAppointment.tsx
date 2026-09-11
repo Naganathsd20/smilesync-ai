@@ -19,7 +19,8 @@ async function NextAppointment() {
       const appointmentDate = parseISO(appointment.date);
       if (isNaN(appointmentDate.getTime())) return false;
       const today = new Date();
-      const isUpcoming = isSameDay(appointmentDate, today) || isAfter(appointmentDate, today);
+      const isUpcoming =
+        isSameDay(appointmentDate, today) || isAfter(appointmentDate, today);
       return isUpcoming && appointment.status === "CONFIRMED";
     }) || [];
 
@@ -63,8 +64,12 @@ async function NextAppointment() {
               <UserIcon className="size-4 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">{nextAppointment.doctorName}</p>
-              <p className="text-xs text-muted-foreground">{nextAppointment.reason}</p>
+              <p className="font-medium text-sm">
+                {nextAppointment.doctorName}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {nextAppointment.reason}
+              </p>
             </div>
           </div>
 

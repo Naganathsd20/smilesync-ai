@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -23,7 +29,10 @@ import {
   ActivityIcon,
   RefreshCwIcon,
 } from "lucide-react";
-import { getPersonalizedCarePlan, CarePlanOutput } from "@/lib/actions/care-plan";
+import {
+  getPersonalizedCarePlan,
+  CarePlanOutput,
+} from "@/lib/actions/care-plan";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -35,7 +44,9 @@ export default function CarePlanView() {
   const [assessmentDate, setAssessmentDate] = useState<string | null>(null);
 
   // Interactive UI-only checklist state
-  const [completedItems, setCompletedItems] = useState<Record<string, boolean>>({});
+  const [completedItems, setCompletedItems] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const fetchCarePlan = async () => {
     setLoading(true);
@@ -84,7 +95,8 @@ export default function CarePlanView() {
           <SparklesIcon className="w-5 h-5 text-primary absolute inset-0 m-auto animate-pulse" />
         </div>
         <p className="text-sm font-medium text-muted-foreground animate-pulse">
-          Analyzing your assessment & generating your personalized AI dental care plan...
+          Analyzing your assessment & generating your personalized AI dental
+          care plan...
         </p>
       </div>
     );
@@ -97,10 +109,16 @@ export default function CarePlanView() {
           <CardContent className="pt-6 text-center space-y-4">
             <AlertCircleIcon className="w-10 h-10 text-destructive mx-auto" />
             <div className="space-y-1">
-              <h3 className="font-bold text-lg text-foreground">Unable to Load Care Plan</h3>
+              <h3 className="font-bold text-lg text-foreground">
+                Unable to Load Care Plan
+              </h3>
               <p className="text-sm text-muted-foreground">{error}</p>
             </div>
-            <Button onClick={fetchCarePlan} variant="outline" className="rounded-xl">
+            <Button
+              onClick={fetchCarePlan}
+              variant="outline"
+              className="rounded-xl"
+            >
               <RefreshCwIcon className="w-4 h-4 mr-2" /> Try Again
             </Button>
           </CardContent>
@@ -118,16 +136,24 @@ export default function CarePlanView() {
           </div>
 
           <div className="space-y-2 max-w-lg mx-auto">
-            <h2 className="text-2xl font-extrabold text-foreground">Oral Health Assessment Required</h2>
+            <h2 className="text-2xl font-extrabold text-foreground">
+              Oral Health Assessment Required
+            </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              To generate your personalized AI Dental Care Plan, you first need to complete our quick 2-minute Oral Health Assessment questionnaire.
+              To generate your personalized AI Dental Care Plan, you first need
+              to complete our quick 2-minute Oral Health Assessment
+              questionnaire.
             </p>
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/assessment">
-              <Button size="lg" className="rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg w-full sm:w-auto">
-                <SparklesIcon className="w-4 h-4 mr-2" /> Start Oral Health Assessment
+              <Button
+                size="lg"
+                className="rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg w-full sm:w-auto"
+              >
+                <SparklesIcon className="w-4 h-4 mr-2" /> Start Oral Health
+                Assessment
               </Button>
             </Link>
           </div>
@@ -155,28 +181,47 @@ export default function CarePlanView() {
       <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-amber-700 dark:text-amber-300 text-xs md:text-sm print:hidden">
         <ShieldAlertIcon className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
         <div>
-          <span className="font-semibold block mb-0.5">Educational Care Plan Disclaimer</span>
-          This AI-generated care plan is based on your self-reported oral health assessment for educational guidance only. It is <strong>NOT</strong> a clinical diagnosis or dental prescription. Always consult a qualified dental professional for personal clinical evaluations.
+          <span className="font-semibold block mb-0.5">
+            Educational Care Plan Disclaimer
+          </span>
+          This AI-generated care plan is based on your self-reported oral health
+          assessment for educational guidance only. It is <strong>NOT</strong> a
+          clinical diagnosis or dental prescription. Always consult a qualified
+          dental professional for personal clinical evaluations.
         </div>
       </div>
 
       {/* HEADER BAR ACTIONS */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border/60 pb-6 print:hidden">
         <div>
-          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs font-semibold px-2.5 py-0.5 mb-2">
+          <Badge
+            variant="outline"
+            className="bg-primary/10 text-primary border-primary/20 text-xs font-semibold px-2.5 py-0.5 mb-2"
+          >
             <SparklesIcon className="w-3 h-3 mr-1" /> AI Generated Care Plan
           </Badge>
-          <h1 className="text-3xl font-extrabold text-foreground tracking-tight">Personalized Dental Care Plan</h1>
+          <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+            Personalized Dental Care Plan
+          </h1>
           {assessmentDate && (
             <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
               <CalendarIcon className="w-3.5 h-3.5" />
-              Generated from assessment on {new Date(assessmentDate).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+              Generated from assessment on{" "}
+              {new Date(assessmentDate).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </p>
           )}
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={handlePrint} className="rounded-xl text-xs font-medium">
+          <Button
+            variant="outline"
+            onClick={handlePrint}
+            className="rounded-xl text-xs font-medium"
+          >
             <PrinterIcon className="w-4 h-4 mr-1.5" /> Export / Print Plan
           </Button>
           <Link href="/nova">
@@ -193,16 +238,29 @@ export default function CarePlanView() {
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
             <div className="space-y-1">
               <CardTitle className="text-xl font-bold flex items-center gap-2">
-                <ActivityIcon className="w-5 h-5 text-primary" /> Executive Oral Health Profile
+                <ActivityIcon className="w-5 h-5 text-primary" /> Executive Oral
+                Health Profile
               </CardTitle>
-              <CardDescription>Tailored summary based on your risk indicators</CardDescription>
+              <CardDescription>
+                Tailored summary based on your risk indicators
+              </CardDescription>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="text-xs text-muted-foreground font-medium">Risk Score</div>
-                <div className="text-2xl font-extrabold text-foreground">{carePlan.riskScore}<span className="text-xs font-normal text-muted-foreground">/100</span></div>
+                <div className="text-xs text-muted-foreground font-medium">
+                  Risk Score
+                </div>
+                <div className="text-2xl font-extrabold text-foreground">
+                  {carePlan.riskScore}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    /100
+                  </span>
+                </div>
               </div>
-              <Badge variant="outline" className={`text-xs font-bold px-3 py-1 border ${getRiskBadgeColor(carePlan.riskLevel)}`}>
+              <Badge
+                variant="outline"
+                className={`text-xs font-bold px-3 py-1 border ${getRiskBadgeColor(carePlan.riskLevel)}`}
+              >
                 {carePlan.riskLevel} RISK
               </Badge>
             </div>
@@ -218,7 +276,10 @@ export default function CarePlanView() {
               <span>Medium Risk (34-66)</span>
               <span>High Risk (67-100)</span>
             </div>
-            <Progress value={carePlan.riskScore} className="h-2.5 rounded-full" />
+            <Progress
+              value={carePlan.riskScore}
+              className="h-2.5 rounded-full"
+            />
           </div>
         </CardContent>
       </Card>
@@ -229,15 +290,22 @@ export default function CarePlanView() {
           <CardTitle className="text-lg font-bold flex items-center gap-2">
             <TargetIcon className="w-5 h-5 text-primary" /> Key Health Goals
           </CardTitle>
-          <CardDescription>Targeted milestone objectives for your oral care journey</CardDescription>
+          <CardDescription>
+            Targeted milestone objectives for your oral care journey
+          </CardDescription>
         </CardHeader>
         <CardContent className="grid sm:grid-cols-2 gap-3">
           {carePlan.priorityGoals.map((goal, idx) => (
-            <div key={idx} className="p-3.5 rounded-xl border border-border/60 bg-muted/20 flex items-start gap-3">
+            <div
+              key={idx}
+              className="p-3.5 rounded-xl border border-border/60 bg-muted/20 flex items-start gap-3"
+            >
               <div className="size-6 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                 {idx + 1}
               </div>
-              <span className="text-sm font-medium text-foreground">{goal}</span>
+              <span className="text-sm font-medium text-foreground">
+                {goal}
+              </span>
             </div>
           ))}
         </CardContent>
@@ -246,7 +314,8 @@ export default function CarePlanView() {
       {/* DAILY ROUTINES (MORNING, AFTERNOON, EVENING) */}
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-          <CheckSquareIcon className="w-5 h-5 text-primary" /> Your Customized Daily Oral Care Routine
+          <CheckSquareIcon className="w-5 h-5 text-primary" /> Your Customized
+          Daily Oral Care Routine
         </h3>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -273,7 +342,9 @@ export default function CarePlanView() {
                           : "border-border/60 bg-background hover:bg-muted/30 text-foreground"
                       }`}
                     >
-                      <div className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}>
+                      <div
+                        className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}
+                      >
                         {isChecked && <CheckCircle2Icon className="w-3 h-3" />}
                       </div>
                       <span>{item}</span>
@@ -289,7 +360,8 @@ export default function CarePlanView() {
             <div>
               <CardHeader className="bg-sky-500/10 border-b border-sky-500/20 py-3.5">
                 <CardTitle className="text-base font-bold text-sky-700 dark:text-sky-300 flex items-center gap-2">
-                  <CoffeeIcon className="w-5 h-5 text-sky-500" /> Midday / Post-Meal
+                  <CoffeeIcon className="w-5 h-5 text-sky-500" /> Midday /
+                  Post-Meal
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-4 space-y-3">
@@ -307,7 +379,9 @@ export default function CarePlanView() {
                           : "border-border/60 bg-background hover:bg-muted/30 text-foreground"
                       }`}
                     >
-                      <div className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}>
+                      <div
+                        className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}
+                      >
                         {isChecked && <CheckCircle2Icon className="w-3 h-3" />}
                       </div>
                       <span>{item}</span>
@@ -323,7 +397,8 @@ export default function CarePlanView() {
             <div>
               <CardHeader className="bg-indigo-500/10 border-b border-indigo-500/20 py-3.5">
                 <CardTitle className="text-base font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-2">
-                  <MoonIcon className="w-5 h-5 text-indigo-500" /> Evening Routine
+                  <MoonIcon className="w-5 h-5 text-indigo-500" /> Evening
+                  Routine
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-4 space-y-3">
@@ -341,7 +416,9 @@ export default function CarePlanView() {
                           : "border-border/60 bg-background hover:bg-muted/30 text-foreground"
                       }`}
                     >
-                      <div className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}>
+                      <div
+                        className={`size-4 rounded border flex items-center justify-center shrink-0 mt-0.5 ${isChecked ? "bg-emerald-500 border-emerald-500 text-white" : "border-muted-foreground/40"}`}
+                      >
                         {isChecked && <CheckCircle2Icon className="w-3 h-3" />}
                       </div>
                       <span>{item}</span>
@@ -358,18 +435,29 @@ export default function CarePlanView() {
       <Card className="border border-border/80 bg-card shadow-md">
         <CardHeader>
           <CardTitle className="text-lg font-bold flex items-center gap-2">
-            <HeartPulseIcon className="w-5 h-5 text-primary" /> Targeted Actions for Identified Risk Factors
+            <HeartPulseIcon className="w-5 h-5 text-primary" /> Targeted Actions
+            for Identified Risk Factors
           </CardTitle>
-          <CardDescription>Specific steps to address your individual health context</CardDescription>
+          <CardDescription>
+            Specific steps to address your individual health context
+          </CardDescription>
         </CardHeader>
         <CardContent className="grid sm:grid-cols-2 gap-4">
           {carePlan.targetedActions.map((item, idx) => (
-            <div key={idx} className="p-4 rounded-xl border border-border/60 bg-muted/20 space-y-2">
+            <div
+              key={idx}
+              className="p-4 rounded-xl border border-border/60 bg-muted/20 space-y-2"
+            >
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-[11px] font-semibold">
+                <Badge
+                  variant="outline"
+                  className="bg-primary/10 text-primary border-primary/20 text-[11px] font-semibold"
+                >
                   Risk Indicator
                 </Badge>
-                <span className="font-semibold text-sm text-foreground">{item.riskFactor}</span>
+                <span className="font-semibold text-sm text-foreground">
+                  {item.riskFactor}
+                </span>
               </div>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed pl-1">
                 {item.action}
@@ -385,13 +473,19 @@ export default function CarePlanView() {
         <Card className="border border-border/80 bg-card shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-bold flex items-center gap-2 text-rose-600 dark:text-rose-400">
-              <AlertCircleIcon className="w-5 h-5 text-rose-500" /> Symptoms & Warning Signs to Monitor
+              <AlertCircleIcon className="w-5 h-5 text-rose-500" /> Symptoms &
+              Warning Signs to Monitor
             </CardTitle>
-            <CardDescription>Watch out for these indicators warranting a dental checkup</CardDescription>
+            <CardDescription>
+              Watch out for these indicators warranting a dental checkup
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2.5">
             {carePlan.warningSignsToMonitor.map((sign, idx) => (
-              <div key={idx} className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/15 flex items-start gap-2.5 text-xs md:text-sm text-foreground">
+              <div
+                key={idx}
+                className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/15 flex items-start gap-2.5 text-xs md:text-sm text-foreground"
+              >
                 <AlertCircleIcon className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                 <span>{sign}</span>
               </div>
@@ -404,9 +498,12 @@ export default function CarePlanView() {
           <div>
             <CardHeader>
               <CardTitle className="text-lg font-bold flex items-center gap-2">
-                <CalendarIcon className="w-5 h-5 text-primary" /> Professional Dental Visit Timeline
+                <CalendarIcon className="w-5 h-5 text-primary" /> Professional
+                Dental Visit Timeline
               </CardTitle>
-              <CardDescription>Recommended timeline for in-person clinical examinations</CardDescription>
+              <CardDescription>
+                Recommended timeline for in-person clinical examinations
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="p-4 rounded-xl bg-primary/10 border border-primary/20 text-foreground text-sm leading-relaxed font-medium">
@@ -429,9 +526,14 @@ export default function CarePlanView() {
           </div>
 
           <div className="p-4 bg-muted/40 border-t border-border/50 flex justify-between items-center">
-            <span className="text-xs text-muted-foreground">Need to discuss this timeline?</span>
+            <span className="text-xs text-muted-foreground">
+              Need to discuss this timeline?
+            </span>
             <Link href="/nova">
-              <Button size="sm" className="rounded-xl text-xs font-semibold bg-primary hover:bg-primary/90 text-white">
+              <Button
+                size="sm"
+                className="rounded-xl text-xs font-semibold bg-primary hover:bg-primary/90 text-white"
+              >
                 Chat with Nova <ArrowRightIcon className="w-3.5 h-3.5 ml-1" />
               </Button>
             </Link>

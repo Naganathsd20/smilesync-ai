@@ -88,7 +88,11 @@ export default function AppointmentActivityChart({
         data={chartData}
         margin={{ left: 4, right: 16, top: 12, bottom: 8 }}
       >
-        <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border/40" />
+        <CartesianGrid
+          vertical={false}
+          strokeDasharray="3 3"
+          className="stroke-border/40"
+        />
         <XAxis
           dataKey="label"
           tickLine={false}

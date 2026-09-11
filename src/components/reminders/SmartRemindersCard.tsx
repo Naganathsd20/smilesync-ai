@@ -7,7 +7,13 @@ import {
   generateSmartRemindersForUser,
   toggleReminderCompletion,
 } from "@/lib/actions/reminders";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -69,7 +75,9 @@ export function SmartRemindersCard() {
         toast.error(res.error || "Failed to generate reminders.");
       }
     } catch {
-      toast.error("An unexpected error occurred while generating smart reminders.");
+      toast.error(
+        "An unexpected error occurred while generating smart reminders.",
+      );
     } finally {
       setGenerating(false);
     }
@@ -79,7 +87,9 @@ export function SmartRemindersCard() {
     try {
       // Optimistic update
       setReminders((prev) =>
-        prev.map((r) => (r.id === reminderId ? { ...r, isCompleted: !r.isCompleted } : r))
+        prev.map((r) =>
+          r.id === reminderId ? { ...r, isCompleted: !r.isCompleted } : r,
+        ),
       );
       const res = await toggleReminderCompletion(reminderId);
       if (!res.success) {
@@ -150,7 +160,11 @@ export function SmartRemindersCard() {
             <span className="hidden sm:inline">Generate</span>
           </Button>
           <Link href="/reminders">
-            <Button size="sm" variant="ghost" className="text-xs h-8 gap-1 px-2 text-primary hover:text-primary/80">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-xs h-8 gap-1 px-2 text-primary hover:text-primary/80"
+            >
               Hub
               <ArrowRightIcon className="w-3.5 h-3.5" />
             </Button>
@@ -167,7 +181,9 @@ export function SmartRemindersCard() {
         ) : upcomingReminders.length === 0 ? (
           <div className="text-center py-6 border border-dashed rounded-xl bg-muted/10">
             <CheckCircle2Icon className="w-8 h-8 text-emerald-500 mx-auto mb-2 opacity-80" />
-            <p className="text-sm font-medium text-foreground">You are all caught up!</p>
+            <p className="text-sm font-medium text-foreground">
+              You are all caught up!
+            </p>
             <p className="text-xs text-muted-foreground max-w-xs mx-auto mt-1 mb-3">
               No pending smart reminders. Generate new recommendations anytime.
             </p>
@@ -185,7 +201,9 @@ export function SmartRemindersCard() {
         ) : (
           <div className="space-y-2.5">
             {upcomingReminders.slice(0, 3).map((reminder) => {
-              const formattedDate = new Date(reminder.dueDate).toLocaleDateString("en-US", {
+              const formattedDate = new Date(
+                reminder.dueDate,
+              ).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
               });
@@ -209,7 +227,7 @@ export function SmartRemindersCard() {
                         <Badge
                           variant="outline"
                           className={`text-[10px] px-1.5 py-0 font-medium flex items-center gap-1 ${getBadgeStyle(
-                            reminder.type
+                            reminder.type,
                           )}`}
                         >
                           {getTypeIcon(reminder.type)}

@@ -50,7 +50,8 @@ export function SmartReminderEmail({
           <Text style={text}>Hi {userName || "there"},</Text>
 
           <Text style={text}>
-            Here is a personalized oral health reminder generated for your SmileSync AI care routine:
+            Here is a personalized oral health reminder generated for your
+            SmileSync AI care routine:
           </Text>
 
           <Section style={reminderCard}>
@@ -61,11 +62,18 @@ export function SmartReminderEmail({
           </Section>
 
           <Text style={text}>
-            Staying consistent with your oral care routine helps prevent dental issues before they start.
+            Staying consistent with your oral care routine helps prevent dental
+            issues before they start.
           </Text>
 
           <Section style={buttonContainer}>
-            <Link style={button} href={(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000") + "/reminders"}>
+            <Link
+              style={button}
+              href={
+                (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000") +
+                "/reminders"
+              }
+            >
               View Smart Reminders Hub
             </Link>
           </Section>
@@ -77,8 +85,9 @@ export function SmartReminderEmail({
           </Text>
 
           <Text style={footerText}>
-            This is an automated educational reminder based on your SmileSync AI profile.
-            If you have questions, please contact support@smilesyncai.com.
+            This is an automated educational reminder based on your SmileSync AI
+            profile. If you have questions, please contact
+            support@smilesyncai.com.
           </Text>
         </Container>
       </Body>

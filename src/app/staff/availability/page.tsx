@@ -48,7 +48,8 @@ export default async function StaffAvailabilityPage() {
             Dentist Availability Management
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-            Configure working status and availability for dental professionals. Active dentists receive patient appointment bookings.
+            Configure working status and availability for dental professionals.
+            Active dentists receive patient appointment bookings.
           </p>
         </div>
 

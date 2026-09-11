@@ -57,12 +57,17 @@ const CARDS = [
 
 export default function AICareSection() {
   return (
-    <section id="ai-care" className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section
+      id="ai-care"
+      className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden"
+    >
       {/* HEADER */}
       <div className="text-center mb-6 space-y-1.5 relative z-10">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
           <SparklesIcon className="w-3.5 h-3.5 text-primary" />
-          <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">AI Healthcare Suite</span>
+          <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">
+            AI Healthcare Suite
+          </span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
@@ -73,7 +78,8 @@ export default function AICareSection() {
         </h2>
 
         <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          SmileSync AI combines multiple specialized AI-powered experiences to support your oral health before, during, and between clinic visits.
+          SmileSync AI combines multiple specialized AI-powered experiences to
+          support your oral health before, during, and between clinic visits.
         </p>
       </div>
 
@@ -83,9 +89,13 @@ export default function AICareSection() {
           const Icon = card.icon;
           return (
             <Link key={card.id} href={card.link} className="group">
-              <div className={`h-full p-4 sm:p-4.5 rounded-xl bg-card/60 backdrop-blur-xl border border-border/60 ${card.borderColor} transition-all duration-300 hover:shadow-md flex flex-col justify-between relative overflow-hidden`}>
+              <div
+                className={`h-full p-4 sm:p-4.5 rounded-xl bg-card/60 backdrop-blur-xl border border-border/60 ${card.borderColor} transition-all duration-300 hover:shadow-md flex flex-col justify-between relative overflow-hidden`}
+              >
                 {/* AMBIENT CORNER GLOW */}
-                <div className={`absolute -top-10 -right-10 w-28 h-28 bg-gradient-to-br ${card.gradient} rounded-full blur-lg opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none`} />
+                <div
+                  className={`absolute -top-10 -right-10 w-28 h-28 bg-gradient-to-br ${card.gradient} rounded-full blur-lg opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none`}
+                />
 
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -93,7 +103,9 @@ export default function AICareSection() {
                       <Icon className="w-4 h-4" />
                     </div>
 
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${card.badgeColor}`}>
+                    <span
+                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${card.badgeColor}`}
+                    >
                       {card.badge}
                     </span>
                   </div>
@@ -110,7 +122,9 @@ export default function AICareSection() {
 
                 <div className="pt-2.5 border-t border-border/40 flex items-center justify-between text-[11px] font-semibold text-primary">
                   <span>Explore Feature</span>
-                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+                  <span className="group-hover:translate-x-0.5 transition-transform">
+                    →
+                  </span>
                 </div>
               </div>
             </Link>
@@ -120,4 +134,3 @@ export default function AICareSection() {
     </section>
   );
 }
-

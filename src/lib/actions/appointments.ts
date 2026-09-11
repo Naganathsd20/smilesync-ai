@@ -39,7 +39,9 @@ export async function checkStaffOrAdminAuth() {
 function transformAppointment(appointment: any) {
   return {
     ...appointment,
-    patientName: `${appointment.user.firstName || ""} ${appointment.user.lastName || ""}`.trim() || "Patient",
+    patientName:
+      `${appointment.user.firstName || ""} ${appointment.user.lastName || ""}`.trim() ||
+      "Patient",
     patientEmail: appointment.user.email,
     patientPhone: appointment.user.phone || "N/A",
     doctorName: appointment.doctor.name,
@@ -71,7 +73,7 @@ export async function getAppointments() {
     return appointments.map(transformAppointment);
   } catch (error) {
     console.error("Error fetching appointments:", error);
-    throw new Error("Failed to fetch appointments");
+    return [];
   }
 }
 
@@ -86,7 +88,9 @@ export async function getUserAppointments() {
     const appointments = await prisma.appointment.findMany({
       where: { userId: user.id },
       include: {
-        user: { select: { firstName: true, lastName: true, email: true, phone: true } },
+        user: {
+          select: { firstName: true, lastName: true, email: true, phone: true },
+        },
         doctor: { select: { name: true, speciality: true, imageUrl: true } },
       },
       orderBy: [{ date: "asc" }, { time: "asc" }],
@@ -159,14 +163,18 @@ interface BookAppointmentInput {
 export async function bookAppointment(input: BookAppointmentInput) {
   try {
     const { userId } = await auth();
-    if (!userId) throw new Error("You must be logged in to book an appointment");
+    if (!userId)
+      throw new Error("You must be logged in to book an appointment");
 
     if (!input.doctorId || !input.date || !input.time) {
       throw new Error("Doctor, date, and time are required");
     }
 
     const user = await prisma.user.findUnique({ where: { clerkId: userId } });
-    if (!user) throw new Error("User not found. Please ensure your account is properly set up.");
+    if (!user)
+      throw new Error(
+        "User not found. Please ensure your account is properly set up.",
+      );
 
     const appointment = await prisma.appointment.create({
       data: {
@@ -201,7 +209,10 @@ export async function bookAppointment(input: BookAppointmentInput) {
   }
 }
 
-export async function updateAppointmentStatus(input: { id: string; status: AppointmentStatus }) {
+export async function updateAppointmentStatus(input: {
+  id: string;
+  status: AppointmentStatus;
+}) {
   try {
     await checkStaffOrAdminAuth();
 
@@ -226,45 +237,69 @@ export async function getStaffDashboardMetrics() {
     await checkStaffOrAdminAuth();
 
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
+    const todayEnd = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999,
+    );
 
-    const [todaysCount, upcomingCount, totalPatientsCount, activeDentistsCount, todaysAppointments] =
-      await Promise.all([
-        prisma.appointment.count({
-          where: {
-            date: {
-              gte: todayStart,
-              lte: todayEnd,
+    const [
+      todaysCount,
+      upcomingCount,
+      totalPatientsCount,
+      activeDentistsCount,
+      todaysAppointments,
+    ] = await Promise.all([
+      prisma.appointment.count({
+        where: {
+          date: {
+            gte: todayStart,
+            lte: todayEnd,
+          },
+        },
+      }),
+      prisma.appointment.count({
+        where: {
+          date: {
+            gte: todayStart,
+          },
+          status: "CONFIRMED",
+        },
+      }),
+      prisma.user.count(),
+      prisma.doctor.count({
+        where: { isActive: true },
+      }),
+      prisma.appointment.findMany({
+        where: {
+          date: {
+            gte: todayStart,
+            lte: todayEnd,
+          },
+        },
+        include: {
+          user: {
+            select: {
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
             },
           },
-        }),
-        prisma.appointment.count({
-          where: {
-            date: {
-              gte: todayStart,
-            },
-            status: "CONFIRMED",
-          },
-        }),
-        prisma.user.count(),
-        prisma.doctor.count({
-          where: { isActive: true },
-        }),
-        prisma.appointment.findMany({
-          where: {
-            date: {
-              gte: todayStart,
-              lte: todayEnd,
-            },
-          },
-          include: {
-            user: { select: { firstName: true, lastName: true, email: true, phone: true } },
-            doctor: { select: { name: true, speciality: true, imageUrl: true } },
-          },
-          orderBy: { time: "asc" },
-        }),
-      ]);
+          doctor: { select: { name: true, speciality: true, imageUrl: true } },
+        },
+        orderBy: { time: "asc" },
+      }),
+    ]);
 
     return {
       todaysAppointmentsCount: todaysCount,
@@ -275,7 +310,13 @@ export async function getStaffDashboardMetrics() {
     };
   } catch (error: any) {
     console.error("Error fetching staff dashboard metrics:", error);
-    throw new Error(error?.message || "Failed to fetch staff metrics");
+    return {
+      todaysAppointmentsCount: 0,
+      upcomingAppointmentsCount: 0,
+      totalPatientsCount: 0,
+      activeDentistsCount: 0,
+      todaysAppointments: [],
+    };
   }
 }
 
@@ -298,18 +339,26 @@ export async function getStaffPatients() {
     });
 
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
 
     return users.map((user) => {
       const appointments = user.appointments || [];
       const upcoming = appointments.find(
-        (a) => a.status === "CONFIRMED" && new Date(a.date) >= todayStart
+        (a) => a.status === "CONFIRMED" && new Date(a.date) >= todayStart,
       );
-      const last = appointments.find((a) => new Date(a.date) < todayStart || a.status === "COMPLETED");
+      const last = appointments.find(
+        (a) => new Date(a.date) < todayStart || a.status === "COMPLETED",
+      );
 
       return {
         id: user.id,
-        name: `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Valued Patient",
+        name:
+          `${user.firstName || ""} ${user.lastName || ""}`.trim() ||
+          "Valued Patient",
         email: user.email,
         phone: user.phone || "Not provided",
         appointmentCount: user._count.appointments,
@@ -332,6 +381,6 @@ export async function getStaffPatients() {
     });
   } catch (error: any) {
     console.error("Error fetching staff patients:", error);
-    throw new Error(error?.message || "Failed to fetch clinic patients");
+    return [];
   }
 }

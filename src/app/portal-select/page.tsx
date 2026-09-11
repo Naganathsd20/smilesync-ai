@@ -14,7 +14,9 @@ import Link from "next/link";
 
 export default function PortalSelectPage() {
   const { isSignedIn } = useUser();
-  const [selectedPortal, setSelectedPortal] = useState<"PATIENT" | "STAFF">("PATIENT");
+  const [selectedPortal, setSelectedPortal] = useState<"PATIENT" | "STAFF">(
+    "PATIENT",
+  );
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-between py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -57,13 +59,13 @@ export default function PortalSelectPage() {
             Welcome to SmileSync AI
           </h1>
           <p className="text-base text-muted-foreground max-w-xl mx-auto">
-            Choose your portal destination to access customized dental tools, AI care plans, or clinic operations.
+            Choose your portal destination to access customized dental tools, AI
+            care plans, or clinic operations.
           </p>
         </div>
 
         {/* 2-CARD SELECTION GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-          
           {/* CARD 1 — PATIENT PORTAL */}
           <div
             onClick={() => setSelectedPortal("PATIENT")}
@@ -88,7 +90,8 @@ export default function PortalSelectPage() {
                   Patient Access
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
-                  Personalized AI dental care, risk assessments, Nova assistant, reminders, appointments & care plans.
+                  Personalized AI dental care, risk assessments, Nova assistant,
+                  reminders, appointments & care plans.
                 </p>
               </div>
 
@@ -155,7 +158,8 @@ export default function PortalSelectPage() {
                   Professional / Staff
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
-                  Clinic management operations — oversight of appointments, patient directory, dentists & scheduling.
+                  Clinic management operations — oversight of appointments,
+                  patient directory, dentists & scheduling.
                 </p>
               </div>
 
@@ -202,13 +206,16 @@ export default function PortalSelectPage() {
         {/* SECURITY NOTICE */}
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground bg-muted/20 border border-border/40 rounded-full px-4 py-2 max-w-md mx-auto">
           <ShieldCheckIcon className="w-4 h-4 text-emerald-500 shrink-0" />
-          <span>Server-side security enforces verified staff & admin permissions.</span>
+          <span>
+            Server-side security enforces verified staff & admin permissions.
+          </span>
         </div>
       </div>
 
       {/* FOOTER */}
       <div className="max-w-5xl mx-auto w-full text-center text-xs text-muted-foreground z-10">
-        © {new Date().getFullYear()} SmileSync AI Dental Health Platform. All rights reserved.
+        © {new Date().getFullYear()} SmileSync AI Dental Health Platform. All
+        rights reserved.
       </div>
     </div>
   );

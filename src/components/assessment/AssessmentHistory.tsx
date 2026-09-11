@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -35,8 +41,11 @@ interface AssessmentHistoryProps {
   assessments: HistoricalAssessment[];
 }
 
-export default function AssessmentHistory({ assessments = [] }: AssessmentHistoryProps) {
-  const [selectedAssessment, setSelectedAssessment] = useState<HistoricalAssessment | null>(null);
+export default function AssessmentHistory({
+  assessments = [],
+}: AssessmentHistoryProps) {
+  const [selectedAssessment, setSelectedAssessment] =
+    useState<HistoricalAssessment | null>(null);
 
   if (selectedAssessment) {
     return (
@@ -51,7 +60,11 @@ export default function AssessmentHistory({ assessments = [] }: AssessmentHistor
             ← Back to Assessment History
           </Button>
           <span className="text-xs text-muted-foreground">
-            Assessment Date: {format(new Date(selectedAssessment.createdAt), "MMMM d, yyyy · h:mm a")}
+            Assessment Date:{" "}
+            {format(
+              new Date(selectedAssessment.createdAt),
+              "MMMM d, yyyy · h:mm a",
+            )}
           </span>
         </div>
 
@@ -94,10 +107,13 @@ export default function AssessmentHistory({ assessments = [] }: AssessmentHistor
       <CardHeader>
         <div className="flex items-center gap-2">
           <HistoryIcon className="w-5 h-5 text-primary" />
-          <CardTitle className="text-xl font-bold">Assessment History</CardTitle>
+          <CardTitle className="text-xl font-bold">
+            Assessment History
+          </CardTitle>
         </div>
         <CardDescription>
-          View your past educational oral health risk assessments stored in your account.
+          View your past educational oral health risk assessments stored in your
+          account.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -106,9 +122,12 @@ export default function AssessmentHistory({ assessments = [] }: AssessmentHistor
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3 text-primary">
               <HistoryIcon className="w-6 h-6" />
             </div>
-            <p className="font-semibold text-foreground text-sm">No previous assessments yet</p>
+            <p className="font-semibold text-foreground text-sm">
+              No previous assessments yet
+            </p>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-              Complete the questionnaire above to record your first AI oral health risk assessment.
+              Complete the questionnaire above to record your first AI oral
+              health risk assessment.
             </p>
           </div>
         ) : (
@@ -120,7 +139,10 @@ export default function AssessmentHistory({ assessments = [] }: AssessmentHistor
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Badge variant={getBadgeVariant(item.riskLevel)} className="text-xs font-bold uppercase">
+                    <Badge
+                      variant={getBadgeVariant(item.riskLevel)}
+                      className="text-xs font-bold uppercase"
+                    >
                       {item.riskLevel} RISK
                     </Badge>
                     <span className="text-xs font-semibold text-foreground">

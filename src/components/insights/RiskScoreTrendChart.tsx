@@ -53,8 +53,7 @@ export default function RiskScoreTrendChart({
   history: HistoryItem[];
 }) {
   const chronological = [...history].sort(
-    (a, b) =>
-      new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
   );
 
   const chartData = chronological.map((item) => ({
@@ -93,7 +92,8 @@ export default function RiskScoreTrendChart({
       {chartData.length === 1 && (
         <p className="text-xs text-muted-foreground bg-muted/20 border border-border/40 rounded-lg px-3 py-2">
           Only one assessment is on record — this shows a single data point, not
-          a trend. Complete another assessment later to compare scores over time.
+          a trend. Complete another assessment later to compare scores over
+          time.
         </p>
       )}
       <ChartContainer
@@ -104,10 +104,24 @@ export default function RiskScoreTrendChart({
           data={chartData}
           margin={{ left: 4, right: 16, top: 12, bottom: 8 }}
         >
-          <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border/40" />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            className="stroke-border/40"
+          />
           {/* Visual zones: low/medium/high reference lines */}
-          <ReferenceLine y={33} stroke="hsl(160 84% 39%)" strokeDasharray="4 3" strokeOpacity={0.35} />
-          <ReferenceLine y={66} stroke="hsl(38 92% 50%)" strokeDasharray="4 3" strokeOpacity={0.35} />
+          <ReferenceLine
+            y={33}
+            stroke="hsl(160 84% 39%)"
+            strokeDasharray="4 3"
+            strokeOpacity={0.35}
+          />
+          <ReferenceLine
+            y={66}
+            stroke="hsl(38 92% 50%)"
+            strokeDasharray="4 3"
+            strokeOpacity={0.35}
+          />
           <XAxis
             dataKey="dateLabel"
             tickLine={false}
@@ -153,8 +167,8 @@ export default function RiskScoreTrendChart({
         </LineChart>
       </ChartContainer>
       <p className="text-[11px] text-muted-foreground text-center">
-        Dashed lines indicate Low (33) / Medium (66) educational risk zones.
-        Not a clinical reference.
+        Dashed lines indicate Low (33) / Medium (66) educational risk zones. Not
+        a clinical reference.
       </p>
     </div>
   );

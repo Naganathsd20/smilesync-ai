@@ -48,7 +48,8 @@ export default async function StaffPatientsPage() {
             Clinic Patient Directory
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-            Operational directory of registered clinic patients, contact information, and appointment histories.
+            Operational directory of registered clinic patients, contact
+            information, and appointment histories.
           </p>
         </div>
 

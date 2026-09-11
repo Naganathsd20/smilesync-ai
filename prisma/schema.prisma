@@ -14,14 +14,21 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String   @unique
+  id        String         @id @default(cuid())
+  clerkId   String         @unique
+  email     String         @unique
   firstName String?
   lastName  String?
   phone     String?
-  createdAt DateTime @default(now()) // member since sep 2025
-  updatedAt DateTime @updatedAt
+  // patient profile fields (all nullable so existing users are unaffected)
+  age       Int?
+  gender    PatientGender?
+  address   String?
+  city      String?
+  state     String?
+  pincode   String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 
   // relationships
   appointments      Appointment[]
@@ -122,6 +129,13 @@ model OralHealthAssessment {
 enum Gender {
   MALE
   FEMALE
+}
+
+enum PatientGender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
 }
 
 enum AppointmentStatus {

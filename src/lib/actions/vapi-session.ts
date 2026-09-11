@@ -4,7 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
 import crypto from "crypto";
 
-const SECRET_KEY = process.env.CLERK_SECRET_KEY || "smilesync-fallback-secret-key";
+const SECRET_KEY =
+  process.env.CLERK_SECRET_KEY || "smilesync-fallback-secret-key";
 
 export interface VapiSessionPayload {
   userId: string; // Prisma user ID
@@ -33,7 +34,9 @@ export async function getVapiVoiceToken() {
       exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiration
     };
 
-    const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString("base64url");
+    const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString(
+      "base64url",
+    );
     const signature = crypto
       .createHmac("sha256", SECRET_KEY)
       .update(payloadBase64)
@@ -52,7 +55,9 @@ export async function getVapiVoiceToken() {
   }
 }
 
-export async function verifyVapiVoiceToken(token: string): Promise<VapiSessionPayload | null> {
+export async function verifyVapiVoiceToken(
+  token: string,
+): Promise<VapiSessionPayload | null> {
   try {
     if (!token || typeof token !== "string") return null;
 
@@ -79,7 +84,9 @@ export async function verifyVapiVoiceToken(token: string): Promise<VapiSessionPa
     }
 
     // Decode payload
-    const payloadJson = Buffer.from(payloadBase64, "base64url").toString("utf8");
+    const payloadJson = Buffer.from(payloadBase64, "base64url").toString(
+      "utf8",
+    );
     const payload: VapiSessionPayload = JSON.parse(payloadJson);
 
     // Check expiration

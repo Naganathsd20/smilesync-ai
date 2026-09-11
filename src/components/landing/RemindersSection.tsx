@@ -58,7 +58,9 @@ export default function RemindersSection() {
         </h2>
 
         <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Maintain consistent dental hygiene and never miss critical appointments with automated, intelligent reminders tailored to your care plan.
+          Maintain consistent dental hygiene and never miss critical
+          appointments with automated, intelligent reminders tailored to your
+          care plan.
         </p>
       </div>
 
@@ -76,7 +78,9 @@ export default function RemindersSection() {
                   <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${item.color}`}>
+                  <span
+                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${item.color}`}
+                  >
                     {item.tag}
                   </span>
                 </div>
@@ -97,7 +101,11 @@ export default function RemindersSection() {
       {/* CTA */}
       <div className="text-center relative z-10">
         <Link href="/reminders">
-          <Button size="sm" variant="outline" className="px-4 py-2 rounded-xl font-bold text-xs border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5">
+          <Button
+            size="sm"
+            variant="outline"
+            className="px-4 py-2 rounded-xl font-bold text-xs border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5"
+          >
             <BellRingIcon className="w-3.5 h-3.5 text-primary" />
             View Smart Reminders
             <ArrowRightIcon className="w-3.5 h-3.5" />
@@ -107,4 +115,3 @@ export default function RemindersSection() {
     </section>
   );
 }
-

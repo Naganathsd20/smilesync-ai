@@ -42,8 +42,9 @@ export default async function StaffDoctorsPage() {
             Staff Dentist Management
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-            Add, update, and manage dental professionals available for patient booking.
-            Updates take effect immediately on the appointment booking page.
+            Add, update, and manage dental professionals available for patient
+            booking. Updates take effect immediately on the appointment booking
+            page.
           </p>
         </div>
 

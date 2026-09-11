@@ -6,7 +6,10 @@ import { prisma } from "../prisma";
 import { z } from "zod";
 
 const NovaInputSchema = z.object({
-  message: z.string().min(1, "Message cannot be empty").max(2000, "Message is too long"),
+  message: z
+    .string()
+    .min(1, "Message cannot be empty")
+    .max(2000, "Message is too long"),
   conversationId: z.string().optional().nullable(),
 });
 
@@ -34,12 +37,22 @@ export async function getRecentNovaConversation() {
   try {
     const { userId } = await auth();
     if (!userId) {
-      return { success: false, error: "UNAUTHORIZED", conversationId: null, messages: [] };
+      return {
+        success: false,
+        error: "UNAUTHORIZED",
+        conversationId: null,
+        messages: [],
+      };
     }
 
     const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
     if (!dbUser) {
-      return { success: false, error: "UNAUTHORIZED", conversationId: null, messages: [] };
+      return {
+        success: false,
+        error: "UNAUTHORIZED",
+        conversationId: null,
+        messages: [],
+      };
     }
 
     // Find the most recently updated conversation for this user
@@ -69,8 +82,16 @@ export async function getRecentNovaConversation() {
       })),
     };
   } catch (error: any) {
-    console.error("[NOVA_LOAD_ERROR] Failed to load recent conversation:", error?.message || error);
-    return { success: false, error: "Failed to load conversation history.", conversationId: null, messages: [] };
+    console.error(
+      "[NOVA_LOAD_ERROR] Failed to load recent conversation:",
+      error?.message || error,
+    );
+    return {
+      success: false,
+      error: "Failed to load conversation history.",
+      conversationId: null,
+      messages: [],
+    };
   }
 }
 
@@ -129,7 +150,9 @@ export async function sendNovaChatMessage(rawInput: unknown) {
     // 3. Validate input schema
     const validation = NovaInputSchema.safeParse(rawInput);
     if (!validation.success) {
-      const issueMessage = validation.error.issues.map((i) => i.message).join(", ");
+      const issueMessage = validation.error.issues
+        .map((i) => i.message)
+        .join(", ");
       return { success: false, error: `Invalid input: ${issueMessage}` };
     }
 
@@ -178,10 +201,13 @@ export async function sendNovaChatMessage(rawInput: unknown) {
     // 7. Verify Gemini API Key
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[NOVA_CHAT_ERROR] GEMINI_API_KEY environment variable is not configured");
+      console.error(
+        "[NOVA_CHAT_ERROR] GEMINI_API_KEY environment variable is not configured",
+      );
       return {
         success: false,
-        error: "Nova AI service is currently unavailable. Please ensure GEMINI_API_KEY is configured.",
+        error:
+          "Nova AI service is currently unavailable. Please ensure GEMINI_API_KEY is configured.",
       };
     }
 
@@ -272,10 +298,15 @@ STRICT SAFETY & SCOPE DIRECTIVES:
       conversationId: conversation.id,
     };
   } catch (error: any) {
-    console.error("[NOVA_CHAT_ERROR] Server action failure:", error?.message || error);
+    console.error(
+      "[NOVA_CHAT_ERROR] Server action failure:",
+      error?.message || error,
+    );
     return {
       success: false,
-      error: error?.message || "An unexpected error occurred while communicating with Nova.",
+      error:
+        error?.message ||
+        "An unexpected error occurred while communicating with Nova.",
     };
   }
 }

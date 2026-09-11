@@ -1,8 +1,18 @@
 "use client";
 
-import { useDeleteDoctor, useGetDoctors, useToggleDoctorStatus } from "@/hooks/use-doctors";
+import {
+  useDeleteDoctor,
+  useGetDoctors,
+  useToggleDoctorStatus,
+} from "@/hooks/use-doctors";
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import {
   EditIcon,
   MailIcon,
@@ -36,7 +46,9 @@ function DoctorsManagement() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"ALL" | "ACTIVE" | "INACTIVE">("ALL");
+  const [statusFilter, setStatusFilter] = useState<
+    "ALL" | "ACTIVE" | "INACTIVE"
+  >("ALL");
 
   const handleEditDoctor = (doctor: Doctor) => {
     setSelectedDoctor(doctor);
@@ -55,20 +67,21 @@ function DoctorsManagement() {
       {
         onSuccess: () => {
           toast.success(
-            `Dr. ${doctor.name} is now ${newStatus ? "Active" : "Inactive"}.`
+            `Dr. ${doctor.name} is now ${newStatus ? "Active" : "Inactive"}.`,
           );
         },
         onError: (err: any) => {
           toast.error(err?.message || "Failed to update doctor status.");
         },
-      }
+      },
     );
   };
 
   const handleDeleteDoctor = (doctor: DoctorWithCount) => {
-    const confirmMessage = doctor.appointmentCount && doctor.appointmentCount > 0
-      ? `Dr. ${doctor.name} has ${doctor.appointmentCount} appointment(s). Deleting will safely deactivate them to preserve appointment history. Continue?`
-      : `Are you sure you want to delete Dr. ${doctor.name}?`;
+    const confirmMessage =
+      doctor.appointmentCount && doctor.appointmentCount > 0
+        ? `Dr. ${doctor.name} has ${doctor.appointmentCount} appointment(s). Deleting will safely deactivate them to preserve appointment history. Continue?`
+        : `Are you sure you want to delete Dr. ${doctor.name}?`;
 
     if (!window.confirm(confirmMessage)) return;
 
@@ -77,7 +90,9 @@ function DoctorsManagement() {
         if (res?.deactivated) {
           toast.info(res.message);
         } else {
-          toast.success(res?.message || `Dr. ${doctor.name} deleted successfully.`);
+          toast.success(
+            res?.message || `Dr. ${doctor.name} deleted successfully.`,
+          );
         }
       },
       onError: (err: any) => {
@@ -107,7 +122,8 @@ function DoctorsManagement() {
               Manage Dentists
             </CardTitle>
             <CardDescription className="mt-1">
-              Add, update, and deactivate dental professionals available for patient appointments.
+              Add, update, and deactivate dental professionals available for
+              patient appointments.
             </CardDescription>
           </div>
 
@@ -164,13 +180,18 @@ function DoctorsManagement() {
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-20 bg-muted/30 animate-pulse rounded-xl" />
+                <div
+                  key={i}
+                  className="h-20 bg-muted/30 animate-pulse rounded-xl"
+                />
               ))}
             </div>
           ) : filteredDoctors.length === 0 ? (
             <div className="text-center py-10 border border-dashed border-border/50 rounded-2xl bg-muted/5">
               <StethoscopeIcon className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-foreground">No Dentists Found</p>
+              <p className="text-sm font-semibold text-foreground">
+                No Dentists Found
+              </p>
               <p className="text-xs text-muted-foreground mt-1">
                 {searchTerm || statusFilter !== "ALL"
                   ? "No dentists match your current search or filter."
@@ -239,7 +260,9 @@ function DoctorsManagement() {
                       <div className="font-bold text-sm text-primary">
                         {doctor.appointmentCount ?? 0}
                       </div>
-                      <div className="text-[10px] text-muted-foreground">Appointments</div>
+                      <div className="text-[10px] text-muted-foreground">
+                        Appointments
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -259,7 +282,11 @@ function DoctorsManagement() {
                         className="h-8 px-2.5 text-xs"
                         onClick={() => handleToggleStatus(doctor)}
                         disabled={toggleStatusMutation.isPending}
-                        title={doctor.isActive ? "Deactivate dentist" : "Activate dentist"}
+                        title={
+                          doctor.isActive
+                            ? "Deactivate dentist"
+                            : "Activate dentist"
+                        }
                       >
                         {doctor.isActive ? (
                           <>
@@ -303,7 +330,10 @@ function DoctorsManagement() {
         </CardContent>
       </Card>
 
-      <AddDoctorDialog isOpen={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)} />
+      <AddDoctorDialog
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+      />
 
       <EditDoctorDialog
         key={selectedDoctor?.id}

@@ -10,7 +10,13 @@ import {
   CalendarIcon,
   CheckCircle2Icon,
 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -52,16 +58,18 @@ export default function StaffAvailabilityClient({
       {
         onSuccess: () => {
           setDoctors((prev) =>
-            prev.map((d) => (d.id === doctor.id ? { ...d, isActive: newStatus } : d))
+            prev.map((d) =>
+              d.id === doctor.id ? { ...d, isActive: newStatus } : d,
+            ),
           );
           toast.success(
-            `Dr. ${doctor.name} status updated to ${newStatus ? "Active / Available" : "Inactive / Off-duty"}.`
+            `Dr. ${doctor.name} status updated to ${newStatus ? "Active / Available" : "Inactive / Off-duty"}.`,
           );
         },
         onError: (err: any) => {
           toast.error(err?.message || "Failed to update availability status.");
         },
-      }
+      },
     );
   };
 
@@ -74,7 +82,8 @@ export default function StaffAvailabilityClient({
             Clinic Dentist Working Schedules ({doctors.length})
           </CardTitle>
           <CardDescription className="mt-1">
-            Toggle dentist active availability status. Inactive dentists are hidden from new patient booking options.
+            Toggle dentist active availability status. Inactive dentists are
+            hidden from new patient booking options.
           </CardDescription>
         </div>
       </CardHeader>
@@ -83,9 +92,12 @@ export default function StaffAvailabilityClient({
         {doctors.length === 0 ? (
           <div className="text-center py-12 border border-dashed border-border/50 rounded-2xl bg-muted/5">
             <StethoscopeIcon className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-foreground">No Dentists Found</p>
+            <p className="text-sm font-semibold text-foreground">
+              No Dentists Found
+            </p>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-              No dentist records exist in the database yet. Add dentists to manage their availability.
+              No dentist records exist in the database yet. Add dentists to
+              manage their availability.
             </p>
           </div>
         ) : (
@@ -144,7 +156,9 @@ export default function StaffAvailabilityClient({
                       {DEFAULT_WEEKLY_SCHEDULE.map((s) => (
                         <div key={s.day} className="flex justify-between">
                           <span>{s.day}</span>
-                          <span className="font-mono text-foreground/80">{s.hours}</span>
+                          <span className="font-mono text-foreground/80">
+                            {s.hours}
+                          </span>
                         </div>
                       ))}
                     </div>

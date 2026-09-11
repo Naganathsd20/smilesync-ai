@@ -1,16 +1,26 @@
 import { SignUpButton } from "@clerk/nextjs";
-import { ArrowRightIcon, SparklesIcon, FileTextIcon, CalendarCheckIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  SparklesIcon,
+  FileTextIcon,
+  CalendarCheckIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
 function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section
+      id="how-it-works"
+      className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden"
+    >
       {/* SECTION HEADER */}
       <div className="text-center mb-6 space-y-1.5">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
           <SparklesIcon className="w-3.5 h-3.5 text-primary" />
-          <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">Streamlined Process</span>
+          <span className="text-[11px] font-semibold text-primary uppercase tracking-wider">
+            Streamlined Process
+          </span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
@@ -21,7 +31,8 @@ function HowItWorks() {
         </h2>
 
         <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          From early risk assessment to active treatment and long-term care management, SmileSync AI guides every step.
+          From early risk assessment to active treatment and long-term care
+          management, SmileSync AI guides every step.
         </p>
       </div>
 
@@ -45,7 +56,13 @@ function HowItWorks() {
                 </div>
 
                 <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-cyan-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                  <Image src="/brain2.png" alt="Oral Health AI" width={22} height={22} className="w-5 h-5 object-contain" />
+                  <Image
+                    src="/brain2.png"
+                    alt="Oral Health AI"
+                    width={22}
+                    height={22}
+                    className="w-5 h-5 object-contain"
+                  />
                 </div>
 
                 <h3 className="text-sm font-bold mb-1.5 text-foreground">
@@ -53,7 +70,8 @@ function HowItWorks() {
                 </h3>
 
                 <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-                  Use the AI Oral Health Assessment and Nova AI to understand your habits, symptoms, risk factors, and next steps.
+                  Use the AI Oral Health Assessment and Nova AI to understand
+                  your habits, symptoms, risk factors, and next steps.
                 </p>
               </div>
 
@@ -90,7 +108,8 @@ function HowItWorks() {
                 </h3>
 
                 <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-                  Receive personalized recommendations, care plans, and intelligent follow-up guidance.
+                  Receive personalized recommendations, care plans, and
+                  intelligent follow-up guidance.
                 </p>
               </div>
 
@@ -127,7 +146,8 @@ function HowItWorks() {
                 </h3>
 
                 <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-                  Choose a dentist, select a service and available time, confirm your appointment, and receive automated reminders.
+                  Choose a dentist, select a service and available time, confirm
+                  your appointment, and receive automated reminders.
                 </p>
               </div>
 
@@ -147,7 +167,10 @@ function HowItWorks() {
       {/* FOOTER CTA */}
       <div className="text-center mt-5">
         <SignUpButton mode="modal">
-          <Button size="sm" className="px-5 py-3.5 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5">
+          <Button
+            size="sm"
+            className="px-5 py-3.5 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5"
+          >
             Get started now
             <ArrowRightIcon className="w-3.5 h-3.5" />
           </Button>

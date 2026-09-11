@@ -1,5 +1,12 @@
 import { Button } from "../ui/button";
-import { CalendarIcon, SparklesIcon, ShieldCheckIcon, ClockIcon, ArrowRightIcon, StethoscopeIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  SparklesIcon,
+  ShieldCheckIcon,
+  ClockIcon,
+  ArrowRightIcon,
+  StethoscopeIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,28 +56,41 @@ function Hero() {
 
                 {/* SUPPORTING TEXT */}
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-lg font-normal">
-                  Get personalized oral-health guidance, understand your dental risk, create care routines, book appointments, and streamline clinic operations from one intelligent workspace.
+                  Get personalized oral-health guidance, understand your dental
+                  risk, create care routines, book appointments, and streamline
+                  clinic operations from one intelligent workspace.
                 </p>
               </div>
 
               {/* ACTION CTAS */}
               <div className="flex flex-wrap items-center gap-2.5 pt-1">
                 <a href="#ai-care">
-                  <Button size="sm" className="px-4 py-2.5 text-xs font-bold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5 group">
+                  <Button
+                    size="sm"
+                    className="px-4 py-2.5 text-xs font-bold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm shadow-primary/20 gap-1.5 group"
+                  >
                     Explore AI Care
                     <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </Button>
                 </a>
 
                 <Link href="/appointments">
-                  <Button size="sm" variant="outline" className="px-4 py-2.5 text-xs font-semibold rounded-xl border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="px-4 py-2.5 text-xs font-semibold rounded-xl border-primary/20 hover:border-primary/40 hover:bg-primary/5 gap-1.5"
+                  >
                     <CalendarIcon className="w-3.5 h-3.5 text-primary" />
                     Book Appointment
                   </Button>
                 </Link>
 
                 <Link href="/portal-select">
-                  <Button size="sm" variant="ghost" className="px-3.5 py-2.5 text-xs font-semibold rounded-xl text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 gap-1.5">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="px-3.5 py-2.5 text-xs font-semibold rounded-xl text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 gap-1.5"
+                  >
                     <StethoscopeIcon className="w-3.5 h-3.5" />
                     Clinic Portal
                   </Button>
@@ -81,15 +101,21 @@ function Hero() {
               <div className="pt-3 border-t border-border/40 grid grid-cols-3 gap-2.5 max-w-sm">
                 <div>
                   <p className="text-lg font-bold text-foreground">24/7</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">AI Care Assistant</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    AI Care Assistant
+                  </p>
                 </div>
                 <div>
                   <p className="text-lg font-bold text-primary">Dual Portal</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">Patient & Staff</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    Patient & Staff
+                  </p>
                 </div>
                 <div>
                   <p className="text-lg font-bold text-foreground">Smart</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">Booking & Reminders</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    Booking & Reminders
+                  </p>
                 </div>
               </div>
             </div>
@@ -117,8 +143,12 @@ function Hero() {
                       <SparklesIcon className="w-3.5 h-3.5" />
                     </div>
                     <div className="flex-1 min-w-0 text-left">
-                      <p className="text-[11px] font-bold text-foreground truncate">Complete Dental Platform</p>
-                      <p className="text-[9px] text-muted-foreground truncate">AI Care • Clinic Operations • Appointments</p>
+                      <p className="text-[11px] font-bold text-foreground truncate">
+                        Complete Dental Platform
+                      </p>
+                      <p className="text-[9px] text-muted-foreground truncate">
+                        AI Care • Clinic Operations • Appointments
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -131,4 +161,4 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default Hero;

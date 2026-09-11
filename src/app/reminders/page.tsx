@@ -8,7 +8,13 @@ import {
   toggleReminderCompletion,
   sendReminderEmail,
 } from "@/lib/actions/reminders";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -79,7 +85,9 @@ export default function RemindersPage() {
         toast.error(res.error || "Failed to generate reminders.");
       }
     } catch {
-      toast.error("An unexpected error occurred while generating smart reminders.");
+      toast.error(
+        "An unexpected error occurred while generating smart reminders.",
+      );
     } finally {
       setGenerating(false);
     }
@@ -88,7 +96,9 @@ export default function RemindersPage() {
   const handleToggleCompletion = async (reminderId: string) => {
     try {
       setReminders((prev) =>
-        prev.map((r) => (r.id === reminderId ? { ...r, isCompleted: !r.isCompleted } : r))
+        prev.map((r) =>
+          r.id === reminderId ? { ...r, isCompleted: !r.isCompleted } : r,
+        ),
       );
       const res = await toggleReminderCompletion(reminderId);
       if (!res.success) {
@@ -110,7 +120,9 @@ export default function RemindersPage() {
       if (res.success) {
         toast.success("Reminder email dispatched to your inbox!");
         setReminders((prev) =>
-          prev.map((r) => (r.id === reminderId ? { ...r, sentEmail: true } : r))
+          prev.map((r) =>
+            r.id === reminderId ? { ...r, sentEmail: true } : r,
+          ),
         );
       } else {
         toast.error(res.error || "Failed to send email.");
@@ -153,24 +165,33 @@ export default function RemindersPage() {
     }
   };
 
-  const renderReminderList = (items: ReminderItem[], isCompletedTab = false) => {
+  const renderReminderList = (
+    items: ReminderItem[],
+    isCompletedTab = false,
+  ) => {
     if (items.length === 0) {
       return (
         <div className="text-center py-12 border border-dashed rounded-xl bg-card/40">
           {isCompletedTab ? (
             <>
               <CheckCircle2Icon className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-              <p className="text-base font-semibold text-foreground">No Completed Reminders Yet</p>
+              <p className="text-base font-semibold text-foreground">
+                No Completed Reminders Yet
+              </p>
               <p className="text-sm text-muted-foreground max-w-md mx-auto mt-1">
-                When you check off upcoming smart reminders, they will appear here in your history.
+                When you check off upcoming smart reminders, they will appear
+                here in your history.
               </p>
             </>
           ) : (
             <>
               <BellIcon className="w-12 h-12 text-primary/40 mx-auto mb-3" />
-              <p className="text-base font-semibold text-foreground">No Upcoming Reminders</p>
+              <p className="text-base font-semibold text-foreground">
+                No Upcoming Reminders
+              </p>
               <p className="text-sm text-muted-foreground max-w-md mx-auto mt-1 mb-4">
-                Click below to generate personalized smart follow-ups from your appointments, risk assessments, and care plan.
+                Click below to generate personalized smart follow-ups from your
+                appointments, risk assessments, and care plan.
               </p>
               <Button
                 onClick={handleGenerate}
@@ -216,14 +237,18 @@ export default function RemindersPage() {
                   <div className="flex items-start gap-4 min-w-0 flex-1">
                     <Checkbox
                       checked={reminder.isCompleted}
-                      onCheckedChange={() => handleToggleCompletion(reminder.id)}
+                      onCheckedChange={() =>
+                        handleToggleCompletion(reminder.id)
+                      }
                       className="mt-1 h-5 w-5 rounded-md border-primary/50 data-[state=checked]:bg-primary"
                     />
                     <div className="space-y-1.5 min-w-0">
                       <div className="flex items-center gap-2.5 flex-wrap">
                         <h3
                           className={`text-base font-semibold ${
-                            reminder.isCompleted ? "line-through text-muted-foreground" : "text-foreground"
+                            reminder.isCompleted
+                              ? "line-through text-muted-foreground"
+                              : "text-foreground"
                           }`}
                         >
                           {reminder.title}
@@ -231,7 +256,7 @@ export default function RemindersPage() {
                         <Badge
                           variant="outline"
                           className={`text-xs px-2 py-0.5 font-medium flex items-center gap-1.5 ${getBadgeStyle(
-                            reminder.type
+                            reminder.type,
                           )}`}
                         >
                           {getTypeIcon(reminder.type)}
@@ -272,7 +297,9 @@ export default function RemindersPage() {
                       ) : (
                         <MailIcon className="w-3.5 h-3.5 text-primary" />
                       )}
-                      <span>{reminder.sentEmail ? "Resend Email" : "Send Email"}</span>
+                      <span>
+                        {reminder.sentEmail ? "Resend Email" : "Send Email"}
+                      </span>
                     </Button>
                   </div>
                 </div>
@@ -301,7 +328,9 @@ export default function RemindersPage() {
               </h1>
             </div>
             <p className="text-muted-foreground text-sm max-w-2xl pt-1">
-              SmileSync AI evaluates your appointments, oral health risk assessments, and care plans to generate intelligent, personalized preventative dental follow-ups.
+              SmileSync AI evaluates your appointments, oral health risk
+              assessments, and care plans to generate intelligent, personalized
+              preventative dental follow-ups.
             </p>
           </div>
 
@@ -321,16 +350,27 @@ export default function RemindersPage() {
         </div>
 
         {/* Tab Controls & Content */}
-        <Tabs defaultValue="upcoming" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <Tabs
+          defaultValue="upcoming"
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           <div className="flex items-center justify-between flex-wrap gap-4">
             <TabsList className="grid grid-cols-2 w-full sm:w-80">
-              <TabsTrigger value="upcoming" className="text-sm flex items-center gap-2">
+              <TabsTrigger
+                value="upcoming"
+                className="text-sm flex items-center gap-2"
+              >
                 <span>Upcoming</span>
                 <Badge variant="secondary" className="px-1.5 py-0 text-xs">
                   {upcoming.length}
                 </Badge>
               </TabsTrigger>
-              <TabsTrigger value="completed" className="text-sm flex items-center gap-2">
+              <TabsTrigger
+                value="completed"
+                className="text-sm flex items-center gap-2"
+              >
                 <span>Completed</span>
                 <Badge variant="secondary" className="px-1.5 py-0 text-xs">
                   {completed.length}
@@ -362,9 +402,15 @@ export default function RemindersPage() {
           <CardContent className="p-4 flex items-start gap-3">
             <InfoIcon className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
             <div className="text-xs text-muted-foreground space-y-1">
-              <p className="font-semibold text-foreground">Medical Safety Disclaimer</p>
+              <p className="font-semibold text-foreground">
+                Medical Safety Disclaimer
+              </p>
               <p>
-                SmileSync AI Smart Follow-Up & Reminders are designed for educational and preventative care tracking only. They do not replace professional dental diagnoses or medical advice. For severe pain, bleeding, or urgent symptoms, please consult a qualified dental professional immediately.
+                SmileSync AI Smart Follow-Up & Reminders are designed for
+                educational and preventative care tracking only. They do not
+                replace professional dental diagnoses or medical advice. For
+                severe pain, bleeding, or urgent symptoms, please consult a
+                qualified dental professional immediately.
               </p>
             </div>
           </CardContent>

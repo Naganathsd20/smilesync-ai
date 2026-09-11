@@ -47,7 +47,8 @@ export default function SecuritySection() {
           </h2>
 
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            SmileSync AI enforces multi-layer security patterns across authentication, data management, and operational workflows.
+            SmileSync AI enforces multi-layer security patterns across
+            authentication, data management, and operational workflows.
           </p>
         </div>
 
@@ -62,8 +63,12 @@ export default function SecuritySection() {
                 <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 w-fit">
                   <Icon className="w-4 h-4" />
                 </div>
-                <h3 className="text-xs font-bold text-foreground">{item.title}</h3>
-                <p className="text-[11px] text-muted-foreground leading-relaxed">{item.desc}</p>
+                <h3 className="text-xs font-bold text-foreground">
+                  {item.title}
+                </h3>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             );
           })}
@@ -72,4 +77,3 @@ export default function SecuritySection() {
     </section>
   );
 }
-

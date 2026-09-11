@@ -46,7 +46,10 @@ const PROF_FEATURES = [
 
 export default function ProfessionalSection() {
   return (
-    <section id="professionals" className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <section
+      id="professionals"
+      className="relative py-8 lg:py-10 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden"
+    >
       {/* BACKGROUND ACCENTS */}
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[250px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -65,7 +68,8 @@ export default function ProfessionalSection() {
         </h2>
 
         <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Give clinic teams a dedicated operational workspace to manage appointments, patients, dentists, and availability.
+          Give clinic teams a dedicated operational workspace to manage
+          appointments, patients, dentists, and availability.
         </p>
       </div>
 
@@ -106,9 +110,12 @@ export default function ProfessionalSection() {
             <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 w-fit">
               <ShieldCheckIcon className="w-4 h-4" />
             </div>
-            <h3 className="text-xs sm:text-sm font-bold text-foreground">Role-Based Protection</h3>
+            <h3 className="text-xs sm:text-sm font-bold text-foreground">
+              Role-Based Protection
+            </h3>
             <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
-              Professional & staff operational features are strictly protected with server-side authorization and RBAC checks.
+              Professional & staff operational features are strictly protected
+              with server-side authorization and RBAC checks.
             </p>
           </div>
         </div>
@@ -117,7 +124,10 @@ export default function ProfessionalSection() {
       {/* ACTION CTA */}
       <div className="text-center relative z-10">
         <Link href="/portal-select">
-          <Button size="sm" className="px-4 py-2 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 gap-1.5">
+          <Button
+            size="sm"
+            className="px-4 py-2 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 gap-1.5"
+          >
             Explore Professional Portal
             <ArrowRightIcon className="w-3.5 h-3.5" />
           </Button>
@@ -126,4 +136,3 @@ export default function ProfessionalSection() {
     </section>
   );
 }
-

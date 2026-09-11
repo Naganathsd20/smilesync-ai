@@ -78,7 +78,9 @@ function BookingConfirmationStep({
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Cost</p>
-              <p className="font-medium text-primary">{appointmentType?.price}</p>
+              <p className="font-medium text-primary">
+                {appointmentType?.price}
+              </p>
             </div>
           </div>
         </CardContent>

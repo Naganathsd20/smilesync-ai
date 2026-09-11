@@ -7,7 +7,10 @@ import { getAvailableTimeSlots } from "@/lib/utils";
 import { format } from "date-fns";
 
 export async function GET() {
-  return NextResponse.json({ status: "ok", message: "SmileSync AI Vapi Webhook Endpoint Active" });
+  return NextResponse.json({
+    status: "ok",
+    message: "SmileSync AI Vapi Webhook Endpoint Active",
+  });
 }
 
 export async function POST(request: Request) {
@@ -17,7 +20,10 @@ export async function POST(request: Request) {
     if (webhookSecret) {
       const headerSecret = request.headers.get("x-vapi-secret");
       if (headerSecret !== webhookSecret) {
-        return NextResponse.json({ error: "Unauthorized webhook caller" }, { status: 401 });
+        return NextResponse.json(
+          { error: "Unauthorized webhook caller" },
+          { status: 401 },
+        );
       }
     }
 
@@ -25,12 +31,17 @@ export async function POST(request: Request) {
     const message = body?.message;
 
     if (!message) {
-      return NextResponse.json({ error: "Invalid webhook payload format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid webhook payload format" },
+        { status: 400 },
+      );
     }
 
     // Extract Vapi session token from all potential call variable locations
     const sessionToken =
-      sanitizeToken(message.call?.assistantOverrides?.variableValues?.sessionToken) ||
+      sanitizeToken(
+        message.call?.assistantOverrides?.variableValues?.sessionToken,
+      ) ||
       sanitizeToken(message.call?.artifact?.variableValues?.sessionToken) ||
       sanitizeToken(message.call?.variableValues?.sessionToken) ||
       sanitizeToken(message.call?.customer?.variableValues?.sessionToken) ||
@@ -44,16 +55,22 @@ export async function POST(request: Request) {
       ? message.toolCalls ||
         message.toolCallList ||
         (message.toolWithToolCallList
-          ? message.toolWithToolCallList.map((item: any) => item.toolCall || item)
+          ? message.toolWithToolCallList.map(
+              (item: any) => item.toolCall || item,
+            )
           : []) ||
         []
       : [];
 
-    const functionCall = message.type === "function-call" ? message.functionCall : null;
+    const functionCall =
+      message.type === "function-call" ? message.functionCall : null;
 
     if (!isToolCallsFormat && !functionCall) {
       // If it's another Vapi status message (like call-start, end-of-call-report), return 200 OK
-      return NextResponse.json({ status: "ignored", messageType: message.type }, { status: 200 });
+      return NextResponse.json(
+        { status: "ignored", messageType: message.type },
+        { status: 200 },
+      );
     }
 
     // Process tool calls
@@ -62,9 +79,13 @@ export async function POST(request: Request) {
 
       for (const toolCall of rawToolCalls) {
         const functionName = toolCall.function?.name || toolCall.name;
-        const toolCallId = toolCall.id || toolCall.toolCallId || toolCall.function?.id || "";
+        const toolCallId =
+          toolCall.id || toolCall.toolCallId || toolCall.function?.id || "";
 
-        let rawArgs = toolCall.function?.arguments || toolCall.arguments || toolCall.parameters;
+        let rawArgs =
+          toolCall.function?.arguments ||
+          toolCall.arguments ||
+          toolCall.parameters;
 
         let args: any = {};
         if (typeof rawArgs === "string") {
@@ -77,8 +98,13 @@ export async function POST(request: Request) {
           args = rawArgs;
         }
 
-        const result = await handleToolExecution(functionName, args, sessionToken);
-        const stringResult = typeof result === "string" ? result : JSON.stringify(result);
+        const result = await handleToolExecution(
+          functionName,
+          args,
+          sessionToken,
+        );
+        const stringResult =
+          typeof result === "string" ? result : JSON.stringify(result);
 
         results.push({
           toolCallId: toolCallId,
@@ -86,20 +112,34 @@ export async function POST(request: Request) {
         });
       }
 
-      console.log(`[VOICE_BOOKING] Returning Vapi response with ${results.length} result(s)`);
+      console.log(
+        `[VOICE_BOOKING] Returning Vapi response with ${results.length} result(s)`,
+      );
       return NextResponse.json({ results }, { status: 200 });
     } else if (functionCall) {
       const functionName = functionCall.name;
       const args = functionCall.parameters || {};
-      const result = await handleToolExecution(functionName, args, sessionToken);
-      const stringResult = typeof result === "string" ? result : JSON.stringify(result);
+      const result = await handleToolExecution(
+        functionName,
+        args,
+        sessionToken,
+      );
+      const stringResult =
+        typeof result === "string" ? result : JSON.stringify(result);
 
       return NextResponse.json({ result: stringResult }, { status: 200 });
     }
 
-    return NextResponse.json({ error: "Unhandled tool format" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Unhandled tool format" },
+      { status: 400 },
+    );
   } catch (error: any) {
-    console.error("[VOICE_BOOKING_ERROR] Unhandled webhook error:", error?.message, error?.stack);
+    console.error(
+      "[VOICE_BOOKING_ERROR] Unhandled webhook error:",
+      error?.message,
+      error?.stack,
+    );
     return NextResponse.json(
       {
         results: [
@@ -109,7 +149,7 @@ export async function POST(request: Request) {
           },
         ],
       },
-      { status: 200 }
+      { status: 200 },
     );
   }
 }
@@ -135,7 +175,7 @@ function sanitizeToken(token?: string): string | undefined {
 async function handleToolExecution(
   functionName: string,
   args: any,
-  sessionToken?: string
+  sessionToken?: string,
 ): Promise<string> {
   try {
     const effectiveSessionToken =
@@ -211,7 +251,9 @@ async function handleToolExecution(
 
         const bookedSlots = bookedAppointments.map((a) => a.time);
         const allSlots = getAvailableTimeSlots();
-        const openSlots = allSlots.filter((slot) => !bookedSlots.includes(slot));
+        const openSlots = allSlots.filter(
+          (slot) => !bookedSlots.includes(slot),
+        );
 
         if (rawTime) {
           const normalizedTime = normalizeTimeSlot(rawTime);
@@ -244,7 +286,9 @@ async function handleToolExecution(
 
         const tokenPayload = await verifyVapiVoiceToken(effectiveSessionToken);
         if (!tokenPayload) {
-          console.warn("[VOICE_BOOKING_ERROR] Invalid or expired session token");
+          console.warn(
+            "[VOICE_BOOKING_ERROR] Invalid or expired session token",
+          );
           return "UNAUTHORIZED: Invalid or expired voice session token. Cannot complete booking.";
         }
         console.log("[VOICE_BOOKING] session token verified");
@@ -255,7 +299,10 @@ async function handleToolExecution(
         });
 
         if (!user) {
-          console.warn("[VOICE_BOOKING_ERROR] User not found in database for ID:", tokenPayload.userId);
+          console.warn(
+            "[VOICE_BOOKING_ERROR] User not found in database for ID:",
+            tokenPayload.userId,
+          );
           return "UNAUTHORIZED: Verified user account not found in database.";
         }
         console.log("[VOICE_BOOKING] user resolved");
@@ -264,16 +311,23 @@ async function handleToolExecution(
         const rawTime = args.time || args.appointmentTime || args.slot;
         const doctorId = args.doctorId || args.doctor_id;
         const doctorName = args.doctorName || args.doctor_name || args.doctor;
-        const reason = args.reason || args.appointmentType || args.type || args.notes;
+        const reason =
+          args.reason || args.appointmentType || args.type || args.notes;
 
         if (!rawDate || !rawTime) {
-          console.warn("[VOICE_BOOKING_ERROR] Missing date or time parameter", { rawDate, rawTime });
+          console.warn("[VOICE_BOOKING_ERROR] Missing date or time parameter", {
+            rawDate,
+            rawTime,
+          });
           return "Date and time are required to book an appointment.";
         }
 
         const doctor = await resolveDoctor(doctorId, doctorName);
         if (!doctor) {
-          console.warn("[VOICE_BOOKING_ERROR] Doctor resolution failed for:", { doctorId, doctorName });
+          console.warn("[VOICE_BOOKING_ERROR] Doctor resolution failed for:", {
+            doctorId,
+            doctorName,
+          });
           return "Doctor not found. Please select a valid doctor.";
         }
         console.log("[VOICE_BOOKING] doctor resolved:", doctor.name);
@@ -297,7 +351,10 @@ async function handleToolExecution(
         });
 
         if (existingBooking) {
-          console.warn("[VOICE_BOOKING_ERROR] Conflict detected for slot:", normalizedTime);
+          console.warn(
+            "[VOICE_BOOKING_ERROR] Conflict detected for slot:",
+            normalizedTime,
+          );
           return `Booking failed: Slot ${normalizedTime} on ${rawDate} for ${doctor.name} was just taken by another patient. Please choose an alternative slot.`;
         }
         console.log("[VOICE_BOOKING] conflict check completed");
@@ -337,7 +394,10 @@ async function handleToolExecution(
             }),
           })
           .catch((emailErr) => {
-            console.error("[VOICE_BOOKING_ERROR] Error sending confirmation email:", emailErr?.message);
+            console.error(
+              "[VOICE_BOOKING_ERROR] Error sending confirmation email:",
+              emailErr?.message,
+            );
           });
 
         console.log("[VOICE_BOOKING] returning Vapi result");
@@ -348,7 +408,11 @@ async function handleToolExecution(
         return `Unknown tool function: ${functionName}`;
     }
   } catch (err: any) {
-    console.error(`[VOICE_BOOKING_ERROR] Error executing tool ${functionName}:`, err?.message, err?.stack);
+    console.error(
+      `[VOICE_BOOKING_ERROR] Error executing tool ${functionName}:`,
+      err?.message,
+      err?.stack,
+    );
     return `Error processing request: ${err?.message || "Internal error"}`;
   }
 }
@@ -446,4 +510,3 @@ function normalizeTimeSlot(timeInput: any): string {
 
   return trimmed;
 }
-

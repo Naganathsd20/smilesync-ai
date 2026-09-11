@@ -13,18 +13,22 @@ export function generateAvatar(name: string, gender: "MALE" | "FEMALE") {
   return `${base}/boy?username=${username}`;
 }
 
-// phone formatting function for indian numbers -
-export const formatPhoneNumber = (value: string) => {
+// phone formatting function for Indian +91 numbers
+export const formatPhoneNumber = (value: string): string => {
   if (!value) return value;
 
-  const phoneNumber = value.replace(/[^\d]/g, "");
-  const phoneNumberLength = phoneNumber.length;
+  // Strip everything except digits and the leading +
+  const raw = value.replace(/[^\d+]/g, "");
 
-  if (phoneNumberLength < 4) return phoneNumber;
-  if (phoneNumberLength < 7) {
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-  }
-  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+  // If the user typed +91..., preserve the prefix and format the 10-digit part
+  let digits = raw.replace(/^\+91/, "").replace(/\D/g, "");
+
+  // Limit to 10 digits (standard Indian mobile number)
+  digits = digits.slice(0, 10);
+
+  if (digits.length === 0) return "+91 ";
+  if (digits.length <= 5) return `+91 ${digits}`;
+  return `+91 ${digits.slice(0, 5)} ${digits.slice(5)}`;
 };
 
 export const getNext5Days = () => {
@@ -61,6 +65,16 @@ export const getAvailableTimeSlots = () => {
 export const APPOINTMENT_TYPES = [
   { id: "checkup", name: "Regular Checkup", duration: "60 min", price: "$120" },
   { id: "cleaning", name: "Teeth Cleaning", duration: "45 min", price: "$90" },
-  { id: "consultation", name: "Consultation", duration: "30 min", price: "$75" },
-  { id: "emergency", name: "Emergency Visit", duration: "30 min", price: "$150" },
+  {
+    id: "consultation",
+    name: "Consultation",
+    duration: "30 min",
+    price: "$75",
+  },
+  {
+    id: "emergency",
+    name: "Emergency Visit",
+    duration: "30 min",
+    price: "$150",
+  },
 ];

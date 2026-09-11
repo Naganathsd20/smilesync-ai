@@ -8,10 +8,7 @@ import {
   MoreHorizontalIcon,
 } from "lucide-react";
 
-function Pagination({
-  className,
-  ...props
-}: React.ComponentProps<"nav">) {
+function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       role="navigation"
@@ -36,9 +33,7 @@ function PaginationContent({
   );
 }
 
-function PaginationItem({
-  ...props
-}: React.ComponentProps<"li">) {
+function PaginationItem({ ...props }: React.ComponentProps<"li">) {
   return <li data-slot="pagination-item" {...props} />;
 }
 
@@ -120,7 +115,7 @@ function PaginationEllipsis({
       data-slot="pagination-ellipsis"
       className={cn(
         "flex size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4",
-        className
+        className,
       )}
       {...props}
     >
