@@ -12,7 +12,7 @@ function Footer() {
             <Link href="/" className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-xl bg-primary/10 border border-primary/20">
                 <Image
-                  src="/logosmileai.png"
+                  src="/logosmileai2.png"
                   alt="SmileSync AI Logo"
                   width={32}
                   height={32}
