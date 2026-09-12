@@ -14,8 +14,8 @@ export default async function WelcomeSection() {
         : "Good evening";
 
   return (
-    <div className="relative z-10 flex items-center justify-between bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-3xl p-8 border border-primary/20 mb-12 overflow-hidden">
-      <div className="space-y-4">
+    <div className="relative z-10 flex items-center justify-between bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-3xl p-5 sm:p-8 border border-primary/20 mb-8 sm:mb-12 overflow-hidden">
+      <div className="space-y-3 sm:space-y-4 flex-1 min-w-0">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
           <div className="size-2 bg-primary rounded-full animate-pulse"></div>
           <span className="text-sm font-medium text-primary">
@@ -23,14 +23,14 @@ export default async function WelcomeSection() {
           </span>
         </div>
         <div>
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 break-words">
             {greeting},{" "}
             {user?.firstName ||
               user?.emailAddresses?.[0]?.emailAddress?.split("@")[0] ||
               "Valued Patient"}
             ! 👋
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm sm:text-base">
             Your personal AI dental assistant is ready to help you maintain
             perfect oral health.
           </p>

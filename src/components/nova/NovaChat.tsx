@@ -208,9 +208,9 @@ export default function NovaChat() {
   return (
     <div className="max-w-4xl mx-auto space-y-4">
       {/* DISCLAIMER BANNER */}
-      <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between gap-3 text-amber-700 dark:text-amber-300 text-xs">
-        <div className="flex items-center gap-2.5">
-          <ShieldAlertIcon className="w-4 h-4 text-amber-500 shrink-0" />
+      <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-700 dark:text-amber-300 text-xs">
+        <div className="flex items-start sm:items-center gap-2.5">
+          <ShieldAlertIcon className="w-4 h-4 text-amber-500 shrink-0 mt-0.5 sm:mt-0" />
           <span>
             <strong>Educational Assistant Only:</strong> Nova provides oral
             health guidance and answers. Nova is not a dentist and does not
@@ -221,16 +221,16 @@ export default function NovaChat() {
           variant="outline"
           size="sm"
           onClick={handleNewConversation}
-          className="text-xs h-7 px-2.5 bg-background hover:bg-amber-500/20 text-foreground border-amber-500/30 rounded-lg shrink-0 flex items-center gap-1 font-medium shadow-2xs"
+          className="text-xs h-7 px-2.5 bg-background hover:bg-amber-500/20 text-foreground border-amber-500/30 rounded-lg shrink-0 flex items-center gap-1 font-medium shadow-2xs self-end sm:self-center"
         >
           <PlusIcon className="w-3.5 h-3.5 text-primary" /> New Conversation
         </Button>
       </div>
 
       {/* CHAT CONTAINER CARD */}
-      <Card className="border border-border/80 bg-card/95 backdrop-blur-md shadow-xl overflow-hidden flex flex-col h-[650px] max-h-[80vh]">
+      <Card className="border border-border/80 bg-card/95 backdrop-blur-md shadow-xl overflow-hidden flex flex-col h-[550px] sm:h-[650px] max-h-[85vh]">
         {/* CARD HEADER */}
-        <CardHeader className="px-6 py-4 border-b border-border/50 bg-muted/30 flex flex-row items-center justify-between space-y-0">
+        <CardHeader className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-border/50 bg-muted/30 flex flex-row items-center justify-between gap-2 space-y-0">
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="p-2.5 rounded-xl bg-gradient-to-tr from-primary to-cyan-500 text-white shadow-md">

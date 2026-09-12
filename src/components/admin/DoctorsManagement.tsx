@@ -148,7 +148,7 @@ function DoctorsManagement() {
                 className="pl-9 text-xs"
               />
             </div>
-            <div className="flex items-center gap-1.5 self-start sm:self-center">
+            <div className="flex items-center gap-1.5 self-start sm:self-center flex-wrap">
               <Button
                 variant={statusFilter === "ALL" ? "default" : "outline"}
                 size="sm"
@@ -265,7 +265,7 @@ function DoctorsManagement() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       {doctor.isActive ? (
                         <Badge className="bg-emerald-500/15 text-emerald-600 border-emerald-500/30 font-semibold text-[11px]">
                           Active

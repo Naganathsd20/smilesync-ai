@@ -36,7 +36,7 @@ export default async function StaffDoctorsPage() {
     <>
       <StaffNavbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 space-y-6 overflow-x-hidden">
         <div className="border-b border-border/40 pb-6">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
             Staff Dentist Management

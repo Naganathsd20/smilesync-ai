@@ -6,7 +6,7 @@ function Footer() {
   return (
     <footer className="border-t border-border/50 bg-card/40 backdrop-blur-xl pt-10 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {/* BRAND COLUMN */}
           <div className="space-y-4 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">

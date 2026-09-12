@@ -303,23 +303,23 @@ export default function AssessmentWizard() {
         {/* STEP 1: SYMPTOMS */}
         {currentStep === 1 && (
           <>
-            <CardHeader>
+            <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
-                  <ActivityIcon className="w-6 h-6" />
+                <div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+                  <ActivityIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <CardTitle className="text-xl font-bold">
+                  <CardTitle className="text-lg sm:text-xl font-bold">
                     Step 1: Current Symptoms
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-xs sm:text-sm">
                     Select any dental or mouth discomfort you are currently
                     experiencing (Select all that apply).
                   </CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="px-4 sm:px-6 space-y-3">
               {STEP_1_SYMPTOMS.map((option) => {
                 const isSelected = symptoms.includes(option.id);
                 return (
@@ -329,7 +329,7 @@ export default function AssessmentWizard() {
                     onClick={() =>
                       handleMultiSelectToggle(option.id, symptoms, setSymptoms)
                     }
-                    className={`w-full p-4 rounded-xl border text-left transition-all flex items-start justify-between gap-4 ${
+                    className={`w-full p-3.5 sm:p-4 rounded-xl border text-left transition-all flex items-start justify-between gap-3 sm:gap-4 ${
                       isSelected
                         ? "border-primary bg-primary/10 shadow-sm ring-1 ring-primary"
                         : "border-border/60 bg-card hover:bg-muted/50 hover:border-border"
@@ -656,7 +656,7 @@ export default function AssessmentWizard() {
         )}
 
         {/* FOOTER ACTIONS */}
-        <div className="px-6 py-4 bg-muted/40 border-t border-border/50 flex justify-between items-center">
+        <div className="px-4 sm:px-6 py-4 bg-muted/40 border-t border-border/50 flex justify-between items-center gap-2">
           <Button
             type="button"
             variant="outline"

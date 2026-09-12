@@ -98,11 +98,11 @@ export default function RiskScoreTrendChart({
       )}
       <ChartContainer
         config={chartConfig}
-        className="aspect-[16/7] w-full min-h-[200px] max-h-[320px] min-w-0 max-w-full"
+        className="aspect-[16/8] sm:aspect-[16/7] w-full min-h-[220px] max-h-[320px] min-w-0 max-w-full overflow-hidden"
       >
         <LineChart
           data={chartData}
-          margin={{ left: 4, right: 16, top: 12, bottom: 8 }}
+          margin={{ left: 0, right: 12, top: 12, bottom: 8 }}
         >
           <CartesianGrid
             vertical={false}

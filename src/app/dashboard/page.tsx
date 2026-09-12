@@ -11,7 +11,7 @@ function DashboardPage() {
     <>
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-24 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 space-y-6 sm:space-y-8 overflow-x-hidden">
         <WelcomeSection />
         <MainActions />
         <SmartRemindersCard />

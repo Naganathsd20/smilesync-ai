@@ -154,9 +154,9 @@ export default function StaffAvailabilityClient({
                     </p>
                     <div className="space-y-1 pt-1 text-[11px] text-muted-foreground">
                       {DEFAULT_WEEKLY_SCHEDULE.map((s) => (
-                        <div key={s.day} className="flex justify-between">
-                          <span>{s.day}</span>
-                          <span className="font-mono text-foreground/80">
+                        <div key={s.day} className="flex justify-between items-center text-[11px] text-muted-foreground gap-2">
+                          <span className="shrink-0">{s.day}</span>
+                          <span className="font-mono text-foreground/80 text-[10px] sm:text-[11px] text-right truncate">
                             {s.hours}
                           </span>
                         </div>

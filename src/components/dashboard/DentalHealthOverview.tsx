@@ -74,7 +74,7 @@ async function DentalHealthOverview() {
                 Book your first appointment or try our AI voice assistant for
                 instant dental advice.
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Link href="/voice">
                   <Button size="sm" className="bg-primary hover:bg-primary/90">
                     Try AI Assistant

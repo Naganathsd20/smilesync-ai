@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useTransition } from "react";
 import { useUser } from "@clerk/nextjs";
@@ -228,7 +228,7 @@ export default function ProfilePage() {
   return (
     <>
       <Navbar />
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 pt-24 space-y-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 space-y-6 overflow-x-hidden">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
             <UserIcon className="w-5 h-5 text-primary" />

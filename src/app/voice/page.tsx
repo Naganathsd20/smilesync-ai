@@ -16,7 +16,7 @@ async function VoicePage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 overflow-x-hidden">
         <WelcomeSection />
         <FeatureCards />
       </div>

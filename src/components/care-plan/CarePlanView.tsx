@@ -216,16 +216,16 @@ export default function CarePlanView() {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
           <Button
             variant="outline"
             onClick={handlePrint}
-            className="rounded-xl text-xs font-medium"
+            className="rounded-xl text-xs font-medium flex-1 sm:flex-initial"
           >
             <PrinterIcon className="w-4 h-4 mr-1.5" /> Export / Print Plan
           </Button>
-          <Link href="/nova">
-            <Button className="rounded-xl text-xs font-semibold bg-gradient-to-r from-primary to-cyan-600 hover:from-primary/90 hover:to-cyan-700 text-white shadow-md">
+          <Link href="/nova" className="flex-1 sm:flex-initial">
+            <Button className="w-full rounded-xl text-xs font-semibold bg-gradient-to-r from-primary to-cyan-600 hover:from-primary/90 hover:to-cyan-700 text-white shadow-md">
               <BotIcon className="w-4 h-4 mr-1.5" /> Ask Nova About This Plan
             </Button>
           </Link>

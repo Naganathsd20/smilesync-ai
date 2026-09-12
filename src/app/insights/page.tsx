@@ -388,7 +388,7 @@ export default function InsightsPage() {
     <>
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 space-y-10 overflow-x-hidden">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 space-y-8 sm:space-y-10 overflow-x-hidden">
         {/* ═══════════════════════════════════════════════
             PAGE HEADER
         ═══════════════════════════════════════════════ */}

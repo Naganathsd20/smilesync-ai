@@ -13,9 +13,9 @@ async function ProPage() {
     <>
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-24">
-        <div className="mb-12 overflow-hidden">
-          <div className="flex items-center justify-between bg-gradient-to-br from-primary/10 to-background rounded-3xl p-8 border border-primary/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 overflow-x-hidden">
+        <div className="mb-8 sm:mb-12 overflow-hidden">
+          <div className="flex items-center justify-between bg-gradient-to-br from-primary/10 to-background rounded-3xl p-5 sm:p-8 border border-primary/20">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-primar/10 rounded-full border border-primary/20 ">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>

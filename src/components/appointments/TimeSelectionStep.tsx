@@ -118,7 +118,7 @@ function TimeSelectionStep({
           {selectedDate && (
             <div className="space-y-3">
               <h4 className="font-medium">Available Times</h4>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 gap-2">
                 {availableTimeSlots.map((time) => {
                   const isBooked = bookedTimeSlots.includes(time);
                   return (

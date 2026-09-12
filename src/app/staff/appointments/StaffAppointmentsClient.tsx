@@ -110,7 +110,7 @@ export default function StaffAppointmentsClient({
             />
           </div>
 
-          <div className="flex items-center gap-1.5 self-start sm:self-center">
+          <div className="flex items-center gap-1.5 self-start sm:self-center flex-wrap">
             <Button
               variant={statusFilter === "ALL" ? "default" : "outline"}
               size="sm"

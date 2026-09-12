@@ -15,7 +15,7 @@ export default function NovaPage() {
     <>
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 pt-24 min-h-screen space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-20 sm:pt-24 min-h-screen space-y-6 sm:space-y-8 overflow-x-hidden">
         {/* HEADER SECTION */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider">
