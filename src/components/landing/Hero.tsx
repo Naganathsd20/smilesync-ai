@@ -12,7 +12,7 @@ import Link from "next/link";
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden pt-14 pb-8 lg:pt-16 lg:pb-10">
+    <section className="relative overflow-hidden pt-20 pb-8 lg:pt-16 lg:pb-10">
       {/* BACKGROUND GRID & GRADIENT ORBS */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/10 pointer-events-none" />
 
